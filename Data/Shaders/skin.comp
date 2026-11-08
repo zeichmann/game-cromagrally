@@ -1,0 +1,17 @@
+#version 430 compatibility
+layout(local_size_x = 64) in;
+struct SkinVertex { vec4 position; vec4 normal; uvec4 joints; };
+layout(std430, binding = 0) readonly buffer InputVertices { SkinVertex vertices[]; };
+layout(std430, binding = 1) readonly buffer JointMatrices { mat4 joints[]; };
+// Scalar arrays retain the legacy renderer's tightly packed xyz layout.
+layout(std430, binding = 2) writeonly buffer Positions { float positions[]; };
+layout(std430, binding = 3) writeonly buffer Normals { float normals[]; };
+uniform int vertexCount;
+void main()
+{
+    uint i = gl_GlobalInvocationID.x;
+    if (i >= uint(vertexCount)) return;
+    vec3 p = (joints[vertices[i].joints.x] * vertices[i].position).xyz;
+    vec3 n = mat3(joints[vertices[i].joints.y]) * vertices[i].normal.xyz;
+    for (uint c = 0; c < 3; c++) { positions[3*i+c] = p[c]; normals[3*i+c] = n[c]; }
+}

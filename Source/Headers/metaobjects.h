@@ -129,6 +129,7 @@ typedef struct
 	// Only meshes explicitly marked resident are cached. Animated meshes stay live.
 	Boolean             gpuResident;
 	GLuint              gpuBuffers[kNumGeometryBuffers];
+	GLuint              gpuSkinInput;
 }MOVertexArrayData;
 
 typedef struct

@@ -363,3 +363,8 @@ void OGL_SetProjection(int projectionType);
 
 #define GetOverlayPaneNumber() (gNumSplitScreenPanes)
 
+void OGL_ConfigureHighQualityTexture(void);
+Boolean OGL_BeginTerrainDetail(void);
+void OGL_EndTerrainDetail(void);
+void OGL_DisposeTerrainDetail(void);
+

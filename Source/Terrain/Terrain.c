@@ -8,6 +8,7 @@
 /***************/
 
 #include "game.h"
+#include "gpucompute.h"
 
 extern	Byte					**gMapSplitMode;
 extern	SuperTileItemIndexType	**gSuperTileItemIndexGrid;
@@ -184,6 +185,8 @@ int		r,c;
 
 void DisposeTerrain(void)
 {
+	OGL_DisposeTerrainDetail();
+	GPU_ResetParticleTerrain();
 int	i;
 
 #if TERRAIN_DEBUG_GWORLD
@@ -363,6 +366,7 @@ int	u,v,i,j;
 		meshPtr->colorsFloat	= nil;
 		meshPtr->triangles 		= triPtr;
 		meshPtr->gpuResident = true;
+		meshPtr->gpuSkinInput = 0;
 		SDL_memset(meshPtr->gpuBuffers, 0, sizeof(meshPtr->gpuBuffers));
 
 
@@ -799,6 +803,7 @@ uint32_t			pictRowBytes;
     glDisable(GL_BLEND);												// no blending for terrain - its always opaque
 
 	gNumSuperTilesDrawn	= 0;
+	OGL_BeginTerrainDetail();
 
 	/******************************************************************/
 	/* SCAN THE SUPERTILE GRID AND LOOK FOR USED & VISIBLE SUPERTILES */
@@ -887,6 +892,7 @@ uint32_t			pictRowBytes;
 		}
 	}
 
+	OGL_EndTerrainDetail();
 	OGL_PopState();
 
 

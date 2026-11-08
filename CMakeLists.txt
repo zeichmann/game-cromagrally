@@ -327,4 +327,10 @@ if(CMR_BUILD_RENDER_TESTS)
 			COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_RUNTIME_DLLS:GeometryBuffersTest> $<TARGET_FILE_DIR:GeometryBuffersTest>)
 	endif()
 	add_test(NAME GeometryBuffers COMMAND GeometryBuffersTest)
+	add_test(NAME GPUComputeDriver COMMAND $<TARGET_FILE:${GAME_TARGET}>)
+	set_tests_properties(GPUComputeDriver PROPERTIES
+		ENVIRONMENT "CMR_COMPUTE_SELFTEST=1"
+		SKIP_RETURN_CODE 2
+		TIMEOUT 30
+		LABELS "gpu")
 endif()

@@ -324,6 +324,7 @@ int	i;
 
 	geoObj->objectData = *data;									// copy from input data
 	geoObj->objectData.gpuResident = false;
+	geoObj->objectData.gpuSkinInput = 0;
 	SDL_memset(geoObj->objectData.gpuBuffers, 0, sizeof(geoObj->objectData.gpuBuffers));
 
 
@@ -1124,6 +1125,7 @@ void MO_DuplicateVertexArrayData(MOVertexArrayData *inData, MOVertexArrayData *o
 int	i,n,s;
 	// Skeleton copies are deformed on the CPU and must never share GPU ownership.
 	outData->gpuResident = false;
+	outData->gpuSkinInput = 0;
 	SDL_memset(outData->gpuBuffers, 0, sizeof(outData->gpuBuffers));
 			/***********************************/
 			/* GET NEW REFERENCES TO MATERIALS */

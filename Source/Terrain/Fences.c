@@ -158,9 +158,19 @@ static float	gSeaweedFrameTimer;
 static void LoadFenceMaterial(int type)
 {
 	char fencePath[256];
-	SDL_snprintf(fencePath, sizeof(fencePath), ":Sprites:Fences:%s.png", kFenceNames[type]);
+	const char* hdName=NULL;
+	GLint maxTextureSize=0;
+	glGetIntegerv(GL_MAX_TEXTURE_SIZE,&maxTextureSize);
+	if (!SDL_getenv("CMR_ORIGINAL_TEXTURES") && maxTextureSize>=4096)
+	{
+		const char* name=kFenceNames[type];
+		if (!SDL_strcmp(name,"desertskin") || !SDL_strcmp(name,"aztec") || !SDL_strcmp(name,"rockwall")) hdName=name;
+		else if (!SDL_strcmp(name,"tallrockwall")) hdName="rockwall";
+	}
+	SDL_snprintf(fencePath, sizeof(fencePath), hdName ? ":TexturesHD:Fences:%s.png" : ":Sprites:Fences:%s.png", hdName ? hdName : kFenceNames[type]);
 
 	gFenceMaterials[type] = MO_GetTextureFromFile(fencePath, /*GL_RGB5_A1*/ GL_RGBA);
+	if (hdName) OGL_ConfigureHighQualityTexture();
 
 
 			/* WRAP U, CLAMP V */

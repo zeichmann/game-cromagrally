@@ -11,6 +11,7 @@
 
 #include "game.h"
 #include "bones.h"
+#include "gpucompute.h"
 
 /****************************/
 /*    PROTOTYPES            */
@@ -144,6 +145,7 @@ MOVertexArrayData	*data;
 	data = &gCurrentSkeleton->decomposedTriMeshes[n];
 	// This is a non-owning CPU view of the imported geometry.
 	data->gpuResident = false;
+	data->gpuSkinInput = 0;
 	SDL_memset(data->gpuBuffers, 0, sizeof(data->gpuBuffers));
 
 	numVertecies = data->numPoints;														// get # verts in trimesh
@@ -261,6 +263,9 @@ SkeletonObjDataType	*currentSkelObjData;
 	gCurrentSkeleton = currentSkelObjData->skeletonDefinition;
 	if (gCurrentSkeleton == nil)
 		DoFatalAlert("UpdateSkinnedGeometry: gCurrentSkeleton is invalid!");
+	Boolean compareGPU = GPU_SkinSkeleton(theNode);
+	if (compareGPU && !SDL_getenv("CMR_VALIDATE_GPU"))
+		return;
 
 	if (currentSkelObjData->JointsAreGlobal)
 		OGLMatrix4x4_SetIdentity(&gMatrix);
@@ -276,6 +281,8 @@ SkeletonObjDataType	*currentSkelObjData;
 	skelType = theNode->Type;
 
 	UpdateSkinnedGeometry_Recurse(0, skelType);											// start @ base
+	if (compareGPU)
+		GPU_ValidateSkin(theNode);
 
 			/* UPDATE ALL TRIMESH BBOXES */
 

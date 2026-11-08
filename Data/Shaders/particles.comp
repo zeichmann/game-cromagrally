@@ -1,0 +1,64 @@
+#version 430 compatibility
+layout(local_size_x = 64) in;
+struct Particle { vec4 positionScale; vec4 velocityAlpha; vec4 rotationActive; };
+struct Tile { vec4 heights; ivec4 split; };
+layout(std430, binding = 0) readonly buffer Previous { Particle previous[]; };
+layout(std430, binding = 1) writeonly buffer Next { Particle next[]; };
+layout(std430, binding = 2) readonly buffer Terrain { Tile tiles[]; };
+uniform int particleCount, particleType, flags, terrainWidth, terrainDepth;
+uniform float dt, gravity, decayRate, fadeRate, magnetism, baseScale, tileSize;
+
+float ground(vec2 xz, out vec3 normal)
+{
+    normal = vec3(0,1,0);
+    ivec2 cell = ivec2(xz / tileSize);
+    if (any(lessThan(cell, ivec2(0))) || cell.x >= terrainWidth || cell.y >= terrainDepth) return 0;
+    Tile tile = tiles[cell.y * terrainWidth + cell.x];
+    vec2 local = xz - vec2(cell) * tileSize;
+    vec3 a = vec3(0,tile.heights.x,0), b = vec3(tileSize,tile.heights.y,0);
+    vec3 c = vec3(tileSize,tile.heights.z,tileSize), d = vec3(0,tile.heights.w,tileSize);
+    vec3 p, q, r;
+    if (tile.split.x == 0) {
+        if (local.x < local.y) { p=a; q=c; r=d; } else { p=a; q=b; r=c; }
+    } else {
+        if (tileSize-local.x > local.y) { p=a; q=b; r=d; } else { p=b; q=c; r=d; }
+    }
+    normal = normalize(cross(q-r,p-r));
+    return (dot(normal,p) - normal.x*local.x - normal.z*local.y) / normal.y;
+}
+
+void main()
+{
+    uint i = gl_GlobalInvocationID.x;
+    if (i >= uint(particleCount)) return;
+    Particle p = previous[i];
+    if (p.rotationActive.z < 0.5) { next[i]=p; return; }
+    p.velocityAlpha.y -= gravity * dt;
+    p.rotationActive.x += p.rotationActive.y * dt;
+    if (particleType == 1) {
+        // Immutable input snapshot: no races between interacting particles.
+        float radiusLimit = 1.0 / max(baseScale*baseScale, 0.000001);
+        for (int j=0; j<particleCount; j++) {
+            if (j == int(i) || previous[j].rotationActive.z < 0.5) continue;
+            vec3 d = previous[j].positionScale.xyz - p.positionScale.xyz;
+            float d2 = dot(d,d);
+            if (d2 > 0) p.velocityAlpha.xyz += normalize(d) * min(1.0/d2,radiusLimit) * magnetism * dt;
+        }
+    }
+    p.positionScale.xyz += p.velocityAlpha.xyz * dt;
+    if ((flags & 16) == 0) {
+        vec3 n;
+        float y = ground(p.positionScale.xz,n) + 10;
+        if ((flags & 1) != 0) {
+            if (p.velocityAlpha.y < 0 && p.positionScale.y < y) {
+                p.positionScale.y=y;
+                p.velocityAlpha.y *= -0.4;
+                p.velocityAlpha.xz += n.xz * 300;
+            }
+        } else if (p.positionScale.y < y) p.rotationActive.z=0;
+    }
+    p.positionScale.w -= decayRate * dt;
+    p.velocityAlpha.w -= fadeRate * dt;
+    if (p.positionScale.w <= 0 || p.velocityAlpha.w <= 0) p.rotationActive.z=0;
+    next[i]=p;
+}

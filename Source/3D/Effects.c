@@ -10,6 +10,7 @@
 /****************************/
 
 #include "game.h"
+#include "gpucompute.h"
 
 /****************************/
 /*    PROTOTYPES            */
@@ -179,6 +180,7 @@ ObjNode* InitParticleSystem(void)
 
 void DeleteAllParticleGroups(void)
 {
+	GPU_ResetParticleTerrain();
 long	i;
 
 	for (i = 0; i < MAX_PARTICLE_GROUPS; i++)
@@ -393,10 +395,18 @@ float		decayRate,magnetism,fadeRate;
 OGLPoint3D	*coord;
 OGLVector3D	*delta;
 
+	gGPUSimulatedParticles = 0;
 	for (i = 0; i < MAX_PARTICLE_GROUPS; i++)
 	{
 		if (gParticleGroups[i])
 		{
+			if (GPU_MoveParticleGroup(gParticleGroups[i], fps))
+			{
+				int live=0;
+				for (int k=0;k<MAX_PARTICLES;k++) live += gParticleGroups[i]->isUsed[k]!=0;
+				if (!live) DeleteParticleGroup(i);
+				continue;
+			}
 			baseScale 	= gParticleGroups[i]->baseScale;					// get base scale
 			oneOverBaseScaleSquared = 1.0f/(baseScale*baseScale);
 			gravity 	= gParticleGroups[i]->gravity;						// get gravity
@@ -600,6 +610,8 @@ OGLBoundingBox	bbox;
 
 		if (gParticleGroups[g])
 		{
+			if (GPU_DrawParticleGroup(gParticleGroups[g], camCoords))
+				continue;
 			geoData = &gParticleGroups[g]->geometryObj->objectData;			// get pointer to geometry object data
 			vertexColors = geoData->colorsByte;								// get pointer to vertex color array
 			baseScale = gParticleGroups[g]->baseScale;						// get base scale

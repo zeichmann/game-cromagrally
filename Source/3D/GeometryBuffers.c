@@ -22,6 +22,11 @@ void MO_InitGeometryBuffers(void)
 // CPU arrays remain available for collisions, bounds, and legacy dynamic draws.
 void MO_InvalidateGeometryBuffers(MOVertexArrayData *data)
 {
+	if (data->gpuSkinInput)
+	{
+		gDeleteBuffers(1, &data->gpuSkinInput);
+		data->gpuSkinInput = 0;
+	}
 	if (data->gpuBuffers[0])
 	{
 		gDeleteBuffers(kNumGeometryBuffers, data->gpuBuffers);

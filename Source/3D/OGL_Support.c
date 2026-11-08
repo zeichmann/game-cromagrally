@@ -13,7 +13,9 @@
 #include "game.h"
 #include "stb_image.h"
 #include "pillarbox.h"
+#include "gpucompute.h"
 #include <SDL3/SDL_opengl.h>
+#include <SDL3/SDL_opengl_glext.h>
 #include <math.h>
 
 extern SDL_Window*		gSDLWindow;
@@ -102,6 +104,7 @@ void OGL_Boot(void)
 	OGL_CreateDrawContext();
 	OGL_CheckError();
 	MO_InitGeometryBuffers();
+	GPU_InitCompute();
 
 	OGL_InitDrawContext();
 	OGL_CheckError();
@@ -143,6 +146,8 @@ void OGL_Boot(void)
 
 void OGL_Shutdown(void)
 {
+	OGL_DisposeTerrainDetail();
+	GPU_ShutdownCompute();
 	OGL_DisposeDrawContext();
 }
 
@@ -350,6 +355,13 @@ static void OGL_CreateDrawContext(void)
 			/* CREATE AGL CONTEXT & ATTACH TO WINDOW */
 
 	gAGLContext = SDL_GL_CreateContext(gSDLWindow);
+	if (!gAGLContext)
+	{
+		// Retain the original renderer on drivers without a 4.3 compatibility context.
+		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 2);
+		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 0);
+		gAGLContext = SDL_GL_CreateContext(gSDLWindow);
+	}
 
 	if (!gAGLContext)
 		DoFatalAlert(SDL_GetError());
@@ -574,6 +586,7 @@ void OGL_DrawScene(void (*drawRoutine)(void))
 
 	gPolysThisFrame 	= 0;										// init poly counter
 	gGPUBufferedTriangles = 0;
+	gGPUDeformedVertices = 0;
 	gClientArrayTriangles = 0;
 	gMostRecentMaterial = nil;
 	gGlobalMaterialFlags = 0;
@@ -1328,7 +1341,7 @@ static char* UpdateDebugText(void)
 	SDL_snprintf(debugTextBuffer, sizeof(debugTextBuffer),
 		"FPS:\t%d"
 		"\nTRIS:\t%d"
-		"\nGPU TRIS:\t%d\v/%d"
+		"\nGPU:\t%d\v/%d V%d P%d"
 		"\nOBJS:\t%d"
 		"\nVRAM:\t%d\vK"
 		"\nTEX:\t%d"
@@ -1346,6 +1359,8 @@ static char* UpdateDebugText(void)
 		gPolysThisFrame,
 		gGPUBufferedTriangles,
 		gGPUBufferedTriangles + gClientArrayTriangles,
+		gGPUDeformedVertices,
+		gGPUSimulatedParticles,
 		gNumObjectNodes,
 		gVRAMUsedThisFrame / 1024,
 		gNumTexturesAllocated,
