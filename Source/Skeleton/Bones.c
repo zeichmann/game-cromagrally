@@ -142,6 +142,9 @@ MOVertexArrayData	*data;
 																						// NOTE that this also creates
 																						// new ILLEGAL refs to any material objects
 	data = &gCurrentSkeleton->decomposedTriMeshes[n];
+	// This is a non-owning CPU view of the imported geometry.
+	data->gpuResident = false;
+	SDL_memset(data->gpuBuffers, 0, sizeof(data->gpuBuffers));
 
 	numVertecies = data->numPoints;														// get # verts in trimesh
 	vertexList = data->points;															// point to vert list

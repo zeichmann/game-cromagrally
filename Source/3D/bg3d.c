@@ -518,7 +518,7 @@ MetaObjectPtr		newObj;
 
 static MetaObjectPtr ReadVertexElementsGeometry(BG3DGeometryHeader *header)
 {
-MOVertexArrayData vertexArrayData;
+MOVertexArrayData vertexArrayData = {0};
 int		i;
 
 			/* SETUP DATA */
@@ -549,6 +549,7 @@ int		i;
 		/* CREATE THE NEW GEO OBJECT */
 
 	gBG3D_CurrentGeometryObj = MO_CreateNewObjectOfType(MO_TYPE_GEOMETRY, MO_GEOMETRY_SUBTYPE_VERTEXARRAY, &vertexArrayData);
+	gBG3D_CurrentGeometryObj->objectData.gpuResident = true;
 
 	return(gBG3D_CurrentGeometryObj);
 }

@@ -314,3 +314,17 @@ endif()
 
 # Copy documentation to output folder
 configure_file(${CMAKE_SOURCE_DIR}/packaging/ReadMe.txt.in ${CMAKE_CURRENT_BINARY_DIR}/ReadMe.txt)
+
+option(CMR_BUILD_RENDER_TESTS "Build GPU buffer lifecycle regression tests" OFF)
+if(CMR_BUILD_RENDER_TESTS)
+	enable_testing()
+	add_executable(GeometryBuffersTest tests/GeometryBuffersTest.c)
+	target_include_directories(GeometryBuffersTest PRIVATE ${GAME_SRCDIR}/Headers)
+	target_link_libraries(GeometryBuffersTest PRIVATE Pomme SDL3::SDL3 OpenGL::GL)
+	if(WIN32)
+		target_compile_definitions(GeometryBuffersTest PRIVATE WIN32_LEAN_AND_MEAN NOGDI NOUSER)
+		add_custom_command(TARGET GeometryBuffersTest POST_BUILD
+			COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_RUNTIME_DLLS:GeometryBuffersTest> $<TARGET_FILE_DIR:GeometryBuffersTest>)
+	endif()
+	add_test(NAME GeometryBuffers COMMAND GeometryBuffersTest)
+endif()

@@ -101,6 +101,7 @@ void OGL_Boot(void)
 {
 	OGL_CreateDrawContext();
 	OGL_CheckError();
+	MO_InitGeometryBuffers();
 
 	OGL_InitDrawContext();
 	OGL_CheckError();
@@ -572,6 +573,8 @@ void OGL_DrawScene(void (*drawRoutine)(void))
 
 
 	gPolysThisFrame 	= 0;										// init poly counter
+	gGPUBufferedTriangles = 0;
+	gClientArrayTriangles = 0;
 	gMostRecentMaterial = nil;
 	gGlobalMaterialFlags = 0;
 	glColor4f(1,1,1,1);
@@ -1318,13 +1321,14 @@ void OGL_DisableLighting(void)
 
 static char* UpdateDebugText(void)
 {
-	static char debugTextBuffer[256];
+	static char debugTextBuffer[320];
 	extern short gNumFreeSupertiles;
 	extern int gFreeTwitches;
 
 	SDL_snprintf(debugTextBuffer, sizeof(debugTextBuffer),
 		"FPS:\t%d"
 		"\nTRIS:\t%d"
+		"\nGPU TRIS:\t%d\v/%d"
 		"\nOBJS:\t%d"
 		"\nVRAM:\t%d\vK"
 		"\nTEX:\t%d"
@@ -1340,6 +1344,8 @@ static char* UpdateDebugText(void)
 		,
 		(int)(gFramesPerSecond + .5f),
 		gPolysThisFrame,
+		gGPUBufferedTriangles,
+		gGPUBufferedTriangles + gClientArrayTriangles,
 		gNumObjectNodes,
 		gVRAMUsedThisFrame / 1024,
 		gNumTexturesAllocated,

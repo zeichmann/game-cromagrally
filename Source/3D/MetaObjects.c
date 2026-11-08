@@ -56,6 +56,9 @@ uint32_t				gGlobalMaterialFlags = 0;
 
 MOMaterialObject	*gMostRecentMaterial;
 
+int gGPUBufferedTriangles;
+int gClientArrayTriangles;
+
 /***************** INIT META OBJECT HANDLER ******************/
 
 void MO_InitHandler(void)
@@ -320,6 +323,8 @@ int	i;
 			/* INIT THE DATA */
 
 	geoObj->objectData = *data;									// copy from input data
+	geoObj->objectData.gpuResident = false;
+	SDL_memset(geoObj->objectData.gpuBuffers, 0, sizeof(geoObj->objectData.gpuBuffers));
 
 
 		/* INCREASE MATERIAL REFERENCE COUNTS */
@@ -559,16 +564,17 @@ int	numChildren,i;
 
 /******************** MO: DRAW GEOMETRY - VERTEX ARRAY *************************/
 
-void MO_DrawGeometry_VertexArray(const MOVertexArrayData *data)
+void MO_DrawGeometry_VertexArray(MOVertexArrayData *data)
 {
 Boolean		useTexture = false;
+	MO_UploadGeometryBuffers(data);
 
 			/**********************/
 			/* SETUP VERTEX ARRAY */
 			/**********************/
 
 	glEnableClientState(GL_VERTEX_ARRAY);				// enable vertex arrays
-	glVertexPointer(3, GL_FLOAT, 0, data->points);		// point to point array
+	glVertexPointer(3, GL_FLOAT, 0, MO_GeometryArray(data, kBufferPoints, data->points));
 
 	if (OGL_CheckError())
 		DoFatalAlert("MO_DrawGeometry_VertexArray: glVertexPointer!");
@@ -579,7 +585,7 @@ Boolean		useTexture = false;
 
 	if (data->normals && gMyState_Lighting)				// do we have normals & lighting
 	{
-		glNormalPointer(GL_FLOAT, 0, data->normals);
+		glNormalPointer(GL_FLOAT, 0, MO_GeometryArray(data, kBufferNormals, data->normals));
 		glEnableClientState(GL_NORMAL_ARRAY);			// enable normal arrays
 	}
 	else
@@ -612,7 +618,7 @@ use_current:
 				if (OGL_CheckError())
 					DoFatalAlert("MO_DrawGeometry_VertexArray: preeeeee uv!");
 
-				glTexCoordPointer(2, GL_FLOAT, 0,data->uvs);
+				glTexCoordPointer(2, GL_FLOAT, 0, MO_GeometryArray(data, kBufferUVs, data->uvs));
 				glEnableClientState(GL_TEXTURE_COORD_ARRAY);	// enable uv arrays
 				useTexture = true;
 
@@ -645,7 +651,7 @@ use_current:
 	{
 		if (data->colorsFloat)									// do we have colors?
 		{
-			glColorPointer(4, GL_FLOAT, 0, data->colorsFloat);
+			glColorPointer(4, GL_FLOAT, 0, MO_GeometryArray(data, kBufferColorsFloat, data->colorsFloat));
 			glEnableClientState(GL_COLOR_ARRAY);				// enable color arrays
 		}
 		else
@@ -658,7 +664,7 @@ use_current:
 	{
 		if (data->colorsByte)									// do we have colors?
 		{
-			glColorPointer(4, GL_UNSIGNED_BYTE, 0, data->colorsByte);
+			glColorPointer(4, GL_UNSIGNED_BYTE, 0, MO_GeometryArray(data, kBufferColorsByte, data->colorsByte));
 			glEnableClientState(GL_COLOR_ARRAY);				// enable color arrays
 		}
 		else
@@ -675,10 +681,16 @@ use_current:
 
 
 //	glLockArraysEXT(0, data->numPoints);
-	glDrawElements(GL_TRIANGLES,data->numTriangles*3,GL_UNSIGNED_INT,&data->triangles[0]);
+	glDrawElements(GL_TRIANGLES, data->numTriangles*3, GL_UNSIGNED_INT,
+		MO_GeometryArray(data, kBufferIndices, data->triangles));
 	if (OGL_CheckError())
 		DoFatalAlert("MO_DrawGeometry_VertexArray: glDrawElements");
 //	glUnlockArraysEXT();
+	MO_UnbindGeometryBuffers();
+	if (data->gpuBuffers[0])
+		gGPUBufferedTriangles += data->numTriangles;
+	else
+		gClientArrayTriangles += data->numTriangles;
 
 	gPolysThisFrame += data->numPoints;					// inc poly counter
 }
@@ -1035,6 +1047,7 @@ MOPictureData *data = &obj->objectData;
 
 void MO_DisposeObject_Geometry_VertexArray(MOVertexArrayData *data)
 {
+	MO_InvalidateGeometryBuffers(data);
 		/* DEREFERENCE ANY MATERIALS */
 
 	int numMaterials = data->numMaterials;
@@ -1109,6 +1122,9 @@ MOMaterialData		*data = &obj->objectData;
 void MO_DuplicateVertexArrayData(MOVertexArrayData *inData, MOVertexArrayData *outData)
 {
 int	i,n,s;
+	// Skeleton copies are deformed on the CPU and must never share GPU ownership.
+	outData->gpuResident = false;
+	SDL_memset(outData->gpuBuffers, 0, sizeof(outData->gpuBuffers));
 			/***********************************/
 			/* GET NEW REFERENCES TO MATERIALS */
 			/***********************************/
@@ -1496,6 +1512,7 @@ MOVertexArrayObject	*vObj;
 	uvPtr = data->uvs;								// point to uv list
 	if (uvPtr == nil)
 		return;
+	MO_InvalidateGeometryBuffers(data);
 
 	numPoints = data->numPoints;					// get # points
 

@@ -362,6 +362,8 @@ int	u,v,i,j;
 		meshPtr->colorsByte		= nil;
 		meshPtr->colorsFloat	= nil;
 		meshPtr->triangles 		= triPtr;
+		meshPtr->gpuResident = true;
+		SDL_memset(meshPtr->gpuBuffers, 0, sizeof(meshPtr->gpuBuffers));
 
 
 				/* SET UV & COLOR VALUES */
@@ -399,7 +401,11 @@ void DisposeSuperTileMemoryList(void)
 			/* NUKE ALL MASTER ARRAYS WHICH WILL FREE UP ALL SUPERTILE MEMORY */
 
 	if (gSuperTileMeshData)
+	{
+		for (int i = 0; i < MAX_SUPERTILES; i++)
+			MO_InvalidateGeometryBuffers(&gSuperTileMeshData[i]);
 		SafeDisposePtr((Ptr)gSuperTileMeshData);
+	}
 	gSuperTileMeshData = nil;
 
 	if (gSuperTileCoords)
@@ -486,6 +492,7 @@ OGLVector3D			vertexNormalList[NUM_VERTICES_IN_SUPERTILE];
 				/*******************/
 
 	meshData 		= gSuperTileMemoryList[superTileNum].meshData;		// get ptr to mesh data
+	MO_InvalidateGeometryBuffers(meshData); // Slot may have held a different patch of terrain.
 	triangleList 	= meshData->triangles;								// get ptr to triangle index list
 	vertexPointList = meshData->points;									// get ptr to points list
 

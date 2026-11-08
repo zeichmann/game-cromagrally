@@ -103,6 +103,12 @@ typedef struct
 	GLuint vertexIndices[3];
 }MOTriangleIndecies;
 
+enum
+{
+	kBufferPoints, kBufferNormals, kBufferUVs, kBufferColorsByte,
+	kBufferColorsFloat, kBufferIndices, kNumGeometryBuffers
+};
+
 typedef struct
 {
 	int					numMaterials;						// # material layers used in geometry (if negative, then use current texture)
@@ -119,6 +125,10 @@ typedef struct
 
 	int					pointCapacity;						// size of point buffer. If 0, assume it's no larger than numPoints.
 	int					triangleCapacity;					// size of triangle buffer. If 0, assume it's no larger than numTriangles.
+
+	// Only meshes explicitly marked resident are cached. Animated meshes stay live.
+	Boolean             gpuResident;
+	GLuint              gpuBuffers[kNumGeometryBuffers];
 }MOVertexArrayData;
 
 typedef struct
@@ -164,7 +174,14 @@ MetaObjectPtr MO_CreateNewObjectOfType(uint32_t type, uintptr_t subType, void *d
 MetaObjectPtr MO_GetNewReference(MetaObjectPtr mo);
 void MO_AppendToGroup(MOGroupObject *group, MetaObjectPtr newObject);
 void MO_AttachToGroupStart(MOGroupObject *group, MetaObjectPtr newObject);
-void MO_DrawGeometry_VertexArray(const MOVertexArrayData *data);
+void MO_DrawGeometry_VertexArray(MOVertexArrayData *data);
+void MO_InitGeometryBuffers(void);
+void MO_InvalidateGeometryBuffers(MOVertexArrayData *data);
+void MO_UploadGeometryBuffers(MOVertexArrayData *data);
+const void* MO_GeometryArray(const MOVertexArrayData *data, int array, const void* cpuArray);
+void MO_UnbindGeometryBuffers(void);
+extern int gGPUBufferedTriangles;
+extern int gClientArrayTriangles;
 void MO_DrawGroup(const MOGroupObject *object);
 void MO_DrawObject(const MetaObjectPtr object);
 void MO_DrawMaterial(MOMaterialObject *matObj);
