@@ -4,6 +4,9 @@ cache/
 extern/SDL*
 dist/
 
+# Generated from the Windows resource template by CMake
+/packaging/CroMagRally.exe.rc
+
 # IDEs and OS-specific stuff
 .vs/
 .DS_Store
