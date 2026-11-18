@@ -93,6 +93,8 @@ static void ParseCommandLine(int argc, char** argv)
 		}
 		else if (argument == "--stats")
 			gDebugMode = 1;
+		else if (argument == "--hide-hud")
+			gCommandLine.hideHUD = true;
 		else if (argument == "--no-vsync")
 			gCommandLine.vsync = 0;
 		else if (argument == "--vsync")

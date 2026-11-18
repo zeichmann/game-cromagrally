@@ -115,6 +115,7 @@ typedef struct
 	int		vsync;
 	int		bootToTrack;
 	int		car;
+	bool	hideHUD;
 } CommandLineOptions;
 
 //=================================================

@@ -11,3 +11,4 @@ python -B rawdata/wicker_racer/build_assets.py
 - `materials.py` defines the procedural color textures. `build_assets.py` writes BG3D geometry and the resource fork that binds the driver mesh to its joints.
 
 Wicker Racer is the last choice in the land vehicle menu. To start a practice race on the desert track directly, launch the game executable with `--track 1 --car 12`.
+Add `--hide-hud` to start with the race HUD hidden. Scroll Lock toggles it during the race.

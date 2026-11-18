@@ -379,7 +379,7 @@ static const char*	maps[] =
 
 			/* RESET HIDE FLAG AT START OF AREA */
 
-	gHideInfobar = false;
+	gHideInfobar = gCommandLine.hideHUD;
 
 			/* RESET ROW ALLOCATIONS FOR POW TIMERS */
 
@@ -651,9 +651,6 @@ static void MakeInfobar(void)
 
 static void DrawInfobar(ObjNode* theNode)
 {
-	if (gHideInfobar)
-		return;
-
 		/***************/
 		/* DRAW THINGS */
 		/***************/
@@ -662,8 +659,13 @@ static void DrawInfobar(ObjNode* theNode)
 
 		/* DRAW THE STANDARD THINGS */
 
-	Infobar_DrawMap(gCurrentSplitScreenPane);
+	if (!gHideInfobar)
+		Infobar_DrawMap(gCurrentSplitScreenPane);
+
+	// The starting light releases the car controls even when the HUD is hidden.
 	Infobar_DrawStartingLight(gCurrentSplitScreenPane);
+	if (gHideInfobar)
+		return;
 
 
 		/* DRAW GAME MODE SPECIFICS */
@@ -1067,11 +1069,14 @@ int		oldTimer;
 		spriteNo = INFOBAR_SObjType_Ready;
 	}
 
-	DrawSprite(SPRITE_GROUP_INFOBAR, spriteNo,
-			GetIconX(whichPane, ICON_STARTLIGHT),
-			GetIconY(whichPane, ICON_STARTLIGHT),
-			GetIconScale(ICON_STARTLIGHT),
-			INFOBAR_SPRITE_FLAGS);
+	if (!gHideInfobar)
+	{
+		DrawSprite(SPRITE_GROUP_INFOBAR, spriteNo,
+				GetIconX(whichPane, ICON_STARTLIGHT),
+				GetIconY(whichPane, ICON_STARTLIGHT),
+				GetIconScale(ICON_STARTLIGHT),
+				INFOBAR_SPRITE_FLAGS);
+	}
 
 
 

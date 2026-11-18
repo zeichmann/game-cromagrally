@@ -164,6 +164,7 @@ void DoPaused(void)
 
 	PauseAllChannels(true);
 
+	const bool wasInfobarHidden = gHideInfobar;
 	gGamePaused = true;
 	gHideInfobar = true;
 
@@ -177,6 +178,7 @@ void DoPaused(void)
 	int outcome = StartMenu(gPauseMenuTree, &style, UpdatePausedMenuCallback, DrawTerrain);
 
 	gGamePaused = false;
+	gHideInfobar = wasInfobarHidden;
 	PauseAllChannels(false);
 	
 	PopKeys();										// restore key state
@@ -185,7 +187,6 @@ void DoPaused(void)
 	{
 		case	'resu':								// RESUME
 		default:
-			gHideInfobar = false;
 			break;
 
 		case	'bail':								// EXIT
