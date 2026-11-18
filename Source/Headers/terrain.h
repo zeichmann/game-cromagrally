@@ -32,6 +32,7 @@ enum
 
 #define	NUM_TRIS_IN_SUPERTILE		(SUPERTILE_SIZE * SUPERTILE_SIZE * 2)			// 2 triangles per tile
 #define	NUM_VERTICES_IN_SUPERTILE	((SUPERTILE_SIZE+1)*(SUPERTILE_SIZE+1))			// # vertices in a supertile
+#define DESERT_SANDSTONE_BED_HEIGHT 640.0f
 
 #define	TEMP_TEXTURE_BUFF_SIZE		(OREOMAP_TILE_SIZE * SUPERTILE_SIZE)
 
@@ -79,9 +80,14 @@ struct SuperTileMemoryType
 	long				left,back;								// integer coords of back/left corner
 	MOMaterialObject	*texture;								// refs to materials
 	MOVertexArrayData	*meshData;								// mesh's data for the supertile
+	MOVertexArrayData	cliffMesh;								// decorative desert rock geometry
 	OGLBoundingBox		bBox;									// bounding box
 };
 typedef struct SuperTileMemoryType SuperTileMemoryType;
+
+bool UseDesertScenery(void);
+void BuildDesertCliffMesh(SuperTileMemoryType* tile, long startCol, long startRow);
+void TextureDesertStartingLine(void);
 
 
 typedef struct

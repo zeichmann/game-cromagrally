@@ -365,6 +365,7 @@ void OGL_SetProjection(int projectionType);
 
 void OGL_ConfigureHighQualityTexture(void);
 Boolean OGL_BeginTerrainDetail(void);
+bool OGL_DesertMaterialsActive(void);
 void OGL_EndTerrainDetail(void);
 void OGL_DisposeTerrainDetail(void);
 

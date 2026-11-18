@@ -407,7 +407,11 @@ void DisposeSuperTileMemoryList(void)
 	if (gSuperTileMeshData)
 	{
 		for (int i = 0; i < MAX_SUPERTILES; i++)
+		{
 			MO_InvalidateGeometryBuffers(&gSuperTileMeshData[i]);
+			MO_DisposeObject_Geometry_VertexArray(&gSuperTileMemoryList[i].cliffMesh);
+			gSuperTileMemoryList[i].cliffMesh = (MOVertexArrayData) {0};
+		}
 		SafeDisposePtr((Ptr)gSuperTileMeshData);
 	}
 	gSuperTileMeshData = nil;
@@ -686,6 +690,9 @@ OGLVector3D			vertexNormalList[NUM_VERTICES_IN_SUPERTILE];
 	superTilePtr->bBox.min.z = gWorkGrid[0][0].point.z;
 	superTilePtr->bBox.max.z = gWorkGrid[0][0].point.z + TERRAIN_SUPERTILE_UNIT_SIZE;
 
+	if (UseDesertScenery())
+		BuildDesertCliffMesh(superTilePtr, startCol, startRow);
+
 	if (gDisableHiccupTimer)
 	{
 		superTilePtr->hiccupTimer = 0;
@@ -804,6 +811,7 @@ uint32_t			pictRowBytes;
 
 	gNumSuperTilesDrawn	= 0;
 	OGL_BeginTerrainDetail();
+	const bool drawCliffs = OGL_DesertMaterialsActive();
 
 	/******************************************************************/
 	/* SCAN THE SUPERTILE GRID AND LOOK FOR USED & VISIBLE SUPERTILES */
@@ -886,7 +894,9 @@ uint32_t			pictRowBytes;
 
 					/* SUBMIT THE GEOMETRY */
 
-				MO_DrawGeometry_VertexArray(gSuperTileMemoryList[i].meshData);
+				MOVertexArrayData* cliff = &gSuperTileMemoryList[i].cliffMesh;
+				MO_DrawGeometry_VertexArray(drawCliffs && cliff->numTriangles > 0
+					? cliff : gSuperTileMemoryList[i].meshData);
 				gNumSuperTilesDrawn++;
 			}
 		}

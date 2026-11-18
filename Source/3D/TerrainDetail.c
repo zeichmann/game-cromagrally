@@ -4,13 +4,22 @@
 #include "shaderprogram.h"
 #include <SDL3/SDL_opengl_glext.h>
 
-static MOMaterialObject* gDesertDetail;
+static struct
+{
+	const char* path;
+	MOMaterialObject* material;
+	GLint previousBinding;
+	GLint wrap;
+} gDesertTextures[] =
+{
+	{":TexturesHD:desert-detail.png", NULL, 0, GL_REPEAT},
+	{":TexturesHD:desert-sandstone.png", NULL, 0, GL_MIRRORED_REPEAT},
+};
 static GLuint gTerrainProgram;
 static GLint gMinBlendWidthLocation;
 static GLint gUseDetailLocation;
 static GLint gUseFogLocation;
 static GLint gPreviousProgram;
-static GLint gPreviousDetailTexture;
 static bool gTerrainProgramUnavailable;
 static bool gDetailSupported;
 static bool gTerrainActive;
@@ -41,6 +50,8 @@ static const char kTerrainFragmentShader[] =
 	"#version 110\n"
 	"uniform sampler2D terrainImage;\n"
 	"uniform sampler2D detailImage;\n"
+	"uniform sampler2D sandstoneImage;\n"
+	"uniform float sandstoneBedHeight;\n"
 	"uniform float tileSize;\n"
 	"uniform float minBlendWidth;\n"
 	"uniform bool useDetail;\n"
@@ -49,6 +60,54 @@ static const char kTerrainFragmentShader[] =
 	"varying vec3 worldPosition;\n"
 	"varying vec4 vertexColor;\n"
 	"varying float viewDepth;\n"
+	"vec3 sandstone(vec3 normal, vec3 weight) {\n"
+	"    vec3 p = worldPosition;\n"
+	"    float bed = p.y + 90.0 * sin(p.x * 0.00058 + p.z * 0.00087)\n"
+	"                    + 35.0 * sin(p.z * 0.0022 - p.x * 0.0016);\n"
+	"    vec3 uv = vec3(p.x / 990.0, bed / 680.0, p.z / 990.0);\n"
+	"    vec3 grain = (texture2D(sandstoneImage, uv.zy).rgb * weight.x\n"
+	"                + texture2D(sandstoneImage, uv.xz).rgb * weight.y\n"
+	"                + texture2D(sandstoneImage, uv.xy).rgb * weight.z) / dot(weight, vec3(1.0));\n"
+	"    float phase = (bed + (grain.g - 0.64) * 96.0) / sandstoneBedHeight;\n"
+	"    float band = fract(phase);\n"
+	"    float deposit = fract(sin(floor(phase) * 58.739 + 9.1) * 2137.314);\n"
+	"    float minerals = 0.5 + 0.5 * sin(p.x * 0.0006 - p.z * 0.0011 + floor(phase) * 3.03);\n"
+	"    float edge = clamp(fwidth(phase) * 0.60, 0.010, 0.13);\n"
+	"    float iron = 0.45 + 0.13 * deposit;\n"
+	"    float rust = smoothstep(iron-edge, iron+edge, band)\n"
+	"               * (1.0 - smoothstep(iron+0.15+0.21*deposit-edge, iron+0.15+0.21*deposit+edge, band));\n"
+	"    float ochre = smoothstep(0.25-edge, 0.25+edge, band)\n"
+	"                * (1.0 - smoothstep(0.87-edge, 0.87+edge, band));\n"
+	"    vec3 color = grain * mix(vec3(1.13, 1.16, 1.18), vec3(1.03, 1.0, 0.91), ochre);\n"
+	"    float ironStain = smoothstep(0.12, 0.80, 0.63*deposit + 0.37*minerals);\n"
+	"    color = mix(color, grain * vec3(1.05, 0.75, 0.63), rust * (0.32 + 0.63*ironStain));\n"
+	"    float seam = abs(fract(phase + 0.5) - 0.5);\n"
+	"    float ledgeShade = mix(0.87, 1.0, smoothstep(0.006, 0.039 + edge, seam));\n"
+	"    float fracture = (p.x - p.z * 0.84 + 37.0*sin(p.y * 0.007 + p.x*0.0014)\n"
+	"                       + 51.0*sin(p.y*0.0022 + p.z*0.0023)) / 1280.0;\n"
+	"    float joint = abs(fract(fracture + 0.007*sin(p.y*0.023 + p.x*0.013))-0.5);\n"
+	"    float jointWidth = max(0.005, 1.25*fwidth(fracture));\n"
+	"    float jointShade = mix(0.83, 1.0, smoothstep(0.001, jointWidth, joint));\n"
+	"    float openJoint = smoothstep(-0.45, 0.50, sin(p.y*0.0029 + floor(fracture)*2.49));\n"
+	"    color *= mix(1.0, jointShade, openJoint * (0.40 + 0.60*minerals));\n"
+	"    float sun = max(dot(normal, normalize(vec3(-0.50, 0.84, -0.28))), 0.0);\n"
+	"    float light = (0.85 + 0.20 * sun) * (0.83 + 0.17 * smoothstep(-0.85, 0.08, normal.y));\n"
+	"    if (terrainUV.x < -1.5)\n"
+	"        return mix(grain, vec3(0.83, 0.71, 0.55), 0.76) * light;\n"
+	"    float weathering = terrainUV.x < 0.0 ? terrainUV.y : 1.0;\n"
+	"    return color * ledgeShade * light * weathering;\n"
+	"}\n"
+	"vec3 agave(vec3 normal) {\n"
+	"    float u = (terrainUV.x + 4.0) * 1.25;\n"
+	"    float v = terrainUV.y;\n"
+	"    float edge = abs(u - 0.5) * 2.0;\n"
+	"    float midrib = 1.0 - smoothstep(0.014, 0.065, edge);\n"
+	"    vec3 green = mix(vec3(0.12, 0.29, 0.084), vec3(0.36, 0.55, 0.21), smoothstep(0.02, 0.90, v));\n"
+	"    green = mix(green, vec3(0.61, 0.66, 0.30), 0.56 * smoothstep(0.79, 1.0, edge) + 0.15 * midrib);\n"
+	"    float grain = 0.96 + 0.04*sin(130.0*u + 8.0*v + sin(21.0*v));\n"
+	"    float sun = dot(normal, normalize(vec3(-0.50, 0.84, -0.28)));\n"
+	"    return green * grain * (0.77 + 0.23*abs(sun) + 0.10*max(sun, 0.0));\n"
+	"}\n"
 	"void main() {\n"
 	// Narrow the blend between enlarged texels. Keep their midpoints, including
 	// the half-texel blends between supertiles, and use the full blend at distance.
@@ -56,11 +115,11 @@ static const char kTerrainFragmentShader[] =
 	"    vec2 width = clamp(fwidth(texel), vec2(minBlendWidth), vec2(1.0));\n"
 	"    vec2 blend = clamp((fract(texel) - 0.5) / width + 0.5, 0.0, 1.0);\n"
 	"    vec2 sampleUV = (floor(texel) + blend + 0.5) / tileSize;\n"
-	"    vec4 color = texture2D(terrainImage, sampleUV) * vertexColor;\n"
+	"    vec4 color = texture2D(terrainImage, sampleUV) * vec4(vertexColor.rgb, useDetail ? 1.0 : vertexColor.a);\n"
 	"    if (useDetail) {\n"
 	// The normal of the terrain triangle weights the three world-space projections.
-	"        vec3 slope = abs(cross(dFdx(worldPosition), dFdy(worldPosition)));\n"
-	"        slope /= max(slope.x + slope.y + slope.z, 0.000001);\n"
+	"        vec3 normal = normalize(cross(dFdx(worldPosition), dFdy(worldPosition)));\n"
+	"        vec3 slope = abs(normal);\n"
 	"        vec3 weight = slope * slope;\n"
 	"        vec3 uv = worldPosition / 1250.0;\n"
 	"        vec3 detail = vec3(texture2D(detailImage, uv.zy).r,\n"
@@ -69,6 +128,10 @@ static const char kTerrainFragmentShader[] =
 	"        float detailValue = dot(detail - 0.532, weight)\n"
 	"                          / max(weight.x + weight.y + weight.z, 0.000001);\n"
 	"        color.rgb *= 1.0 + 0.90 * detailValue;\n"
+	"        if (terrainUV.x < -2.5)\n"
+	"            color.rgb = agave(normal);\n"
+	"        else if (vertexColor.a > 0.001)\n"
+	"            color.rgb = mix(color.rgb, sandstone(normal, weight), smoothstep(0.0, 0.84, vertexColor.a));\n"
 	"    }\n"
 	"    if (useFog) {\n"
 	"        float visible = clamp((gl_Fog.end - viewDepth) * gl_Fog.scale, 0.0, 1.0);\n"
@@ -121,6 +184,8 @@ static bool InitTerrainProgram(void)
 	gUseProgram(gTerrainProgram);
 	gUniform1i(gGetUniformLocation(gTerrainProgram, "terrainImage"), 0);
 	gUniform1i(gGetUniformLocation(gTerrainProgram, "detailImage"), 1);
+	gUniform1i(gGetUniformLocation(gTerrainProgram, "sandstoneImage"), 2);
+	gUniform1f(gGetUniformLocation(gTerrainProgram, "sandstoneBedHeight"), DESERT_SANDSTONE_BED_HEIGHT);
 	gUniform1f(gGetUniformLocation(gTerrainProgram, "tileSize"), SUPERTILE_TEXMAP_SIZE + (HQ_TERRAIN ? 2 : 0));
 	gUseProgram((GLuint)previousProgram);
 	return true;
@@ -130,7 +195,7 @@ Boolean OGL_BeginTerrainDetail(void)
 {
 	const bool canSharpen = OGL_IsFrameSharpeningAvailable();
 	const float sharpness = canSharpen ? SDL_clamp(gFrameSharpeningStrength, 0.0f, 1.0f) : 0.0f;
-	const bool wantsDetail = gTrackNum == TRACK_NUM_DESERT && !SDL_getenv("CMR_ORIGINAL_TEXTURES");
+	const bool wantsDetail = UseDesertScenery();
 	if (gDebugMode == 3 || gTerrainProgramUnavailable || (sharpness == 0.0f && !wantsDetail))
 		return false;
 
@@ -143,20 +208,25 @@ Boolean OGL_BeginTerrainDetail(void)
 	const bool useDetail = wantsDetail && gDetailSupported;
 	if (useDetail)
 	{
-		if (!gDesertDetail)
+		for (int i = 0; i < SDL_arraysize(gDesertTextures); i++)
 		{
-			const int oldFlags = gLoadTextureFlags;
-			gLoadTextureFlags |= kLoadTextureFlags_NoGammaFix;
-			gDesertDetail = MO_GetTextureFromFile(":TexturesHD:desert-detail.png", GL_RGBA);
-			gLoadTextureFlags = oldFlags;
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-			OGL_ConfigureHighQualityTexture();
+			gActiveTexture(GL_TEXTURE1 + i);
+			glGetIntegerv(GL_TEXTURE_BINDING_2D, &gDesertTextures[i].previousBinding);
+			if (!gDesertTextures[i].material)
+			{
+				const GLboolean textureEnabled = glIsEnabled(GL_TEXTURE_2D);
+				const int oldFlags = gLoadTextureFlags;
+				gLoadTextureFlags |= kLoadTextureFlags_NoGammaFix;
+				gDesertTextures[i].material = MO_GetTextureFromFile(gDesertTextures[i].path, GL_RGB);
+				gLoadTextureFlags = oldFlags;
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, gDesertTextures[i].wrap);
+				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, gDesertTextures[i].wrap);
+				OGL_ConfigureHighQualityTexture();
+				if (!textureEnabled)
+					glDisable(GL_TEXTURE_2D);
+			}
+			glBindTexture(GL_TEXTURE_2D, gDesertTextures[i].material->objectData.textureName[0]);
 		}
-
-		gActiveTexture(GL_TEXTURE1);
-		glGetIntegerv(GL_TEXTURE_BINDING_2D, &gPreviousDetailTexture);
-		glBindTexture(GL_TEXTURE_2D, gDesertDetail->objectData.textureName[0]);
 		gActiveTexture(GL_TEXTURE0);
 		gDetailTextureBound = true;
 	}
@@ -170,6 +240,11 @@ Boolean OGL_BeginTerrainDetail(void)
 	return true;
 }
 
+bool OGL_DesertMaterialsActive(void)
+{
+	return gDetailTextureBound;
+}
+
 void OGL_EndTerrainDetail(void)
 {
 	if (!gTerrainActive)
@@ -178,8 +253,11 @@ void OGL_EndTerrainDetail(void)
 	gUseProgram((GLuint)gPreviousProgram);
 	if (gDetailTextureBound)
 	{
-		gActiveTexture(GL_TEXTURE1);
-		glBindTexture(GL_TEXTURE_2D, (GLuint)gPreviousDetailTexture);
+		for (int i = 0; i < SDL_arraysize(gDesertTextures); i++)
+		{
+			gActiveTexture(GL_TEXTURE1 + i);
+			glBindTexture(GL_TEXTURE_2D, (GLuint)gDesertTextures[i].previousBinding);
+		}
 		gActiveTexture(GL_TEXTURE0);
 		gDetailTextureBound = false;
 	}
@@ -189,12 +267,15 @@ void OGL_EndTerrainDetail(void)
 void OGL_DisposeTerrainDetail(void)
 {
 	OGL_EndTerrainDetail();
-	if (gDesertDetail)
-		MO_DisposeObjectReference(gDesertDetail);
+	for (int i = 0; i < SDL_arraysize(gDesertTextures); i++)
+	{
+		if (gDesertTextures[i].material)
+			MO_DisposeObjectReference(gDesertTextures[i].material);
+		gDesertTextures[i].material = NULL;
+	}
 	if (gTerrainProgram)
 		gDeleteProgram(gTerrainProgram);
 
-	gDesertDetail = NULL;
 	gTerrainProgram = 0;
 	gTerrainProgramUnavailable = false;
 }

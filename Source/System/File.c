@@ -866,6 +866,8 @@ static const char*	levelModelFiles[NUM_TRACKS] =
 
 	FSMakeFSSpec(gDataSpec.vRefNum, gDataSpec.parID, levelModelFiles[gTrackNum], &spec);
 	ImportBG3D(&spec, MODEL_GROUP_LEVELSPECIFIC);
+	if (UseDesertScenery())
+		TextureDesertStartingLine();
 
 
 			/* LOAD SKELETONS */
