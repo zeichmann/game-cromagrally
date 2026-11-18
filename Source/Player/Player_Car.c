@@ -67,12 +67,10 @@ static void UpdateFlaming(short p);
 
 #define	MAX_CAR_ROT			(PI/2.1)		// max x & z rotation to keep from turning over.  Must not go beyone or equal to 45 degrees!
 
-#define	CAR_MAX_VERTICAL_SPEED	(gPlayerInfo[playerNum].carStats.maxSpeed * 1.1f)
-
-
 
 #define CAR_X_DIP_FACTOR	0.0013f
 #define CAR_Z_DIP_FACTOR	0.0005f
+#define LANDING_SHOCK_SPEED	250.0f
 
 #define	TERRAIN_SLOPE_ACCELFACTOR	2500.0f
 
@@ -166,6 +164,8 @@ uint16_t			gPlayer0TileAttribs;
 Boolean			gAutoPilot = false;
 
 #define WheelSpinRot		SpecialF[0]
+#define WheelCompression	SpecialF[1]
+#define WheelTravel			SpecialF[2]
 
 OGLVector3D				gPreCollisionDelta;
 
@@ -255,6 +255,7 @@ static const float shadowScale[NUM_LAND_CAR_TYPES] =
 		return(false);
 
 	gPlayerInfo[playerNum].objNode 	= newObj;
+	gPlayerInfo[playerNum].tireImpactCompression = 0.0f;
 
 	newObj->Rot.y = rotY;
 
@@ -534,7 +535,7 @@ static void MovePlayer_Car_Multipass(ObjNode *theNode)
 
 static void DoCarMotion(ObjNode *theNode)
 {
-float		speed2D,terrainY,maxSpeed;
+float		terrainY,maxSpeed;
 float		r,r2,dot,traction,friction;
 float		fps = gFramesPerSecondFrac;
 OGLVector2D	aimVector,skidVector;
@@ -662,11 +663,6 @@ Boolean		onWater;
 
 	if (theNode->StatusBits & STATUS_BIT_ONGROUND)
 	{
-				/* CALC 2D X/Z SPEED WE'RE TRAVELLING BASED ON DELTAS */
-
-		VectorLength2D(theNode->Speed2D, gDelta.x, gDelta.z);
-		speed2D = theNode->Speed2D;
-
 			/* GET AIM VECTOR */
 
 		if (pinfo->accelBackwards)											// see if accelerating backwards
@@ -727,16 +723,12 @@ Boolean		onWater;
 			friction += AMBIENT_AIR_FRICTION;
 
 
-			/* AVERAGE THE VECTORS, BUT WEIGHT THEM DIFFERENTLY */
-
-		skidVector.x += aimVector.x * traction;
-		skidVector.y += aimVector.y * traction;
-		FastNormalizeVector2D(skidVector.x, skidVector.y, &skidVector, true);
-
-
-		gDelta.x = skidVector.x * speed2D;
-		gDelta.z = skidVector.y * speed2D;
-
+		// Relax lateral slip over time so grip stays steady across collision substeps.
+		const OGLVector2D side = { -aimVector.y, aimVector.x };
+		const float lateralSpeed = gDelta.x * side.x + gDelta.z * side.y;
+		const float grip = 1.0f - expf(-120.0f * fmaxf(traction, 0.0f) * fps);
+		gDelta.x -= side.x * lateralSpeed * grip;
+		gDelta.z -= side.y * lateralSpeed * grip;
 	}
 	else
 	{
@@ -913,284 +905,127 @@ Boolean		onWater;
 }
 
 
-/********************* FLATTEN CAR ON GROUND ********************/
+/********************* CAR GROUND CONTACT ********************/
+
+static void DampenCarTilt(float target, float response, float dt, float* angle, float* velocity)
+{
+	// Critically damped spring. Evolve both angle and angular velocity for this step.
+	const float offset = *angle - target;
+	const float spring = *velocity + response * offset;
+	const float damping = expf(-response * dt);
+	*angle = SDL_clamp(target + (offset + spring * dt) * damping, -MAX_CAR_ROT, MAX_CAR_ROT);
+	*velocity = (*velocity - response * spring * dt) * damping;
+}
 
 static void DoCarGroundCollision(ObjNode *theNode)
 {
-OGLPoint3D		corner[4];
-OGLVector3D		oldXAxis, oldZAxis, newXAxis, newZAxis;
-float			groundY,carBottomY;
-float			dzRot,dxRot,dot;
-float			terrainY[4];
-Boolean			onGround = false;
-Boolean			backSideDown, frontSideDown;
-Boolean			leftSideDown, rightSideDown;
-OGLVector3D		t;
-float			oldDY = gDelta.y;
-float			diff;
-short			playerNum = theNode->PlayerNum;
+	PlayerInfoType* player = &gPlayerInfo[theNode->PlayerNum];
+	const float dt = gFramesPerSecondFrac;
+	const float suspension = player->carStats.suspension;
+	const bool wasOnTerrain = (theNode->StatusBits & STATUS_BIT_ONTERRAIN) != 0;
+	const float incomingY = gDelta.y;
+	const float groundY = GetTerrainY(gCoord.x, gCoord.z);
+	const float carBottomY = gCoord.y + theNode->BottomOff;
+	bool onGround = carBottomY <= groundY;
 
-		/**********************************/
-		/* SEE IF CENTER POINT HIT GROUND */
-		/**********************************/
-
-	groundY = GetTerrainY(gCoord.x, gCoord.z);
-	carBottomY = gCoord.y + theNode->BottomOff;				// calc coord on bottom of car
-
-	if (carBottomY < groundY)
-	{
-				/* KEEP CAR ABOVE SURFACE */
-
-		diff = groundY - carBottomY;						// how far under did we go?
-		gCoord.y += diff;									// move us up so we're not down there
-		onGround = true;
-
-
-			/* CALC DELTA UPWARDS FROM GROUND HIT */
-
-		if ((gRecentTerrainNormal.y < .95f) || (theNode->Speed2D > 400.0f))			// only do this if on a slope and moving fast enough
-		{
-			OGLVector3D	motion,ref,upHill,final;
-			float	speed = CalcVectorLength(&gDelta);
-			float	ratio,oneMinusRatio;
-
-			OGLVector3D_Normalize(&gDelta, &motion);								// get a normalized motion vector.
-
-			if (motion.x || motion.z)
-			{
-							/* CALC UP-HILL VECTOR */
-
-				OGLVector3D_Cross(&gRecentTerrainNormal, &motion, &upHill);			// get perpendicular
-				upHill.x = -upHill.x;												// invert so next cross prod will be facing the desired direction
-				upHill.y = -upHill.y;
-				upHill.z = -upHill.z;
-				OGLVector3D_Cross(&gRecentTerrainNormal, &upHill, &upHill);			// get uphill vector (vec flush with terrain, but pointing in uphill direction)
-
-
-							/* CALC BOUNCE VECTOR */
-
-				ReflectVector3D(&motion, &gRecentTerrainNormal, &ref);
-
-
-					/* CALC FINAL VECTOR AS RATIO OF UPHILL AND BOUNCE */
-
-				ratio = gRecentTerrainNormal.y + gUserPhysics.slopeRatioAdjuster;	// base it on the normal's y.  The steep ther the terrain, the more the bounce is used
-				ratio *= gPlayerInfo[playerNum].carStats.suspension;				// adjust for suspension
-
-				if (ratio > 1.0f)
-					ratio = 1.0f;
-				oneMinusRatio 	= 1.0f - ratio;
-
-				final.x 	= (upHill.x * ratio) + (ref.x * oneMinusRatio);
-				final.y 	= (upHill.y * ratio) + (ref.y * oneMinusRatio);
-				final.z 	= (upHill.z * ratio) + (ref.z * oneMinusRatio);
-				OGLVector3D_Normalize(&final, &final);
-
-
-							/* SCALE BOUNCE BY ORIGINAL SPEED */
-
-				final.x *= speed;
-				final.y *= speed;
-				final.z *= speed;
-
-				gDelta.x = final.x;
-				gDelta.y = final.y;
-				gDelta.z = final.z;
-
-				if (gDelta.y > CAR_MAX_VERTICAL_SPEED)		// see if popped up too fast
-					gDelta.y = CAR_MAX_VERTICAL_SPEED;
-			}
-			else
-			{
-				gDelta.y = 0;
-			}
-		}
-		else
-			gDelta.y = 0;				// not going fast and on fairly flat ground, so dont do the sliding - keep us planted on ground
-	}
-
-
-
-		/**********************/
-		/* CALC CORNER COORDS */
-		/**********************/
-
-		/* GET LOCAL-SPACE CORNERS */
-
-	corner[0].x = theNode->LeftOff;			// far left
-	corner[0].y = theNode->BottomOff;
-	corner[0].z = theNode->BackOff;
-
-	corner[1].x = theNode->LeftOff;			// near left
-	corner[1].y = theNode->BottomOff;
-	corner[1].z = theNode->FrontOff;
-
-	corner[2].x = theNode->RightOff;		// near right
-	corner[2].y = theNode->BottomOff;
-	corner[2].z = theNode->FrontOff;
-
-	corner[3].x = theNode->RightOff;		// far right
-	corner[3].y = theNode->BottomOff;
-	corner[3].z = theNode->BackOff;
-
-
-	/* TRANSFORM CORNERS TO WORLD-SPACE */
-
-	theNode->Coord = gCoord;
-	UpdateObjectTransforms(theNode);	// make sure matrix is updated for this
-
-	OGLPoint3D_TransformArray(&corner[0], &theNode->BaseTransformMatrix,&corner[0],4);
-
-
-		/* GET TERRAIN-Y COORDS */
-
-	terrainY[0] = GetTerrainY(corner[0].x, corner[0].z);
-	terrainY[1] = GetTerrainY(corner[1].x, corner[1].z);
-	terrainY[2] = GetTerrainY(corner[2].x, corner[2].z);
-	terrainY[3] = GetTerrainY(corner[3].x, corner[3].z);
-
-
-
-		/* SEE IF ANY WHEELS ARE HITTING GROUND */
-
-	backSideDown = frontSideDown = leftSideDown = rightSideDown = false;
-
-
-	if (corner[0].y < terrainY[0])						// front left tire
-	{
-		corner[0].y 	= terrainY[0];
-		onGround 		= true;
-		frontSideDown 	= true;
-		leftSideDown 	= true;
-	}
-
-
-	if (corner[1].y < terrainY[1])						// back left tire
-	{
-		corner[1].y 	= terrainY[1];
-		onGround 		= true;
-		backSideDown 	= true;
-		leftSideDown 	= true;
-	}
-
-	if (corner[2].y < terrainY[2])						// back right tire
-	{
-		corner[2].y 	= terrainY[2];
-		onGround 		= true;
-		backSideDown 	= true;
-		rightSideDown 	= true;
-	}
-
-	if (corner[3].y < terrainY[3])						// front right tire
-	{
-		corner[3].y 	= terrainY[3];
-		onGround 		= true;
-		frontSideDown 	= true;
-		rightSideDown	= true;
-	}
-
-
-			/***********************************************/
-			/* IF ANY WHEEL HIT, THEN NEED TO DO SOMETHING */
-			/***********************************************/
+	player->tireImpactCompression *= expf(-10.0f * dt);
 
 	if (onGround)
 	{
-		float	rotY = theNode->Rot.y;
-		float	c = cos(rotY), s = sin(rotY);
+		gCoord.y += groundY - carBottomY;
 
-			/* GET Y==0 AXIS VECTORS */
-
-		oldZAxis.x = -s;
-		oldZAxis.y = 0;
-		oldZAxis.z = -c;
-
-		oldXAxis.x = -c;
-		oldXAxis.y = 0;
-		oldXAxis.z = s;
-
-
-			/* GET NEW AXIS VECTORS */
-
-		t.x = corner[0].x - corner[1].x;				// calc average vector of left and right sides along length of car
-		t.y = corner[0].y - corner[1].y;
-		t.z = corner[0].z - corner[1].z;
-		t.x += corner[3].x - corner[2].x;
-		t.y += corner[3].y - corner[2].y;
-		t.z += corner[3].z - corner[2].z;
-		OGLVector3D_Normalize(&t,&newZAxis);
-
-		t.x = corner[0].x - corner[3].x;				// calc average vector of front and back sides along width of car
-		t.y = corner[0].y - corner[3].y;
-		t.z = corner[0].z - corner[3].z;
-		t.x += corner[1].x - corner[2].x;
-		t.y += corner[1].y - corner[2].y;
-		t.z += corner[1].z - corner[2].z;
-		OGLVector3D_Normalize(&t,&newXAxis);
-
-
-			/* SEE HOW MUCH WE ARE ROTATED ON THE X AXIS */
-
-		dot = OGLVector3D_Dot(&oldZAxis, &newZAxis);
-		dxRot = acos(dot);								// rot on X-axis is angle of Z vector
-		if (corner[0].y < corner[1].y)					// if right side is higher, then reverse rot
-			dxRot = -dxRot;
-
-		theNode->DeltaRot.x = (dxRot - theNode->Rot.x) * 15.0f;
-
-
-			/* SEE HOW MUCH WE ROTATED ON THE Z AXIS */
-
-		dot = OGLVector3D_Dot(&oldXAxis, &newXAxis);
-		dzRot = acos(dot);								// rot on Z-axis is angle of shift in X vector
-		if (corner[0].y > corner[3].y)					// set z-rot
-			dzRot = -dzRot;
-
-		theNode->DeltaRot.z = (dzRot - theNode->Rot.z) * 15.0f;
-
-
-				/* DO ADDITIONAL ROTATION FOR SIDE DIPPING */
-
-		if (oldDY < 0.0f)									// dips only can happen if we're going down
+		// Absorb the impact along the surface normal and keep the tangential speed.
+		const OGLVector3D normal = gRecentTerrainNormal;
+		const float intoGround = -OGLVector3D_Dot(&gDelta, &normal);
+		if (intoGround > 0.0f)
 		{
-			if (backSideDown && (!frontSideDown))			// if back hit, but not front then add some spin
-				theNode->DeltaRot.x += oldDY * CAR_X_DIP_FACTOR;
-			else
-			if (frontSideDown && (!backSideDown))			// if front hit, but not back then add some spin
-				theNode->DeltaRot.x -= oldDY * CAR_X_DIP_FACTOR;
+			const float shock = fmaxf(intoGround - LANDING_SHOCK_SPEED, 0.0f);
+			const float absorption = SDL_clamp((normal.y + gUserPhysics.slopeRatioAdjuster) * suspension, 0.0f, 1.0f);
+			const float rebound = wasOnTerrain ? 0.0f : 0.16f * (1.0f - absorption) * shock;
+			const float impulse = intoGround + rebound;
 
-			if (leftSideDown && (!rightSideDown))			// if left hit, but not right then add some spin
-				theNode->DeltaRot.z += oldDY * CAR_Z_DIP_FACTOR;
-			else
-			if (rightSideDown && (!leftSideDown))			// if right hit, but not left then add some spin
-				theNode->DeltaRot.z -= oldDY * CAR_Z_DIP_FACTOR;
+			gDelta.x += normal.x * impulse;
+			gDelta.y = fminf(gDelta.y + normal.y * impulse, player->carStats.maxSpeed * 1.1f);
+			gDelta.z += normal.z * impulse;
+
+			const float compression = fminf(shock * 0.0001f, 0.18f);
+			player->tireImpactCompression = fmaxf(player->tireImpactCompression, compression);
 		}
-
-
-				/* UPDATE */
-
-		theNode->StatusBits |= STATUS_BIT_ONTERRAIN|STATUS_BIT_ONGROUND;
-
-		RotateCarXZ(theNode);								// call this to update xz rot correctly
 	}
 
-			/* NOT ON GROUND */
+	// Use both sides of each axle when estimating the attitude of the ground.
+	OGLPoint3D corners[4] =
+	{
+		{ theNode->LeftOff,  theNode->BottomOff, theNode->BackOff },
+		{ theNode->RightOff, theNode->BottomOff, theNode->BackOff },
+		{ theNode->RightOff, theNode->BottomOff, theNode->FrontOff },
+		{ theNode->LeftOff,  theNode->BottomOff, theNode->FrontOff },
+	};
+	bool contact[4] = { false };
+	theNode->Coord = gCoord;
+	UpdateObjectTransforms(theNode);
+	OGLPoint3D_TransformArray(corners, &theNode->BaseTransformMatrix, corners, 4);
+
+	for (int i = 0; i < 4; i++)
+	{
+		const float height = GetTerrainY(corners[i].x, corners[i].z);
+		if (corners[i].y <= height)
+		{
+			corners[i].y = height;
+			contact[i] = true;
+			onGround = true;
+		}
+	}
+
+	if (onGround)
+	{
+		const OGLVector3D along = {
+			corners[0].x + corners[1].x - corners[2].x - corners[3].x,
+			corners[0].y + corners[1].y - corners[2].y - corners[3].y,
+			corners[0].z + corners[1].z - corners[2].z - corners[3].z,
+		};
+		const OGLVector3D across = {
+			corners[0].x + corners[3].x - corners[1].x - corners[2].x,
+			corners[0].y + corners[3].y - corners[1].y - corners[2].y,
+			corners[0].z + corners[3].z - corners[1].z - corners[2].z,
+		};
+		float pitch = atan2f(along.y, sqrtf(along.x * along.x + along.z * along.z));
+		float roll = atan2f(-across.y, sqrtf(across.x * across.x + across.z * across.z));
+
+		if (!player->onWater)
+		{
+			// Load the front axle under braking and the outside tires in a turn.
+			const float sinYaw = sinf(theNode->Rot.y);
+			const float cosYaw = cosf(theNode->Rot.y);
+			const float accelX = (gDelta.x - theNode->Delta.x) / dt;
+			const float accelZ = (gDelta.z - theNode->Delta.z) / dt;
+			pitch += SDL_clamp(-(sinYaw * accelX + cosYaw * accelZ) * 0.00001f, -0.05f, 0.05f);
+			roll += SDL_clamp((cosYaw * accelX - sinYaw * accelZ) * 0.000014f, -0.065f, 0.065f);
+		}
+
+		if (!wasOnTerrain && incomingY < -LANDING_SHOCK_SPEED)
+		{
+			const int front = contact[0] || contact[1];
+			const int rear = contact[2] || contact[3];
+			const int left = contact[0] || contact[3];
+			const int right = contact[1] || contact[2];
+			theNode->DeltaRot.x += (rear - front) * incomingY * CAR_X_DIP_FACTOR;
+			theNode->DeltaRot.z += (left - right) * incomingY * CAR_Z_DIP_FACTOR;
+		}
+
+		const float response = 13.0f + 7.0f * SDL_clamp(suspension, 0.0f, 1.0f);
+		DampenCarTilt(pitch, response, dt, &theNode->Rot.x, &theNode->DeltaRot.x);
+		DampenCarTilt(roll, response, dt, &theNode->Rot.z, &theNode->DeltaRot.z);
+		theNode->StatusBits |= STATUS_BIT_ONTERRAIN | STATUS_BIT_ONGROUND;
+	}
 	else
 	{
-		if (theNode->StatusBits & (STATUS_BIT_ONGROUND|STATUS_BIT_ONTERRAIN))		// if just now left ground, reduce y spin slightly
-		{
-			float	suspension = gPlayerInfo[playerNum].carStats.suspension * .4f;
+		if (theNode->StatusBits & STATUS_BIT_ONGROUND)
+			theNode->DeltaRot.y *= 1.0f - fminf(suspension * 0.4f, 1.0f);
 
-			if (suspension > 1.0f)
-				suspension = 1.0f;
-
-			theNode->DeltaRot.y *= 1.0f - suspension;	// reduction is based on suspension
-		}
-
-		theNode->StatusBits &= ~(STATUS_BIT_ONGROUND|STATUS_BIT_ONTERRAIN);
+		theNode->StatusBits &= ~(STATUS_BIT_ONGROUND | STATUS_BIT_ONTERRAIN);
+		RotateCarXZ(theNode);
 	}
-
-
 }
 
 
@@ -1599,16 +1434,7 @@ float		friction;
 
 
 
-		/* DO THE Y SPIN */
-
 	theNode->Rot.y += theNode->DeltaRot.y * fps;
-
-
-		/***********************/
-		/* HANDLE X/Z SPINNING */
-		/***********************/
-
-	RotateCarXZ(theNode);
 }
 
 
@@ -2110,6 +1936,7 @@ Boolean			onWater;
     player = theNode->PlayerNum;
     gPlayerInfo[player].controlBits = 0;                                     // assume nothing
 	gPlayerInfo[player].controlBits_New = 0;
+	gPlayerInfo[player].analogSteering.x = 0.0f;
 
 	gPlayerInfo[player].attackTimer -= fps;									// dec this timer
 
@@ -2190,28 +2017,21 @@ Boolean			onWater;
 
 		else
 		{
-			if (CalcPathVectorFromCoord(gCoord.x, gCoord.y, gCoord.z, &pathVec))				// get path vector
+			if (CalcPathVectorFromCoord(gCoord.x, gCoord.y, gCoord.z, &pathVec))
 			{
-			    float       cross,r;
-			    OGLVector2D aimVec;
+				const float yaw = theNode->Rot.y;
+				const OGLVector2D aim = { -sinf(yaw), -cosf(yaw) };
+				float cross = OGLVector2D_Cross(&pathVec, &aim);
+				dot = OGLVector2D_Dot(&pathVec, &aim);
+				pathVarianceAngle = acosf(SDL_clamp(dot, -1.0f, 1.0f));
 
-			    r = theNode->Rot.y;												// get aim vector of car
-			    aimVec.x = -sin(r);
-			    aimVec.y = -cos(r);
-	            cross = OGLVector2D_Cross(&pathVec, &aimVec);       			// the sign of the cross product will tell us which way to turn
-	            dot = OGLVector2D_Dot(&pathVec, &aimVec);          				// also get dot product
-	    		pathVarianceAngle = acos(dot);                     				// convert dot to angle
+				if (gPlayerInfo[player].reverseTimer > 0.0f)
+					cross = -cross;
 
-	    		if (gPlayerInfo[player].reverseTimer > 0.0f)					// if reversing then change steering
-	    			cross = -cross;
-
-	    		if (pathVarianceAngle > (PI/14))								// see if outside of tolerance
-				{
-					if (cross > 0.0f)
-						gPlayerInfo[player].analogSteering.x = -1.0f;
-					else
-						gPlayerInfo[player].analogSteering.x = 1.0f;
-				}
+				const float deadband = 0.04f;
+				const float fullSteeringAngle = PI / 14.0f;
+				const float turn = SDL_clamp((pathVarianceAngle - deadband) / (fullSteeringAngle - deadband), 0.0f, 1.0f);
+				gPlayerInfo[player].analogSteering.x = cross > 0.0f ? -turn : turn;
 			}
 			else
 			{
@@ -2733,6 +2553,8 @@ ObjNode			*wheel,*link;
 			DoFatalAlert("CreateCarWheelsAndHead: MakeNewDisplayGroupObject failed!");
 
 		wheel->WheelSpinRot = 0;
+		wheel->WheelCompression = 0.0f;
+		wheel->WheelTravel = 0.0f;
 
 		link->ChainNode = wheel;							// add to chain link
 		link = wheel;
@@ -2930,31 +2752,10 @@ float			fps = gFramesPerSecondFrac;
 			/* SEE IF TURN LEFT/RIGHT */
 			/**************************/
 
-	float steering			= gPlayerInfo[playerNum].steering;
-	float targetSteering	= gPlayerInfo[playerNum].analogSteering.x;
-
-			/* APPLY STEERING RESPONSIVENESS (INCREMENTAL STEERING) */
-
-	if (targetSteering == steering)
-	{
-		// No-op, keep same steering as previously
-	}
-	else if (targetSteering < steering)
-	{
-		steering -= gUserPhysics.steeringResponsiveness * fps;
-		if (steering < targetSteering)
-			steering = targetSteering;
-	}
-	else
-	{
-		steering += gUserPhysics.steeringResponsiveness * fps;
-		if (steering > targetSteering)
-			steering = targetSteering;
-	}
-
-
-	gPlayerInfo[playerNum].steering = steering;							// update value
-
+	const float targetSteering = gPlayerInfo[playerNum].analogSteering.x;
+	const float steeringResponse = fmaxf(gUserPhysics.steeringResponsiveness, 0.0f);
+	const float steeringBlend = 1.0f - expf(-2.4f * steeringResponse * fps);
+	gPlayerInfo[playerNum].steering += (targetSteering - gPlayerInfo[playerNum].steering) * steeringBlend;
 
 	/***************************************/
 	/* IF ON GROUND, THEN LET'S ACCELERATE */
@@ -3257,6 +3058,43 @@ ObjNode	*obj;
 #pragma mark -
 
 
+static void UpdateWheelSuspension(ObjNode* wheel, bool onTerrain, float impact, float dt)
+{
+	OGLMatrix4x4* matrix = &wheel->BaseTransformMatrix;
+	const OGLBoundingBox* bounds = &gObjectGroupBBoxList[wheel->Group][wheel->Type];
+	const float radius = fmaxf(-bounds->min.y, bounds->max.y) * wheel->Scale.y;
+	float targetCompression = 0.0f;
+	const float travelLimit = radius * 0.38f;
+	float floorOffset = 0.0f;
+
+	if (onTerrain && radius > 0.0f)
+	{
+		const float floor = GetTerrainY(matrix->value[M03], matrix->value[M23]);
+		floorOffset = floor - (matrix->value[M13] - radius);
+		const float contact = SDL_clamp(1.0f + floorOffset / travelLimit, 0.0f, 1.0f);
+		const float load = 0.065f + fmaxf(floorOffset, 0.0f) * 0.22f / radius + impact;
+		targetCompression = contact * fminf(load, 0.24f);
+	}
+
+	wheel->WheelCompression += (targetCompression - wheel->WheelCompression) * (1.0f - expf(-32.0f * dt));
+	const float compression = wheel->WheelCompression;
+	const float targetTravel = onTerrain
+		? SDL_clamp(floorOffset - radius * compression, -travelLimit, travelLimit)
+		: 0.0f;
+	wheel->WheelTravel += (targetTravel - wheel->WheelTravel) * (1.0f - expf(-40.0f * dt));
+
+	// Deform in world space so the flat contact area stays under the spinning wheel.
+	const float bulge = 1.0f + 0.22f * compression;
+	for (int col = 0; col < 3; col++)
+	{
+		float* axis = &matrix->value[4 * col];
+		axis[0] *= bulge;
+		axis[1] *= 1.0f - compression;
+		axis[2] *= bulge;
+	}
+	matrix->value[M13] += wheel->WheelTravel;
+}
+
 /************************ ALIGN WHEELS AND HEAD ON CAR *****************************/
 
 void AlignWheelsAndHeadOnCar(ObjNode *theCar)
@@ -3420,6 +3258,8 @@ static const OGLPoint3D	headOffsets[NUM_LAND_CAR_TYPES] =
 		OGLMatrix4x4_SetTranslate(&m2, wheelOffsets[carType][i].x, wheelOffsets[carType][i].y, wheelOffsets[carType][i].z);	// locate tire on axel
 		OGLMatrix4x4_Multiply(&m1, &m2, &m3);
 		OGLMatrix4x4_Multiply(&m3, carMatrix, &wheels[i]->BaseTransformMatrix);
+		const bool onTerrain = !onWater && (theCar->StatusBits & STATUS_BIT_ONTERRAIN);
+		UpdateWheelSuspension(wheels[i], onTerrain, gPlayerInfo[playerNum].tireImpactCompression, fps);
 
 		SetObjectTransformMatrix(wheels[i]);														// make sure to update it internally
 

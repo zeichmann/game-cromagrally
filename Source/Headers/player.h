@@ -126,6 +126,7 @@ typedef struct
 	float				steering;	// -1 .. +1
 	float				skidDot;						// perp @ 0.0
 	float				currentRPM;
+	float				tireImpactCompression;
 
 
 			/* DRAG DEBRIS */
