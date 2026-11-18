@@ -315,7 +315,7 @@ endif()
 # Copy documentation to output folder
 configure_file(${CMAKE_SOURCE_DIR}/packaging/ReadMe.txt.in ${CMAKE_CURRENT_BINARY_DIR}/ReadMe.txt)
 
-option(CMR_BUILD_RENDER_TESTS "Build GPU buffer lifecycle regression tests" OFF)
+option(CMR_BUILD_RENDER_TESTS "Build renderer regression tests" OFF)
 if(CMR_BUILD_RENDER_TESTS)
 	enable_testing()
 	add_executable(GeometryBuffersTest tests/GeometryBuffersTest.c)
@@ -327,6 +327,11 @@ if(CMR_BUILD_RENDER_TESTS)
 			COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_RUNTIME_DLLS:GeometryBuffersTest> $<TARGET_FILE_DIR:GeometryBuffersTest>)
 	endif()
 	add_test(NAME GeometryBuffers COMMAND GeometryBuffersTest)
+	add_executable(FrameSharpenTest tests/FrameSharpenTest.c ${GAME_SRCDIR}/3D/FrameSharpen.c)
+	target_include_directories(FrameSharpenTest PRIVATE ${GAME_SRCDIR}/Headers)
+	target_link_libraries(FrameSharpenTest PRIVATE SDL3::SDL3 OpenGL::GL)
+	add_test(NAME FrameSharpen COMMAND FrameSharpenTest)
+	set_tests_properties(FrameSharpen PROPERTIES SKIP_RETURN_CODE 2 TIMEOUT 30 LABELS "gpu")
 	add_test(NAME GPUComputeDriver COMMAND $<TARGET_FILE:${GAME_TARGET}>)
 	set_tests_properties(GPUComputeDriver PROPERTIES
 		ENVIRONMENT "CMR_COMPUTE_SELFTEST=1"

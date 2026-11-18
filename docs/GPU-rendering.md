@@ -27,6 +27,7 @@ Environment switches, set before launch:
 - `CMR_DISABLE_GPU_COMPUTE=1`: CPU skinning/simulation, resident static geometry.
 - `CMR_DISABLE_GPU_BUFFERS=1`: original client arrays and CPU computation.
 - `CMR_ORIGINAL_TEXTURES=1`: original artwork, no terrain detail layer.
+- `CMR_DISABLE_SHARPENING=1`: show the frame without the sharpening pass for comparison.
 - `CMR_VALIDATE_GPU=1`: also compute the CPU skinning reference and compare every pose with actual GPU output. Logs the first pass per skeleton type; exits 3 on mismatch. Disable for regular play.
 - `CMR_COMPUTE_SELFTEST=1`: real-driver numerical tests, then exit. Tests transforms, gravity/decay/rotation, both terrain splits and bounce, inactive/dead particles, gravitoid symmetry, billboard geometry and packed alpha.
 

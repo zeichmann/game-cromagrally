@@ -14,6 +14,7 @@
 #include "stb_image.h"
 #include "pillarbox.h"
 #include "gpucompute.h"
+#include "framesharpen.h"
 #include <SDL3/SDL_opengl.h>
 #include <SDL3/SDL_opengl_glext.h>
 #include <math.h>
@@ -139,6 +140,7 @@ void OGL_Boot(void)
 	glGetIntegerv(GL_MAX_TEXTURE_SIZE, &maxTexSize);
 	if (maxTexSize < 1024)
 		DoFatalAlert("Your video card cannot do 1024x1024 textures, so it is below the game's minimum system requirements.");
+	OGL_InitFrameSharpening();
 }
 
 
@@ -146,6 +148,7 @@ void OGL_Boot(void)
 
 void OGL_Shutdown(void)
 {
+	OGL_DisposeFrameSharpening();
 	OGL_DisposeTerrainDetail();
 	GPU_ShutdownCompute();
 	OGL_DisposeDrawContext();
@@ -642,8 +645,11 @@ void OGL_DrawScene(void (*drawRoutine)(void))
 	}
 
 
-		/**************************/
-		/* SEE IF SHOW DEBUG INFO */
+	if (gDebugMode != 3)
+		OGL_SharpenFrame(gGameWindowWidth, gGameWindowHeight);
+
+				/**************************/
+				/* SEE IF SHOW DEBUG INFO */
 		/**************************/
 
 	if (GetNewKeyState(SDL_SCANCODE_F8))
