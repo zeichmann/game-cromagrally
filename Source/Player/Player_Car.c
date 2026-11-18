@@ -3108,7 +3108,7 @@ void AlignCarDriver(const ObjNode* car, ObjNode* driver, short carType)
 		[CAR_TYPE_CHARIOT]     = { 0, 85, 10 },
 	};
 	// Brog and Grag sit at different heights in their reference poses.
-	static const OGLPoint3D wickerSeats[] = {{0, 56, 5}, {0, 66, -2}};
+	static const OGLPoint3D wickerSeats[] = {{0, 56, 5}, {0, 64, 5}};
 	const OGLPoint3D offset = carType == CAR_TYPE_WICKER
 		? wickerSeats[driver->Type == SKELETON_TYPE_PLAYER_FEMALE] : headOffsets[carType];
 

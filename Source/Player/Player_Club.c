@@ -2,14 +2,16 @@
 #include <math.h>
 
 
-enum
+typedef struct
 {
-	RIGHT_SHOULDER = 2,
-	RIGHT_ELBOW = 4,
-	RIGHT_HAND = 5,
-};
+	short shoulder;
+	short elbow;
+	short wrist;
+	OGLPoint3D grip[2];		// Brog and Grag, in wrist coordinates
+} DriverArm;
 
-static const OGLPoint3D kHandGrip = {0, -3, -6};
+static const DriverArm kRightArm = {2, 4, 5, {{-22, -10, -9}, {-22, -8, -18}}};
+static const DriverArm kLeftArm  = {3, 6, 7, {{27, -8, -9}, {17, -8, -10}}};
 
 enum
 {
@@ -18,29 +20,40 @@ enum
 	CLUB_LIFT,
 	CLUB_STRIKE,
 	CLUB_FOLLOW_THROUGH,
+	CLUB_RECOVER,
 	CLUB_STOW,
 	CLUB_RETURN,
+	NUM_CLUB_POSES,
 };
 
 typedef struct
 {
 	float time;
 	OGLVector3D reach;
-	OGLVector3D clubAxis;
+	OGLPoint3D torso;		// pitch, yaw, roll in degrees
+	float tilt;				// shaft angle away from vertical
+	float azimuth;			// shaft direction measured from the car's right side
+	float wristRoll;		// rotation around the shaft
 } ClubPose;
 
 // Reach is relative to the right shoulder, in fractions of the arm's length.
-static const OGLVector3D kRackAxis = {.15f, .97f, .19f};
-static const ClubPose kClubPoses[] =
+static const ClubPose kClubPoses[NUM_CLUB_POSES] =
 {
-	[CLUB_WHEEL]          = {0.00f, {0},                       {.15f, .97f, .19f}},
-	[CLUB_GRAB]           = {0.16f, {0},                       {.15f, .97f, .19f}},
-	[CLUB_LIFT]           = {0.34f, {.50f,  .74f,  .12f},    {.17f,  .98f, .04f}},
-	[CLUB_STRIKE]         = {0.52f, {.82f, -.32f, -.05f},    {.73f, -.68f, .02f}},
-	[CLUB_FOLLOW_THROUGH] = {0.62f, {.72f, -.48f, -.08f},    {.46f, -.88f, .04f}},
-	[CLUB_STOW]           = {0.86f, {0},                       {.15f, .97f, .19f}},
-	[CLUB_RETURN]         = {1.02f, {0},                       {.15f, .97f, .19f}},
+	[CLUB_WHEEL]          = {0.00f, {0},                     {0,   0,   0},    14,  52, -115},
+	[CLUB_GRAB]           = {0.19f, {0},                     {1, -10,  -5},    14,  52, -115},
+	[CLUB_LIFT]           = {0.43f, {.33f,  .47f,  .15f},    {5, -12,   2},    35,  66,  -47},
+	[CLUB_STRIKE]         = {0.54f, {.60f,  .21f,  .02f},    {0,  -7,  -7},    82,   7,   31},
+	[CLUB_FOLLOW_THROUGH] = {0.65f, {.69f, -.31f, -.09f},  {-10, -10, -13},   141,  -8,   48},
+	[CLUB_RECOVER]        = {0.85f, {.42f, -.12f,  .24f},   { -3,  -8,  -5},    55,  42,  -44},
+	[CLUB_STOW]           = {1.03f, {0},                     {1,  -8,  -4},    14,  52, -115},
+	[CLUB_RETURN]         = {1.19f, {0},                     {0,   0,   0},    14,  52, -115},
 };
+
+typedef struct
+{
+	int before, from, to, after;
+	float t, span, beforeSpan, afterSpan;
+} ClubInterval;
 
 // Local to DriverClub.bg3d. The origin is inside the driver's palm.
 static const OGLPoint3D kClubContact = {-4, 94, 0};
@@ -52,7 +65,7 @@ static const float kClubHeadRadius = 26;
 static OGLPoint3D GetRackGrip(const ObjNode* driver)
 {
 	static const OGLPoint3D stockMounts[] = {{87, 12, 54}, {77, 0, 51}};
-	static const OGLPoint3D wickerMount = {63, 43, 52};
+	static const OGLPoint3D wickerMount = {63, 50, 52};
 	const PlayerInfoType* player = &gPlayerInfo[driver->PlayerNum];
 	const bool wicker = player->vehicleType == CAR_TYPE_WICKER;
 	const OGLPoint3D* mount = wicker ? &wickerMount : &stockMounts[player->sex];
@@ -69,13 +82,78 @@ static OGLPoint3D GetTranslation(const OGLMatrix4x4* matrix)
 }
 
 
-static OGLPoint3D InterpolatePoint(OGLPoint3D a, OGLPoint3D b, float t)
+static void SetTranslation(OGLMatrix4x4* matrix, OGLPoint3D point)
 {
-	return (OGLPoint3D) {a.x + t*(b.x-a.x), a.y + t*(b.y-a.y), a.z + t*(b.z-a.z)};
+	matrix->value[M03] = point.x;
+	matrix->value[M13] = point.y;
+	matrix->value[M23] = point.z;
 }
 
 
-static void SetClubRotation(OGLVector3D from, OGLVector3D to, OGLMatrix4x4* matrix)
+static ClubInterval FindClubInterval(float time)
+{
+	int from = CLUB_WHEEL;
+	while (time >= kClubPoses[from+1].time)
+		from++;
+	const int to = from + 1;
+	const int before = GAME_MAX(CLUB_WHEEL, from - 1);
+	const int after = GAME_MIN(CLUB_RETURN, to + 1);
+	const float span = kClubPoses[to].time - kClubPoses[from].time;
+	return (ClubInterval)
+	{
+		.before = before, .from = from, .to = to, .after = after,
+		.t = (time - kClubPoses[from].time) / span,
+		.span = span,
+		.beforeSpan = kClubPoses[from].time - kClubPoses[before].time,
+		.afterSpan = kClubPoses[after].time - kClubPoses[to].time,
+	};
+}
+
+
+static float ClubTangent(float incoming, float outgoing)
+{
+	// A component eases to a stop at a reversal. It flows through knots along the rest of the arc.
+	return incoming * outgoing > 0 ? 2*incoming*outgoing / (incoming + outgoing) : 0;
+}
+
+
+static float SampleClubCurve(const ClubInterval* interval, float before, float from, float to, float after)
+{
+	const float speed = (to - from) / interval->span;
+	const float start = interval->beforeSpan > 0 ? ClubTangent((from - before)/interval->beforeSpan, speed) : 0;
+	const float end = interval->afterSpan > 0 ? ClubTangent(speed, (after - to)/interval->afterSpan) : 0;
+	const float t = interval->t;
+	const float u = 1 - t;
+	return from + (to-from)*t*t*(3 - 2*t) + interval->span*t*u*(u*start - t*end);
+}
+
+
+static OGLPoint3D SampleClubPoint(const ClubInterval* interval, OGLPoint3D before, OGLPoint3D from, OGLPoint3D to, OGLPoint3D after)
+{
+	return (OGLPoint3D)
+	{
+		SampleClubCurve(interval, before.x, from.x, to.x, after.x),
+		SampleClubCurve(interval, before.y, from.y, to.y, after.y),
+		SampleClubCurve(interval, before.z, from.z, to.z, after.z),
+	};
+}
+
+
+static OGLVector3D GetClubAxis(float tilt, float azimuth)
+{
+	const float radians = PI / 180.0f;
+	const float side = sinf(tilt*radians);
+	return (OGLVector3D) {side*cosf(azimuth*radians), cosf(tilt*radians), side*sinf(azimuth*radians)};
+}
+
+
+static OGLVector3D GetRackAxis(void)
+{
+	return GetClubAxis(kClubPoses[CLUB_GRAB].tilt, kClubPoses[CLUB_GRAB].azimuth);
+}
+
+
+static void SetDirectionRotation(OGLVector3D from, OGLVector3D to, float blend, OGLMatrix4x4* matrix)
 {
 	OGLVector3D_Normalize(&from, &from);
 	OGLVector3D_Normalize(&to, &to);
@@ -95,19 +173,24 @@ static void SetClubRotation(OGLVector3D from, OGLVector3D to, OGLMatrix4x4* matr
 	}
 	else
 		OGLVector3D_Cross(&from, &to, &axis);
-	OGLMatrix4x4_SetRotateAboutAxis(matrix, &axis, acosf(SDL_clamp(cosine, -1.0f, 1.0f)));
+	OGLMatrix4x4_SetRotateAboutAxis(matrix, &axis, blend*acosf(SDL_clamp(cosine, -1.0f, 1.0f)));
 }
 
 
-static void PlaceClubPiece(ObjNode* piece, const ObjNode* car, OGLPoint3D grip, OGLVector3D localAxis)
+static OGLMatrix4x4 MakeClubFrame(const ObjNode* car, OGLVector3D localAxis)
 {
 	const OGLVector3D up = {0, 1, 0};
-	OGLMatrix4x4 rotation;
-	SetClubRotation(up, localAxis, &rotation);
-	OGLMatrix4x4_Multiply(&rotation, &car->BaseTransformMatrix, &piece->BaseTransformMatrix);
-	piece->BaseTransformMatrix.value[M03] = grip.x;
-	piece->BaseTransformMatrix.value[M13] = grip.y;
-	piece->BaseTransformMatrix.value[M23] = grip.z;
+	OGLMatrix4x4 rotation, frame;
+	SetDirectionRotation(up, localAxis, 1, &rotation);
+	OGLMatrix4x4_Multiply(&rotation, &car->BaseTransformMatrix, &frame);
+	return frame;
+}
+
+
+static void PlaceClubPiece(ObjNode* piece, const OGLMatrix4x4* frame, OGLPoint3D grip)
+{
+	piece->BaseTransformMatrix = *frame;
+	SetTranslation(&piece->BaseTransformMatrix, grip);
 	piece->Coord = grip;
 	SetObjectTransformMatrix(piece);
 }
@@ -116,11 +199,9 @@ static void PlaceClubPiece(ObjNode* piece, const ObjNode* car, OGLPoint3D grip, 
 static void AimArmJoint(OGLMatrix4x4* matrix, OGLPoint3D pivot, OGLVector3D from, OGLVector3D to)
 {
 	OGLMatrix4x4 rotation;
-	SetClubRotation(from, to, &rotation);
+	SetDirectionRotation(from, to, 1, &rotation);
 	OGLMatrix4x4_Multiply(matrix, &rotation, matrix);
-	matrix->value[M03] = pivot.x;
-	matrix->value[M13] = pivot.y;
-	matrix->value[M23] = pivot.z;
+	SetTranslation(matrix, pivot);
 }
 
 
@@ -132,54 +213,137 @@ static OGLVector3D ProjectPerpendicular(OGLVector3D vector, OGLVector3D axis)
 }
 
 
-static OGLPoint3D ReachForClub(ObjNode* driver, OGLPoint3D target,
-							  OGLMatrix4x4 shoulderMatrix, OGLMatrix4x4 elbowMatrix, OGLPoint3D grip)
+static OGLVector3D PerpendicularDirection(OGLVector3D vector, OGLVector3D axis)
 {
-	const OGLPoint3D shoulder = GetTranslation(&shoulderMatrix);
-	const OGLPoint3D elbow = GetTranslation(&elbowMatrix);
-	OGLVector3D upper, lower, direction;
-	OGLPoint3D_Subtract(&elbow, &shoulder, &upper);
-	OGLPoint3D_Subtract(&grip, &elbow, &lower);
-	OGLPoint3D_Subtract(&target, &shoulder, &direction);
-
-	const float upperLength = CalcVectorLength(&upper);
-	const float lowerLength = CalcVectorLength(&lower);
-	const float reach = SDL_clamp(CalcVectorLength(&direction),
-								  fabsf(upperLength-lowerLength) + .1f, upperLength+lowerLength-.1f);
-	OGLVector3D_Normalize(&direction, &direction);
-
-	// Bend the elbow in the plane of the current pose and keep both bone lengths.
-	OGLVector3D bend = ProjectPerpendicular(upper, direction);
-	if (CalcVectorLength(&bend) < .1f)
+	OGLVector3D perpendicular = ProjectPerpendicular(vector, axis);
+	if (CalcVectorLength(&perpendicular) < .001f)
 	{
-		const OGLVector3D pole = fabsf(direction.y) < .8f ? (OGLVector3D){0, -1, 0} : (OGLVector3D){0, 0, -1};
-		bend = ProjectPerpendicular(pole, direction);
+		const OGLVector3D pole = fabsf(axis.y) < .8f ? (OGLVector3D){0, -1, 0} : (OGLVector3D){0, 0, -1};
+		perpendicular = ProjectPerpendicular(pole, axis);
 	}
-	OGLVector3D_Normalize(&bend, &bend);
+	OGLVector3D_Normalize(&perpendicular, &perpendicular);
+	return perpendicular;
+}
+
+
+static OGLPoint3D SolveElbow(OGLPoint3D shoulder, OGLPoint3D* wrist, OGLVector3D pole, float upperLength, float lowerLength)
+{
+	OGLVector3D direction;
+	OGLPoint3D_Subtract(wrist, &shoulder, &direction);
+	const float distance = CalcVectorLength(&direction);
+	const float reach = SDL_clamp(distance,
+								  fabsf(upperLength-lowerLength) + .1f, upperLength+lowerLength-.1f);
+	if (distance < EPS)
+		direction = (OGLVector3D){1, 0, 0};
+	else
+		OGLVector3D_Normalize(&direction, &direction);
+	const OGLVector3D bend = PerpendicularDirection(pole, direction);
 	const float along = (reach*reach + upperLength*upperLength - lowerLength*lowerLength) / (2*reach);
 	const float height = sqrtf(fmaxf(0, upperLength*upperLength - along*along));
 
-	const OGLVector3D aimedUpper = {direction.x*along + bend.x*height,
-								   direction.y*along + bend.y*height,
-								   direction.z*along + bend.z*height};
-	const OGLVector3D aimedLower = {direction.x*reach - aimedUpper.x,
-								   direction.y*reach - aimedUpper.y,
-								   direction.z*reach - aimedUpper.z};
-	const OGLPoint3D newElbow = {shoulder.x + aimedUpper.x, shoulder.y + aimedUpper.y, shoulder.z + aimedUpper.z};
-	const OGLPoint3D newGrip = {shoulder.x + direction.x*reach, shoulder.y + direction.y*reach, shoulder.z + direction.z*reach};
+	*wrist = (OGLPoint3D){shoulder.x + direction.x*reach, shoulder.y + direction.y*reach, shoulder.z + direction.z*reach};
+	return (OGLPoint3D)
+	{
+		shoulder.x + direction.x*along + bend.x*height,
+		shoulder.y + direction.y*along + bend.y*height,
+		shoulder.z + direction.z*along + bend.z*height,
+	};
+}
+
+
+static OGLPoint3D WristForGrip(const OGLMatrix4x4* hand, const OGLPoint3D* localGrip, OGLPoint3D target)
+{
+	const OGLPoint3D wrist = GetTranslation(hand);
+	OGLPoint3D grip;
+	OGLPoint3D_Transform(localGrip, hand, &grip);
+	return (OGLPoint3D){target.x + (wrist.x-grip.x), target.y + (wrist.y-grip.y), target.z + (wrist.z-grip.z)};
+}
+
+
+static void TurnHandToClub(OGLMatrix4x4* hand, const OGLMatrix4x4* frame, float wristRoll, float blend)
+{
+	const float angle = wristRoll * (PI / 180.0f);
+	const OGLVector3D backAroundShaft = {sinf(angle), 0, cosf(angle)};
+	const OGLVector3D downShaft = {0, -1, 0};
+	OGLVector3D gripBack, gripAcross;
+	OGLVector3D_Transform(&backAroundShaft, frame, &gripBack);
+	OGLVector3D_Transform(&downShaft, frame, &gripAcross);
+
+	const OGLVector3D across = {hand->value[M00], hand->value[M10], hand->value[M20]};
+	const OGLVector3D back = {hand->value[M02], hand->value[M12], hand->value[M22]};
+	const OGLPoint3D wrist = GetTranslation(hand);
+
+	// Rotate onto the shaft first. Then roll the palm around it to match the authored wrist pose.
+	OGLMatrix4x4 swivel;
+	SetDirectionRotation(across, gripAcross, 1, &swivel);
+	OGLVector3D fullBack, rollTangent;
+	OGLVector3D_Transform(&back, &swivel, &fullBack);
+	OGLVector3D_Cross(&gripAcross, &fullBack, &rollTangent);
+	const float roll = atan2f(OGLVector3D_Dot(&rollTangent, &gripBack), OGLVector3D_Dot(&fullBack, &gripBack));
+
+	SetDirectionRotation(across, gripAcross, blend, &swivel);
+	OGLMatrix4x4_Multiply(hand, &swivel, hand);
+	OGLVector3D wristAxis = {hand->value[M00], hand->value[M10], hand->value[M20]};
+	OGLVector3D_Normalize(&wristAxis, &wristAxis);
+	OGLMatrix4x4_SetRotateAboutAxis(&swivel, &wristAxis, blend*roll);
+	OGLMatrix4x4_Multiply(hand, &swivel, hand);
+	SetTranslation(hand, wrist);
+}
+
+
+static OGLPoint3D PoseDriverArm(ObjNode* driver, const DriverArm* arm, const OGLPoint3D* localGrip,
+								OGLPoint3D target, OGLMatrix4x4 hand, float elbowGuide)
+{
+	OGLMatrix4x4 shoulderMatrix, elbowMatrix;
+	OGLPoint3D wrist;
+	FindJointFullMatrix(driver, arm->shoulder, &shoulderMatrix);
+	FindJointFullMatrix(driver, arm->elbow, &elbowMatrix);
+	FindCoordOfJoint(driver, arm->wrist, &wrist);
+	const OGLPoint3D shoulder = GetTranslation(&shoulderMatrix);
+	const OGLPoint3D elbow = GetTranslation(&elbowMatrix);
+	OGLVector3D upper, lower;
+	OGLPoint3D_Subtract(&elbow, &shoulder, &upper);
+	OGLPoint3D_Subtract(&wrist, &elbow, &lower);
+	const float upperLength = CalcVectorLength(&upper);
+	const float lowerLength = CalcVectorLength(&lower);
+
+	OGLVector3D pole = upper;
+	if (elbowGuide > 0)
+	{
+		// Guide the striking elbow out and back during the lift rather than across the driver's chest.
+		const OGLVector3D localGuide = {.70f, -.50f, .75f};
+		OGLVector3D guide;
+		OGLVector3D_Transform(&localGuide, &driver->BaseTransformMatrix, &guide);
+		pole.x = (1-elbowGuide)*upper.x + elbowGuide*upperLength*guide.x;
+		pole.y = (1-elbowGuide)*upper.y + elbowGuide*upperLength*guide.y;
+		pole.z = (1-elbowGuide)*upper.z + elbowGuide*upperLength*guide.z;
+	}
+
+	// Fit the wrist to the oriented grip. The hand stays connected to the forearm.
+	OGLPoint3D newWrist = WristForGrip(&hand, localGrip, target);
+	const OGLPoint3D newElbow = SolveElbow(shoulder, &newWrist, pole, upperLength, lowerLength);
+	OGLVector3D aimedUpper, aimedLower;
+	OGLPoint3D_Subtract(&newElbow, &shoulder, &aimedUpper);
+	OGLPoint3D_Subtract(&newWrist, &newElbow, &aimedLower);
 
 	AimArmJoint(&shoulderMatrix, shoulder, upper, aimedUpper);
 	AimArmJoint(&elbowMatrix, newElbow, lower, aimedLower);
+	SetTranslation(&hand, newWrist);
 
 	SkeletonObjDataType* skeleton = driver->Skeleton;
-	const short parent = skeleton->skeletonDefinition->Bones[RIGHT_SHOULDER].parentBone;
+	const short parent = skeleton->skeletonDefinition->Bones[arm->shoulder].parentBone;
 	OGLMatrix4x4 parentMatrix, inverse;
 	FindJointFullMatrix(driver, parent, &parentMatrix);
 	OGLMatrix4x4_Invert(&parentMatrix, &inverse);
-	OGLMatrix4x4_Multiply(&shoulderMatrix, &inverse, &skeleton->jointTransformMatrix[RIGHT_SHOULDER]);
+	OGLMatrix4x4_Multiply(&shoulderMatrix, &inverse, &skeleton->jointTransformMatrix[arm->shoulder]);
 	OGLMatrix4x4_Invert(&shoulderMatrix, &inverse);
-	OGLMatrix4x4_Multiply(&elbowMatrix, &inverse, &skeleton->jointTransformMatrix[RIGHT_ELBOW]);
-	return newGrip;
+	OGLMatrix4x4_Multiply(&elbowMatrix, &inverse, &skeleton->jointTransformMatrix[arm->elbow]);
+	OGLMatrix4x4_Invert(&elbowMatrix, &inverse);
+	OGLMatrix4x4_Multiply(&hand, &inverse, &skeleton->jointTransformMatrix[arm->wrist]);
+
+	OGLPoint3D grip;
+	OGLPoint3D_Transform(localGrip, &hand, &grip);
+	return grip;
 }
 
 
@@ -242,6 +406,18 @@ static void CheckClubHits(ObjNode* club, const ObjNode* car, OGLPoint3D from, OG
 }
 
 
+static void LeanDriver(ObjNode* driver, OGLPoint3D angles)
+{
+	const float radians = PI / 180.0f;
+	OGLMatrix4x4* torso = &driver->Skeleton->jointTransformMatrix[0];
+	const OGLPoint3D hips = GetTranslation(torso);
+	OGLMatrix4x4 lean;
+	OGLMatrix4x4_SetRotate_XYZ(&lean, angles.x*radians, angles.y*radians, angles.z*radians);
+	OGLMatrix4x4_Multiply(torso, &lean, torso);
+	SetTranslation(torso, hips);
+}
+
+
 void CreatePlayerClub(ObjNode* driver)
 {
 	NewObjectDefinitionType def =
@@ -265,8 +441,9 @@ void CreatePlayerClub(ObjNode* driver)
 	player->clubSwingTime = 0;
 
 	const OGLPoint3D stowed = GetRackGrip(driver);
-	PlaceClubPiece(rack, player->objNode, stowed, kRackAxis);
-	PlaceClubPiece(club, player->objNode, stowed, kRackAxis);
+	const OGLMatrix4x4 rackFrame = MakeClubFrame(player->objNode, GetRackAxis());
+	PlaceClubPiece(rack, &rackFrame, stowed);
+	PlaceClubPiece(club, &rackFrame, stowed);
 }
 
 
@@ -277,7 +454,8 @@ void UpdatePlayerClub(ObjNode* driver)
 	ObjNode* club = rack->ChainNode;
 	const ObjNode* car = player->objNode;
 	const OGLPoint3D stowed = GetRackGrip(driver);
-	PlaceClubPiece(rack, car, stowed, kRackAxis);
+	const OGLMatrix4x4 rackFrame = MakeClubFrame(car, GetRackAxis());
+	PlaceClubPiece(rack, &rackFrame, stowed);
 
 	const int anim = driver->Skeleton->AnimNum;
 	const bool canSwing = !gNoCarControls && !player->isEliminated && !player->raceComplete
@@ -288,7 +466,7 @@ void UpdatePlayerClub(ObjNode* driver)
 		|| (previousTime == 0 && !GetControlStateNew(driver->PlayerNum, kControlBit_ClubSwing)))
 	{
 		player->clubSwingTime = 0;
-		PlaceClubPiece(club, car, stowed, kRackAxis);
+		PlaceClubPiece(club, &rackFrame, stowed);
 		return;
 	}
 
@@ -296,50 +474,62 @@ void UpdatePlayerClub(ObjNode* driver)
 	if (previousTime == 0)
 		club->ClubHitPlayers = 0;
 
-	OGLMatrix4x4 shoulderMatrix, elbowMatrix;
-	OGLPoint3D steeringGrip;
-	FindJointFullMatrix(driver, RIGHT_SHOULDER, &shoulderMatrix);
-	FindJointFullMatrix(driver, RIGHT_ELBOW, &elbowMatrix);
-	FindCoordOnJoint(driver, RIGHT_HAND, &kHandGrip, &steeringGrip);
-	const OGLPoint3D shoulder = GetTranslation(&shoulderMatrix);
-	const OGLPoint3D elbow = GetTranslation(&elbowMatrix);
-	const float armLength = OGLPoint3D_Distance(&shoulder, &elbow) + OGLPoint3D_Distance(&elbow, &steeringGrip);
-	OGLPoint3D grips[] = {steeringGrip, stowed, {0}, {0}, {0}, stowed, steeringGrip};
-	for (int i = CLUB_LIFT; i <= CLUB_FOLLOW_THROUGH; i++)
+	const ClubInterval interval = FindClubInterval(time);
+	const ClubPose* before = &kClubPoses[interval.before];
+	const ClubPose* from = &kClubPoses[interval.from];
+	const ClubPose* to = &kClubPoses[interval.to];
+	const ClubPose* after = &kClubPoses[interval.after];
+	const float tilt = SampleClubCurve(&interval, before->tilt, from->tilt, to->tilt, after->tilt);
+	const float azimuth = SampleClubCurve(&interval, before->azimuth, from->azimuth, to->azimuth, after->azimuth);
+	const float wristRoll = SampleClubCurve(&interval, before->wristRoll, from->wristRoll, to->wristRoll, after->wristRoll);
+	const OGLMatrix4x4 clubFrame = MakeClubFrame(car, GetClubAxis(tilt, azimuth));
+
+	const OGLPoint3D* rightGrip = &kRightArm.grip[player->sex];
+	const OGLPoint3D* leftGrip = &kLeftArm.grip[player->sex];
+	OGLMatrix4x4 rightHand, leftHand;
+	OGLPoint3D rightWheelGrip, leftWheelGrip;
+	FindJointFullMatrix(driver, kRightArm.wrist, &rightHand);
+	FindJointFullMatrix(driver, kLeftArm.wrist, &leftHand);
+	OGLPoint3D_Transform(rightGrip, &rightHand, &rightWheelGrip);
+	OGLPoint3D_Transform(leftGrip, &leftHand, &leftWheelGrip);
+
+	LeanDriver(driver, SampleClubPoint(&interval, before->torso, from->torso, to->torso, after->torso));
+	PoseDriverArm(driver, &kLeftArm, leftGrip, leftWheelGrip, leftHand, 0);
+
+	OGLPoint3D shoulder;
+	FindCoordOfJoint(driver, kRightArm.shoulder, &shoulder);
+	const BoneDefinitionType* bones = driver->Skeleton->skeletonDefinition->Bones;
+	const float armLength = driver->Scale.x * (OGLPoint3D_Distance(&bones[kRightArm.shoulder].coord, &bones[kRightArm.elbow].coord)
+		+ OGLPoint3D_Distance(&bones[kRightArm.elbow].coord, &bones[kRightArm.wrist].coord));
+	OGLPoint3D grips[NUM_CLUB_POSES] =
+	{
+		[CLUB_WHEEL] = rightWheelGrip, [CLUB_GRAB] = stowed,
+		[CLUB_STOW] = stowed, [CLUB_RETURN] = rightWheelGrip,
+	};
+	for (int i = CLUB_LIFT; i <= CLUB_RECOVER; i++)
 	{
 		OGLVector3D reach = kClubPoses[i].reach;
-		OGLVector3D direction;
-		OGLVector3D_Transform(&reach, &driver->BaseTransformMatrix, &direction);
-		// The vector transform returns a unit direction.
+		OGLVector3D reachDirection;
+		OGLVector3D_Transform(&reach, &driver->BaseTransformMatrix, &reachDirection);
 		const float length = armLength * CalcVectorLength(&reach);
-		grips[i] = (OGLPoint3D) {shoulder.x + length*direction.x, shoulder.y + length*direction.y, shoulder.z + length*direction.z};
+		grips[i] = (OGLPoint3D){shoulder.x + length*reachDirection.x,
+							   shoulder.y + length*reachDirection.y,
+							   shoulder.z + length*reachDirection.z};
 	}
 
-	int phase = CLUB_WHEEL;
-	while (time >= kClubPoses[phase+1].time)
-		phase++;
-	const ClubPose* a = &kClubPoses[phase];
-	const ClubPose* b = &kClubPoses[phase+1];
-	const float fraction = (time - a->time) / (b->time - a->time);
-	float ease = fraction*fraction*(3 - 2*fraction);
-	if (phase == CLUB_LIFT)
-		ease = fraction*fraction;
-	else if (phase == CLUB_STRIKE)
-		ease = fraction*(2 - fraction);
-	const OGLPoint3D targetGrip = InterpolatePoint(grips[phase], grips[phase+1], ease);
-	const OGLPoint3D heldGrip = ReachForClub(driver, targetGrip, shoulderMatrix, elbowMatrix, steeringGrip);
+	const OGLPoint3D targetGrip = SampleClubPoint(&interval,
+			grips[interval.before], grips[interval.from], grips[interval.to], grips[interval.after]);
+	const float grasp = interval.from == CLUB_WHEEL ? interval.t : interval.from == CLUB_STOW ? 1-interval.t : 1;
+	const float gripBlend = grasp*grasp*(3 - 2*grasp);
+	TurnHandToClub(&rightHand, &clubFrame, wristRoll, gripBlend);
+	const OGLPoint3D heldGrip = PoseDriverArm(driver, &kRightArm, rightGrip, targetGrip, rightHand, .65f * gripBlend);
 
 	OGLPoint3D previousContact;
 	OGLPoint3D_Transform(&kClubContact, &club->BaseTransformMatrix, &previousContact);
-	if (phase >= CLUB_GRAB && phase < CLUB_STOW)
-	{
-		const OGLVector3D direction = {a->clubAxis.x + ease*(b->clubAxis.x-a->clubAxis.x),
-									   a->clubAxis.y + ease*(b->clubAxis.y-a->clubAxis.y),
-									   a->clubAxis.z + ease*(b->clubAxis.z-a->clubAxis.z)};
-		PlaceClubPiece(club, car, heldGrip, direction);
-	}
+	if (interval.from >= CLUB_GRAB && interval.from < CLUB_STOW)
+		PlaceClubPiece(club, &clubFrame, heldGrip);
 	else
-		PlaceClubPiece(club, car, stowed, kRackAxis);
+		PlaceClubPiece(club, &rackFrame, stowed);
 
 	const float hitStart = kClubPoses[CLUB_LIFT].time;
 	const float hitEnd = kClubPoses[CLUB_FOLLOW_THROUGH].time;
