@@ -303,6 +303,8 @@ ObjNode *InitPlayer_Car(int playerNum, OGLPoint3D *where, float rotY);
 void SetPhysicsForVehicleType(short playerNum);
 void CreateCarWheelsAndHead(ObjNode *theCar, short playerNum);
 void AlignWheelsAndHeadOnCar(ObjNode *theCar);
+ObjNode* MakeCarDriver(const ObjNode* car, short carType, short playerNum);
+void AlignCarDriver(const ObjNode* car, ObjNode* driver, short carType);
 void CreatePlayerClub(ObjNode* driver);
 void UpdatePlayerClub(ObjNode* driver);
 void BlastCars(short whoThrew, float x, float y, float z, float radius);

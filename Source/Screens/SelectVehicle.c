@@ -57,6 +57,7 @@ static const char* GetBoneString(int n);
 
 static int		gSelectedVehicleIndex;
 static ObjNode	*gVehicleObj;
+static ObjNode	*gWickerPreviewDriver;
 static ObjNode	*gVehicleName;
 static ObjNode	*gBoneMeters[NUM_VEHICLE_PARAMETERS];
 static ObjNode	*gVehicleLeftArrow = nil;
@@ -281,6 +282,8 @@ int					age;
 	FSMakeFSSpec(gDataSpec.vRefNum, gDataSpec.parID, ":Models:carselect.bg3d", &spec);
 	ImportBG3D(&spec, MODEL_GROUP_CARSELECT);
 	LoadWickerRacerModel();
+	LoadASkeleton(SKELETON_TYPE_PLAYER_MALE + gPlayerInfo[whichPlayer].sex);
+	LoadCavemanSkins();
 
 			/*****************/
 			/* BUILD OBJECTS */
@@ -299,6 +302,7 @@ int					age;
 			.scale		= 1,
 		};
 		gVehicleObj = MakeNewDisplayGroupObject(&def);
+		gWickerPreviewDriver = MakeCarDriver(gVehicleObj, CAR_TYPE_WICKER, whichPlayer);
 	}
 
 
@@ -426,6 +430,7 @@ static void MakeVehicleName(void)
 static void FreeVehicleSelectArt(void)
 {
 	DeleteAllObjects();
+	FreeAllSkeletonFiles(-1);
 	DisposeAllBG3DContainers();
 	OGL_DisposeGameView();
 }
@@ -442,6 +447,9 @@ static void UpdateSelectedVehicle(void)
 	gVehicleObj->Group = wicker ? MODEL_GROUP_WICKER : MODEL_GROUP_CARSELECT;
 	gVehicleObj->Type = wicker ? WICKER_ObjType_Preview : gSelectedVehicleIndex;
 	ResetDisplayGroupObject(gVehicleObj);
+	SetObjectVisible(gWickerPreviewDriver, wicker);
+	if (wicker)
+		AlignCarDriver(gVehicleObj, gWickerPreviewDriver, CAR_TYPE_WICKER);
 	MakeVehicleName();
 
 
@@ -582,4 +590,6 @@ static void MoveCarModel(ObjNode *theNode)
 {
 	theNode->Rot.y += gFramesPerSecondFrac * 1.5f;
 	UpdateObjectTransforms(theNode);
+	if (theNode->Group == MODEL_GROUP_WICKER)
+		AlignCarDriver(theNode, gWickerPreviewDriver, CAR_TYPE_WICKER);
 }

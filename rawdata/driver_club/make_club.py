@@ -13,12 +13,13 @@ from vehicle import lashing
 def make_club():
     club = Mesh()
     trunk = [(0, -17, 0), (0, -10, 0), (0, 14, 0), (0, 33, 1),
-             (-2, 56, 1), (-5, 77, 1), (-4, 94, 0), (-3, 106, -1), (-2, 110, -1)]
-    widths = [(5, 4.5), (5.5, 5), (5.9, 5.2), (7, 6), (8, 7.6),
-              (13.5, 12), (16, 14), (12, 10.5), (6.0, 5.5)]
-    tube(club, "frame", trunk, widths, sides=11)
-    ellipsoid(club, "reed_dark", (6, 89, 1), (7, 7, 9), segments=8, rings=4)
-    ellipsoid(club, "frame", (-12, 76, 2), (8, 8, 7), segments=8, rings=4)
+             (-2, 56, 1), (-5, 73, 1), (-5, 86, 1),
+             (-4, 96, 0), (-3, 108, -1), (-1, 116, -1)]
+    widths = [(5, 4.5), (5.5, 5), (5.9, 5.2), (7, 6), (9, 8),
+              (16, 15), (26, 22), (28, 23), (21, 19), (11, 10)]
+    tube(club, "frame", trunk, widths, sides=13)
+    ellipsoid(club, "reed_dark", (8, 89, 17), (9, 8, 7), segments=8, rings=4)
+    ellipsoid(club, "frame", (-21, 80, 5), (9, 8, 8), segments=8, rings=4)
     lashing(club, (0, 1, 0), (0, 1, 0), 5.9, 22, 7)
     lashing(club, (-2, 52, 1), (0, 1, 0), 8, 6, 3)
     return club

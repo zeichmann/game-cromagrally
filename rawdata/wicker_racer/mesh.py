@@ -40,7 +40,6 @@ class Vertex:
     position: tuple
     normal: tuple
     uv: tuple
-    bone: int
 
 
 class Mesh:
@@ -74,7 +73,7 @@ class Mesh:
             triangles.extend(tuple(start + i for i in t) for t in source_triangles)
 
 
-def tube(mesh, material, path, radius, *, sides=8, bone=0, closed=False, caps=True, phase=0, up_hint=None):
+def tube(mesh, material, path, radius, *, sides=8, closed=False, caps=True, phase=0, up_hint=None):
     """Sweep a round or oval section along a polyline with a transported frame."""
     radii = [radius] * len(path) if isinstance(radius, (int, float)) else radius
     tangents = []
@@ -100,21 +99,21 @@ def tube(mesh, material, path, radius, *, sides=8, bone=0, closed=False, caps=Tr
             a, b = cos(angle), sin(angle)
             offset = add(mul(normal, r1 * a), mul(axis, r2 * b))
             surface_normal = unit(add(mul(normal, a / r1), mul(axis, b / r2)))
-            row.append(Vertex(add(point, offset), surface_normal, (u, fraction), bone))
+            row.append(Vertex(add(point, offset), surface_normal, (u, fraction)))
         rows.append(row)
 
     if closed:
         u = phase + (length + dist(path[-1], path[0])) / 78
         rows.append([replace(v, uv=(u, v.uv[1])) for v in rows[0]])
     elif caps:
-        start = Vertex(path[0], mul(tangents[0], -1), (phase, .5), bone)
-        end = Vertex(path[-1], tangents[-1], (phase + length / 78, .5), bone)
+        start = Vertex(path[0], mul(tangents[0], -1), (phase, .5))
+        end = Vertex(path[-1], tangents[-1], (phase + length / 78, .5))
         rows.insert(0, [start] * (sides + 1))
         rows.append([end] * (sides + 1))
     mesh.grid(material, rows)
 
 
-def surface(mesh, material, position, columns, rings, *, reverse=False, poles=(), bone=0, repeat=(1, 1)):
+def surface(mesh, material, position, columns, rings, *, reverse=False, poles=(), repeat=(1, 1)):
     """Sample a parametric surface with smooth normals and an explicit UV seam."""
     rows = []
     epsilon = .0001
@@ -122,7 +121,7 @@ def surface(mesh, material, position, columns, rings, *, reverse=False, poles=()
         v = j / rings
         if j in poles:
             normal = (0, -1, 0) if j == 0 else (0, 1, 0)
-            vertex = Vertex(position(.5, v), normal, (.5, v), bone)
+            vertex = Vertex(position(.5, v), normal, (.5, v))
             rows.append([vertex] * (columns + 1))
             continue
         row = []
@@ -133,12 +132,12 @@ def surface(mesh, material, position, columns, rings, *, reverse=False, poles=()
             normal = unit(cross(du, dv))
             if reverse:
                 normal = mul(normal, -1)
-            row.append(Vertex(position(u, v), normal, (repeat[0] * u, repeat[1] * v), bone))
+            row.append(Vertex(position(u, v), normal, (repeat[0] * u, repeat[1] * v)))
         rows.append(row)
     mesh.grid(material, rows, reverse)
 
 
-def ellipsoid(mesh, material, center, radii, *, segments=12, rings=6, bone=0, angle=0):
+def ellipsoid(mesh, material, center, radii, *, segments=12, rings=6, angle=0):
     def position(u, v):
         around, latitude = tau * u, pi * (v - .5)
         x = radii[0] * sin(around) * cos(latitude)
@@ -146,7 +145,7 @@ def ellipsoid(mesh, material, center, radii, *, segments=12, rings=6, bone=0, an
         return add(center, (x * cos(angle) + z * sin(angle), radii[1] * sin(latitude),
                             z * cos(angle) - x * sin(angle)))
 
-    surface(mesh, material, position, segments, rings, poles=(0, rings), bone=bone)
+    surface(mesh, material, position, segments, rings, poles=(0, rings))
 
 
 def sample_profile(profile, t):

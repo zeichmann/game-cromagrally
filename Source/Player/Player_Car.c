@@ -2520,15 +2520,11 @@ Boolean	attackCPUCars, inFront;
 
 void CreateCarWheelsAndHead(ObjNode *theCar, short playerNum)
 {
-short			i, carType, sex;
+short			i, carType;
 ObjNode			*wheel,*link;
 
 	if (playerNum >= MAX_PLAYERS)
 		DoFatalAlert("CreateCarWheelsAndHead: playerNum >= MAX_PLAYERS");
-
-	sex = gPlayerInfo[playerNum].sex;							// get player sex
-	if (sex > 1)
-		DoFatalAlert("CreateCarWheelsAndHead: sx > 1");
 
 	carType = gPlayerInfo[playerNum].vehicleType;				// get car type
 	GAME_ASSERT(IsLandCarType(carType));
@@ -2572,42 +2568,32 @@ ObjNode			*wheel,*link;
 			/* MAKE HEAD SKELETON OBJECT */
 			/*****************************/
 
+	ObjNode* driver = MakeCarDriver(theCar, carType, playerNum);
+	driver->MoveCall = MovePlayer_HeadSkeleton;
+	link->ChainNode = driver;
+	gPlayerInfo[playerNum].headObj = driver;
+	AlignWheelsAndHeadOnCar(theCar);
+	CreatePlayerClub(driver);
+}
+
+
+ObjNode* MakeCarDriver(const ObjNode* car, short carType, short playerNum)
+{
+	const PlayerInfoType* player = &gPlayerInfo[playerNum];
+	GAME_ASSERT(player->sex == 0 || player->sex == 1);
 	NewObjectDefinitionType def =
 	{
-		.moveCall	= MovePlayer_HeadSkeleton,
-		.type		= wicker ? SKELETON_TYPE_WICKER_DRIVER : SKELETON_TYPE_PLAYER_MALE + sex,
-		.coord		= {0,0,0},
-		.animNum	= PLAYER_ANIM_SIT,
-		.slot		= theCar->Slot+1,
-		.scale		= BROG_SCALE,
-		.player		= playerNum,						// set playernum in this obj
+		.type   = SKELETON_TYPE_PLAYER_MALE + player->sex,
+		.animNum = PLAYER_ANIM_SIT,
+		.slot   = car->Slot + 1,
+		.scale  = carType == CAR_TYPE_WICKER ? .78f : BROG_SCALE,
+		.player = playerNum,
 	};
-
-	wheel = MakeNewSkeletonObject(&def);
-	if (wheel == nil)
-		DoFatalAlert("CreateCarWheelsAndHead: MakeNewSkeletonObject failed!");
-
-
-	link->ChainNode = wheel;							// add to chain link
-
-	gPlayerInfo[playerNum].headObj = wheel;
-
-
-			/************************/
-			/* SET OVERRIDE TEXTURE */
-			/************************/
-
-	if (!wicker)
-	{
-		int skinID = gPlayerInfo[playerNum].skin;
-		wheel->Skeleton->overrideTexture = gCavemanSkins[sex][skinID];
-	}
-
-
-			/* ALIGN THEM */
-
-	AlignWheelsAndHeadOnCar(theCar);
-	CreatePlayerClub(wheel);
+	ObjNode* driver = MakeNewSkeletonObject(&def);
+	GAME_ASSERT(driver);
+	driver->Skeleton->overrideTexture = gCavemanSkins[player->sex][player->skin];
+	AlignCarDriver(car, driver, carType);
+	return driver;
 }
 
 
@@ -3106,6 +3092,37 @@ static void UpdateWheelSuspension(ObjNode* wheel, bool onTerrain, float impact, 
 	matrix->value[M13] += wheel->WheelTravel;
 }
 
+void AlignCarDriver(const ObjNode* car, ObjNode* driver, short carType)
+{
+	static const OGLPoint3D headOffsets[NUM_CAR_TYPES_TOTAL] =
+	{
+		[CAR_TYPE_MAMMOTH]     = { 0, 58, -10 },
+		[CAR_TYPE_BONEBUGGY]   = { 0, 65, -20 },
+		[CAR_TYPE_GEODE]       = { 0, 70, 20 },
+		[CAR_TYPE_LOG]         = { 0, 85, 0 },
+		[CAR_TYPE_TURTLE]      = { 0, 70, 40 },
+		[CAR_TYPE_ROCK]        = { 0, 50, 10 },
+		[CAR_TYPE_TROJANHORSE] = { 0, 140, 35 },
+		[CAR_TYPE_OBELISK]     = { 0, 85, 22 },
+		[CAR_TYPE_CATAPULT]    = { 0, 85, 10 },
+		[CAR_TYPE_CHARIOT]     = { 0, 85, 10 },
+	};
+	// Brog and Grag sit at different heights in their reference poses.
+	static const OGLPoint3D wickerSeats[] = {{0, 56, 5}, {0, 66, -2}};
+	const OGLPoint3D offset = carType == CAR_TYPE_WICKER
+		? wickerSeats[driver->Type == SKELETON_TYPE_PLAYER_FEMALE] : headOffsets[carType];
+
+	OGLMatrix4x4 placement;
+	const float scale = driver->Scale.x;
+	OGLMatrix4x4_SetScale(&placement, scale, scale, scale);
+	placement.value[M03] = offset.x;
+	placement.value[M13] = offset.y;
+	placement.value[M23] = offset.z;
+	OGLMatrix4x4_Multiply(&placement, &car->BaseTransformMatrix, &driver->BaseTransformMatrix);
+	SetObjectTransformMatrix(driver);
+}
+
+
 /************************ ALIGN WHEELS AND HEAD ON CAR *****************************/
 
 void AlignWheelsAndHeadOnCar(ObjNode *theCar)
@@ -3132,21 +3149,6 @@ static const OGLPoint3D	wheelOffsets[NUM_CAR_TYPES_TOTAL][4] =
 	[CAR_TYPE_OBELISK]     = { {-111,-58,-89},	{111,-58,-89},	{112,-38,79},	{-112,-38,79} },
 	[CAR_TYPE_CATAPULT]    = { {-108,-38,-109},	{108,-38,-109},	{112,-10,105},	{-112,-10,105} },
 	[CAR_TYPE_CHARIOT]     = { {-122,-28,-80},	{122,-28,-80},	{122,-2,85},	{-122,-2,85} },
-};
-
-
-static const OGLPoint3D	headOffsets[NUM_CAR_TYPES_TOTAL] =
-{
-	[CAR_TYPE_MAMMOTH]     = { 0, 58, -10 },
-	[CAR_TYPE_BONEBUGGY]   = { 0, 65, -20 },
-	[CAR_TYPE_GEODE]       = { 0, 70, 20 },
-	[CAR_TYPE_LOG]         = { 0, 85, 0 },
-	[CAR_TYPE_TURTLE]      = { 0, 70, 40 },
-	[CAR_TYPE_ROCK]        = { 0, 50, 10 },
-	[CAR_TYPE_TROJANHORSE] = { 0, 140, 35 },
-	[CAR_TYPE_OBELISK]     = { 0, 85, 22 },
-	[CAR_TYPE_CATAPULT]    = { 0, 85, 10 },
-	[CAR_TYPE_CHARIOT]     = { 0, 85, 10 },
 };
 
 
@@ -3288,11 +3290,7 @@ static const OGLPoint3D	headOffsets[NUM_CAR_TYPES_TOTAL] =
 
 			/* SET FOR HEAD */
 
-	OGLMatrix4x4_SetScale(&m2, head->Scale.x, head->Scale.x, head->Scale.x);						// use head's scale value
-	OGLMatrix4x4_SetTranslate(&m1, headOffsets[carType].x, headOffsets[carType].y, headOffsets[carType].z);
-	OGLMatrix4x4_Multiply(&m2, &m1, &m3);
-	OGLMatrix4x4_Multiply(&m3, carMatrix, &head->BaseTransformMatrix);
-	SetObjectTransformMatrix(head);
+	AlignCarDriver(theCar, head, carType);
 	return;
 
 err:

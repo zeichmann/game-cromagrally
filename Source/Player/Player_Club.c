@@ -2,18 +2,14 @@
 #include <math.h>
 
 
-typedef struct
+enum
 {
-	short shoulder;
-	short elbow;
-	short gripJoint;
-	OGLPoint3D gripOffset;
-	OGLPoint3D rackGrip;
-} ClubRig;
+	RIGHT_SHOULDER = 2,
+	RIGHT_ELBOW = 4,
+	RIGHT_HAND = 5,
+};
 
-static const ClubRig kBrogClubRig = {2, 4, 5, {0, -3, -6}, {87, 12, 54}};
-static const ClubRig kGragClubRig = {2, 4, 5, {0, -3, -6}, {77, 0, 51}};
-static const ClubRig kWickerClubRig = {5, 6, 6, {-8, 11, -38}, {63, 43, 52}};
+static const OGLPoint3D kHandGrip = {0, -3, -6};
 
 enum
 {
@@ -39,30 +35,31 @@ static const ClubPose kClubPoses[] =
 {
 	[CLUB_WHEEL]          = {0.00f, {0},                       {.15f, .97f, .19f}},
 	[CLUB_GRAB]           = {0.16f, {0},                       {.15f, .97f, .19f}},
-	[CLUB_LIFT]           = {0.31f, {.65f, .35f,  .36f},     {.24f, .53f, .82f}},
-	[CLUB_STRIKE]         = {0.43f, {.93f, .03f, -.03f},     {1.00f, .02f, .02f}},
-	[CLUB_FOLLOW_THROUGH] = {0.56f, {.65f, -.12f, -.55f},    {.44f, .16f, -.88f}},
-	[CLUB_STOW]           = {0.80f, {0},                       {.15f, .97f, .19f}},
-	[CLUB_RETURN]         = {0.96f, {0},                       {.15f, .97f, .19f}},
+	[CLUB_LIFT]           = {0.34f, {.50f,  .74f,  .12f},    {.17f,  .98f, .04f}},
+	[CLUB_STRIKE]         = {0.52f, {.82f, -.32f, -.05f},    {.73f, -.68f, .02f}},
+	[CLUB_FOLLOW_THROUGH] = {0.62f, {.72f, -.48f, -.08f},    {.46f, -.88f, .04f}},
+	[CLUB_STOW]           = {0.86f, {0},                       {.15f, .97f, .19f}},
+	[CLUB_RETURN]         = {1.02f, {0},                       {.15f, .97f, .19f}},
 };
 
 // Local to DriverClub.bg3d. The origin is inside the driver's palm.
-static const OGLPoint3D kClubContact = {0, 91, 0};
-static const float kClubHeadRadius = 17;
+static const OGLPoint3D kClubContact = {-4, 94, 0};
+static const float kClubHeadRadius = 26;
 
 #define ClubHitPlayers Special[0]
 
 
-static const ClubRig* GetClubRig(const ObjNode* driver)
+static OGLPoint3D GetRackGrip(const ObjNode* driver)
 {
-	switch (driver->Type)
-	{
-		case SKELETON_TYPE_PLAYER_MALE:   return &kBrogClubRig;
-		case SKELETON_TYPE_PLAYER_FEMALE: return &kGragClubRig;
-		case SKELETON_TYPE_WICKER_DRIVER: return &kWickerClubRig;
-		default:
-			DoFatalAlert("Unknown driver skeleton for club animation");
-	}
+	static const OGLPoint3D stockMounts[] = {{87, 12, 54}, {77, 0, 51}};
+	static const OGLPoint3D wickerMount = {63, 43, 52};
+	const PlayerInfoType* player = &gPlayerInfo[driver->PlayerNum];
+	const bool wicker = player->vehicleType == CAR_TYPE_WICKER;
+	const OGLPoint3D* mount = wicker ? &wickerMount : &stockMounts[player->sex];
+	const ObjNode* base = wicker ? player->objNode : driver;
+	OGLPoint3D grip;
+	OGLPoint3D_Transform(mount, &base->BaseTransformMatrix, &grip);
+	return grip;
 }
 
 
@@ -102,12 +99,12 @@ static void SetClubRotation(OGLVector3D from, OGLVector3D to, OGLMatrix4x4* matr
 }
 
 
-static void PlaceClubPiece(ObjNode* piece, const ObjNode* driver, OGLPoint3D grip, OGLVector3D localAxis)
+static void PlaceClubPiece(ObjNode* piece, const ObjNode* car, OGLPoint3D grip, OGLVector3D localAxis)
 {
 	const OGLVector3D up = {0, 1, 0};
 	OGLMatrix4x4 rotation;
 	SetClubRotation(up, localAxis, &rotation);
-	OGLMatrix4x4_Multiply(&rotation, &driver->BaseTransformMatrix, &piece->BaseTransformMatrix);
+	OGLMatrix4x4_Multiply(&rotation, &car->BaseTransformMatrix, &piece->BaseTransformMatrix);
 	piece->BaseTransformMatrix.value[M03] = grip.x;
 	piece->BaseTransformMatrix.value[M13] = grip.y;
 	piece->BaseTransformMatrix.value[M23] = grip.z;
@@ -135,7 +132,7 @@ static OGLVector3D ProjectPerpendicular(OGLVector3D vector, OGLVector3D axis)
 }
 
 
-static OGLPoint3D ReachForClub(ObjNode* driver, const ClubRig* rig, OGLPoint3D target,
+static OGLPoint3D ReachForClub(ObjNode* driver, OGLPoint3D target,
 							  OGLMatrix4x4 shoulderMatrix, OGLMatrix4x4 elbowMatrix, OGLPoint3D grip)
 {
 	const OGLPoint3D shoulder = GetTranslation(&shoulderMatrix);
@@ -175,13 +172,13 @@ static OGLPoint3D ReachForClub(ObjNode* driver, const ClubRig* rig, OGLPoint3D t
 	AimArmJoint(&elbowMatrix, newElbow, lower, aimedLower);
 
 	SkeletonObjDataType* skeleton = driver->Skeleton;
-	const short parent = skeleton->skeletonDefinition->Bones[rig->shoulder].parentBone;
+	const short parent = skeleton->skeletonDefinition->Bones[RIGHT_SHOULDER].parentBone;
 	OGLMatrix4x4 parentMatrix, inverse;
 	FindJointFullMatrix(driver, parent, &parentMatrix);
 	OGLMatrix4x4_Invert(&parentMatrix, &inverse);
-	OGLMatrix4x4_Multiply(&shoulderMatrix, &inverse, &skeleton->jointTransformMatrix[rig->shoulder]);
+	OGLMatrix4x4_Multiply(&shoulderMatrix, &inverse, &skeleton->jointTransformMatrix[RIGHT_SHOULDER]);
 	OGLMatrix4x4_Invert(&shoulderMatrix, &inverse);
-	OGLMatrix4x4_Multiply(&elbowMatrix, &inverse, &skeleton->jointTransformMatrix[rig->elbow]);
+	OGLMatrix4x4_Multiply(&elbowMatrix, &inverse, &skeleton->jointTransformMatrix[RIGHT_ELBOW]);
 	return newGrip;
 }
 
@@ -264,12 +261,12 @@ void CreatePlayerClub(ObjNode* driver)
 
 	driver->ChainNode = rack;
 	rack->ChainNode = club;
-	gPlayerInfo[driver->PlayerNum].clubSwingTime = 0;
+	PlayerInfoType* player = &gPlayerInfo[driver->PlayerNum];
+	player->clubSwingTime = 0;
 
-	OGLPoint3D stowed;
-	OGLPoint3D_Transform(&GetClubRig(driver)->rackGrip, &driver->BaseTransformMatrix, &stowed);
-	PlaceClubPiece(rack, driver, stowed, kRackAxis);
-	PlaceClubPiece(club, driver, stowed, kRackAxis);
+	const OGLPoint3D stowed = GetRackGrip(driver);
+	PlaceClubPiece(rack, player->objNode, stowed, kRackAxis);
+	PlaceClubPiece(club, player->objNode, stowed, kRackAxis);
 }
 
 
@@ -278,10 +275,9 @@ void UpdatePlayerClub(ObjNode* driver)
 	PlayerInfoType* player = &gPlayerInfo[driver->PlayerNum];
 	ObjNode* rack = driver->ChainNode;
 	ObjNode* club = rack->ChainNode;
-	const ClubRig* rig = GetClubRig(driver);
-	OGLPoint3D stowed;
-	OGLPoint3D_Transform(&rig->rackGrip, &driver->BaseTransformMatrix, &stowed);
-	PlaceClubPiece(rack, driver, stowed, kRackAxis);
+	const ObjNode* car = player->objNode;
+	const OGLPoint3D stowed = GetRackGrip(driver);
+	PlaceClubPiece(rack, car, stowed, kRackAxis);
 
 	const int anim = driver->Skeleton->AnimNum;
 	const bool canSwing = !gNoCarControls && !player->isEliminated && !player->raceComplete
@@ -292,7 +288,7 @@ void UpdatePlayerClub(ObjNode* driver)
 		|| (previousTime == 0 && !GetControlStateNew(driver->PlayerNum, kControlBit_ClubSwing)))
 	{
 		player->clubSwingTime = 0;
-		PlaceClubPiece(club, driver, stowed, kRackAxis);
+		PlaceClubPiece(club, car, stowed, kRackAxis);
 		return;
 	}
 
@@ -302,9 +298,9 @@ void UpdatePlayerClub(ObjNode* driver)
 
 	OGLMatrix4x4 shoulderMatrix, elbowMatrix;
 	OGLPoint3D steeringGrip;
-	FindJointFullMatrix(driver, rig->shoulder, &shoulderMatrix);
-	FindJointFullMatrix(driver, rig->elbow, &elbowMatrix);
-	FindCoordOnJoint(driver, rig->gripJoint, &rig->gripOffset, &steeringGrip);
+	FindJointFullMatrix(driver, RIGHT_SHOULDER, &shoulderMatrix);
+	FindJointFullMatrix(driver, RIGHT_ELBOW, &elbowMatrix);
+	FindCoordOnJoint(driver, RIGHT_HAND, &kHandGrip, &steeringGrip);
 	const OGLPoint3D shoulder = GetTranslation(&shoulderMatrix);
 	const OGLPoint3D elbow = GetTranslation(&elbowMatrix);
 	const float armLength = OGLPoint3D_Distance(&shoulder, &elbow) + OGLPoint3D_Distance(&elbow, &steeringGrip);
@@ -331,7 +327,7 @@ void UpdatePlayerClub(ObjNode* driver)
 	else if (phase == CLUB_STRIKE)
 		ease = fraction*(2 - fraction);
 	const OGLPoint3D targetGrip = InterpolatePoint(grips[phase], grips[phase+1], ease);
-	const OGLPoint3D heldGrip = ReachForClub(driver, rig, targetGrip, shoulderMatrix, elbowMatrix, steeringGrip);
+	const OGLPoint3D heldGrip = ReachForClub(driver, targetGrip, shoulderMatrix, elbowMatrix, steeringGrip);
 
 	OGLPoint3D previousContact;
 	OGLPoint3D_Transform(&kClubContact, &club->BaseTransformMatrix, &previousContact);
@@ -340,10 +336,10 @@ void UpdatePlayerClub(ObjNode* driver)
 		const OGLVector3D direction = {a->clubAxis.x + ease*(b->clubAxis.x-a->clubAxis.x),
 									   a->clubAxis.y + ease*(b->clubAxis.y-a->clubAxis.y),
 									   a->clubAxis.z + ease*(b->clubAxis.z-a->clubAxis.z)};
-		PlaceClubPiece(club, driver, heldGrip, direction);
+		PlaceClubPiece(club, car, heldGrip, direction);
 	}
 	else
-		PlaceClubPiece(club, driver, stowed, kRackAxis);
+		PlaceClubPiece(club, car, stowed, kRackAxis);
 
 	const float hitStart = kClubPoses[CLUB_LIFT].time;
 	const float hitEnd = kClubPoses[CLUB_FOLLOW_THROUGH].time;
@@ -356,6 +352,6 @@ void UpdatePlayerClub(ObjNode* driver)
 		const float dt = time - previousTime;
 		const float start = fmaxf(0, (hitStart-previousTime)/dt);
 		const float stop = fminf(1, (hitEnd-previousTime)/dt);
-		CheckClubHits(club, player->objNode, previousContact, contact, start, stop);
+		CheckClubHits(club, car, previousContact, contact, start, stop);
 	}
 }

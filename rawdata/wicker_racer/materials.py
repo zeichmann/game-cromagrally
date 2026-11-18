@@ -20,11 +20,6 @@ PALETTES = {
     "tire": ((62, 49, 44), "leather"),
     "tread": ((80, 65, 56), "leather"),
     "hide_stitch": ((120, 94, 73), "twist"),
-    "tunic": ((172, 116, 54), "leather"),
-    "skin": ((174, 112, 74), "grain"),
-    "hair": ((53, 33, 26), "wood"),
-    "eye": ((225, 212, 178), "grain"),
-    "mouth": ((102, 54, 39), "leather"),
 }
 
 
@@ -66,7 +61,7 @@ def pattern(u, v, soft, detail, fleck, motif):
 @cache
 def texture(name):
     color, motif = PALETTES[name]
-    size = 256 if motif in {"wood", "leather", "paint"} and name not in {"hair", "mouth"} else 128
+    size = 256 if motif in {"wood", "leather", "paint"} else 128
     random = Random(name)
     large, small = Noise(random, 8), Noise(random, 32)
     pixels = bytearray()

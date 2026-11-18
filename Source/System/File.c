@@ -144,7 +144,6 @@ static const char* kSkeletonNames[MAX_SKELETON_TYPES] =
 	[SKELETON_TYPE_POLARBEAR]		= "PolarBear",
 	[SKELETON_TYPE_FLOWER]			= "Flower",
 	[SKELETON_TYPE_VIKING]			= "Viking",
-	[SKELETON_TYPE_WICKER_DRIVER]	= "WickerDriver",
 };
 
 short		fRefNum;
@@ -884,7 +883,6 @@ static const char*	levelModelFiles[NUM_TRACKS] =
 			if (gPlayerInfo[player].vehicleType == CAR_TYPE_WICKER)
 			{
 				LoadWickerRacerModel();
-				LoadASkeleton(SKELETON_TYPE_WICKER_DRIVER);
 				break;
 			}
 		}

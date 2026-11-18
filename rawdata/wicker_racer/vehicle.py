@@ -123,10 +123,10 @@ def make_body():
         lashing(body, (side * 54, 57, 81), (-side * .25, 1, 0), 8.4, 8, 3)
 
     tube(body, "frame", [(0, -28, -70), (0, 29, -43), (0, GRIP_Y, GRIP_Z)], [6.5, 5, 4.7])
-    tube(body, "frame", [(-34, GRIP_Y, GRIP_Z), (-17, GRIP_Y-1, GRIP_Z),
-                         (17, GRIP_Y-1, GRIP_Z), (34, GRIP_Y, GRIP_Z)], 4.1, sides=10)
+    tube(body, "frame", [(-53, GRIP_Y, GRIP_Z-3), (-17, GRIP_Y-1, GRIP_Z),
+                         (17, GRIP_Y-1, GRIP_Z), (52, GRIP_Y, GRIP_Z)], 4.1, sides=10)
     for side in (-1, 1):
-        lashing(body, (side * 27, GRIP_Y, GRIP_Z), (1, 0, 0), 4.0, 12, 4, "saddle")
+        lashing(body, (side * 43, GRIP_Y, GRIP_Z - (2 if side < 0 else 0)), (1, 0, 0), 4.0, 12, 4, "saddle")
         tube(body, "bone", [(side * 51, -12, -125), (side * 36, -7, -143),
                             (side * 22, -1, -151), (side * 17, 8, -150)],
              [6.5, 5.3, 3.5, 1.2], sides=9)
@@ -188,12 +188,11 @@ def make_wheel(index):
     return wheel
 
 
-def make_vehicle(driver):
+def make_vehicle():
     body = make_body()
     wheels = [make_wheel(i) for i in range(4)]
     preview = Mesh()
     preview.extend(body)
     for wheel, center in zip(wheels, WHEEL_CENTERS):
         preview.extend(wheel, center)
-    preview.extend(driver)
     return [body, *wheels, preview]
