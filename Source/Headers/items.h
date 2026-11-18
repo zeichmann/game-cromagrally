@@ -5,6 +5,7 @@
 #pragma once
 
 void InitItemsManager(void);
+void CreateDesertGags(void);
 ObjNode* CreateCyclorama(void);
 Boolean AddTree(TerrainItemEntryType *itemPtr, long  x, long z);
 Boolean AddFinishLine(TerrainItemEntryType *itemPtr, long  x, long z);

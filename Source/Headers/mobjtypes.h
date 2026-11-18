@@ -12,8 +12,22 @@ enum
 	MODEL_GROUP_CARSELECT	=	5,
 	MODEL_GROUP_WICKER,
 	MODEL_GROUP_DRIVER_CLUB,
+	MODEL_GROUP_DESERT_GAGS,
 
 	MODEL_GROUP_SKELETONBASE				// skeleton files' models are attached here
+};
+
+enum
+{
+	DESERT_GAG_ObjType_OstrichBody,
+	DESERT_GAG_ObjType_OstrichNeck,
+	DESERT_GAG_ObjType_OstrichHead,
+	DESERT_GAG_ObjType_Cactus,
+	DESERT_GAG_ObjType_Camera,
+	DESERT_GAG_ObjType_Flash,
+	DESERT_GAG_ObjType_Turtle,
+	DESERT_GAG_ObjType_TurtleHead,
+	DESERT_GAG_ObjType_Flag,
 };
 
 enum

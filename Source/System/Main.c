@@ -1412,6 +1412,7 @@ short				numPanes;
 
 	PrimeSplines();
 	PrimeFences();
+	CreateDesertGags();
 
 			/* PRINT TRACK NAME */
 
@@ -1436,6 +1437,7 @@ static void CleanupLevel(void)
 	DisposeSuperTileMemoryList();
 	DisposeTerrain();
 	DeleteAllParticleGroups();
+	DisposeSpriteGroup(SPRITE_GROUP_WHEEL_DUST);
 	DisposeFences();
 
 	DisposeAllBG3DContainers();

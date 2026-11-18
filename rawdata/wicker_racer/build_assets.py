@@ -7,13 +7,13 @@ from materials import texture
 from vehicle import make_vehicle
 
 
-def write_bg3d(path, meshes):
+def write_bg3d(path, meshes, material_texture=texture):
     materials = list(dict.fromkeys(name for mesh in meshes for name in mesh.parts))
     material_ids = {name: i for i, name in enumerate(materials)}
     with path.open("wb") as file:
         file.write(b"BG3D 1.0        \x01\0\0\0")
         for name in materials:
-            size, pixels = texture(name)
+            size, pixels = material_texture(name)
             file.write(pack(">III4f", 0, 1, 1, 1, 1, 1, 1))  # textured material and white diffuse
             file.write(pack(">IIIiiI16x", 2, size, size, 0x1907, 0x1907, len(pixels)))
             file.write(pixels)

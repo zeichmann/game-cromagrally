@@ -867,7 +867,12 @@ static const char*	levelModelFiles[NUM_TRACKS] =
 	FSMakeFSSpec(gDataSpec.vRefNum, gDataSpec.parID, levelModelFiles[gTrackNum], &spec);
 	ImportBG3D(&spec, MODEL_GROUP_LEVELSPECIFIC);
 	if (UseDesertScenery())
+	{
 		TextureDesertStartingLine();
+		FSMakeFSSpec(gDataSpec.vRefNum, gDataSpec.parID, ":Models:DesertGags.bg3d", &spec);
+		ImportBG3D(&spec, MODEL_GROUP_DESERT_GAGS);
+		LoadSpriteGroup(SPRITE_GROUP_WHEEL_DUST, "wheeldust", 0);
+	}
 
 
 			/* LOAD SKELETONS */

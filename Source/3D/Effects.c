@@ -265,10 +265,13 @@ MOTriangleIndecies		*t;
 				/* INIT THE GROUP'S GEOMETRY */
 				/*****************************/
 
-					/* SET THE DATA */
+			/* SET THE DATA */
+
+			const bool wheelDust = def->particleTextureNum == PARTICLE_SObjType_WheelDust;
+			const Atlas* atlas = gAtlases[wheelDust ? SPRITE_GROUP_WHEEL_DUST : SPRITE_GROUP_EFFECTS];
 
 			vertexArrayData.numMaterials 	= 1;
-			vertexArrayData.materials[0]	= gAtlases[SPRITE_GROUP_EFFECTS]->material;	// set illegal ref because it is made legit below
+			vertexArrayData.materials[0]	= atlas->material;	// set illegal ref because it is made legit below
 
 			vertexArrayData.numPoints 		= 0;
 			vertexArrayData.numTriangles 	= 0;
@@ -284,7 +287,7 @@ MOTriangleIndecies		*t;
 
 					/* GET ATLAS SLICE */
 
-			const AtlasGlyph* glyph = Atlas_GetGlyph(gAtlases[SPRITE_GROUP_EFFECTS], def->particleTextureNum);
+			const AtlasGlyph* glyph = Atlas_GetGlyph(atlas, wheelDust ? 1 : def->particleTextureNum);
 
 					/* INIT UV ARRAYS */
 

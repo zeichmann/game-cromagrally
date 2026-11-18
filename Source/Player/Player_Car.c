@@ -34,6 +34,7 @@ static void VehicleHitVehicle(ObjNode *car1, ObjNode *car2);
 static void AddToTireSkidMarks(ObjNode *car, short playerNum);
 static void MovePlayer_HeadSkeleton(ObjNode *head);
 static void SpewDebrisFromWheel(short p, ObjNode *carObj, ObjNode *wheelObj);
+static bool UsesDesertWheelDust(const PlayerInfoType* player);
 static void ResetTractionFromCopy(short p);
 static void UpdateStickyTires(short p);
 static void UpdateSuperSuspension(short p);
@@ -167,6 +168,8 @@ Boolean			gAutoPilot = false;
 #define WheelSpinRot		SpecialF[0]
 #define WheelCompression	SpecialF[1]
 #define WheelTravel			SpecialF[2]
+#define WheelDustCarry		SpecialF[3]
+#define WheelDustSeed		Special[0]
 
 OGLVector3D				gPreCollisionDelta;
 
@@ -2556,6 +2559,7 @@ ObjNode			*wheel,*link;
 		wheel->WheelSpinRot = 0;
 		wheel->WheelCompression = 0.0f;
 		wheel->WheelTravel = 0.0f;
+		wheel->WheelDustSeed = 0x6199u + playerNum*0x63ddu + i*0x91u;
 
 		link->ChainNode = wheel;							// add to chain link
 		link = wheel;
@@ -2918,7 +2922,7 @@ static const OGLPoint3D	wheelOffset[4] =
 
 	skidSmoke = false;											// assume not smoking
 
-	if (gPlayerInfo[p].greasedTiresTimer <= 0.0f)				// no smoke if sliding on oil
+	if (gPlayerInfo[p].greasedTiresTimer <= 0.0f && !UsesDesertWheelDust(&gPlayerInfo[p]))
 	{
 		gPlayerInfo[p].skidSmokeTimer -= gFramesPerSecondFrac;	// check skid timer
 		if (gPlayerInfo[p].skidSmokeTimer <= 0.0f)
@@ -3055,11 +3059,17 @@ ObjNode	*obj;
 #pragma mark -
 
 
+static float WheelRadius(const ObjNode* wheel)
+{
+	const OGLBoundingBox* bounds = &gObjectGroupBBoxList[wheel->Group][wheel->Type];
+	return fmaxf(-bounds->min.y, bounds->max.y) * wheel->Scale.y;
+}
+
+
 static void UpdateWheelSuspension(ObjNode* wheel, bool onTerrain, float impact, float dt)
 {
 	OGLMatrix4x4* matrix = &wheel->BaseTransformMatrix;
-	const OGLBoundingBox* bounds = &gObjectGroupBBoxList[wheel->Group][wheel->Type];
-	const float radius = fmaxf(-bounds->min.y, bounds->max.y) * wheel->Scale.y;
+	const float radius = WheelRadius(wheel);
 	float targetCompression = 0.0f;
 	const float travelLimit = radius * 0.38f;
 	float floorOffset = 0.0f;
@@ -3091,6 +3101,139 @@ static void UpdateWheelSuspension(ObjNode* wheel, bool onTerrain, float impact, 
 	}
 	matrix->value[M13] += wheel->WheelTravel;
 }
+
+
+static bool UsesDesertWheelDust(const PlayerInfoType* player)
+{
+	return !player->onWater && player->dragDebrisTexture == PARTICLE_SObjType_Dirt && UseDesertScenery();
+}
+
+
+static short DesertWheelDustGroup(PlayerInfoType* player, short playerNum)
+{
+	const int group = player->dragDebrisParticleGroup;
+	if (group >= 0 && VerifyParticleGroupMagicNum(group, player->dragDebrisMagicNum)
+		&& gParticleGroups[group]->particleTextureNum == PARTICLE_SObjType_WheelDust)
+		return group;
+
+	NewParticleGroupDefType def =
+	{
+		.magicNum = 0x57445500u | (uint32_t)playerNum,
+		.type = PARTICLE_TYPE_FALLINGSPARKS,
+		.gravity = -42.0f,
+		.baseScale = 57.0f,
+		.decayRate = -1.75f,
+		.fadeRate = 0.89f,
+		.particleTextureNum = PARTICLE_SObjType_WheelDust,
+		.srcBlend = GL_SRC_ALPHA,
+		.dstBlend = GL_ONE_MINUS_SRC_ALPHA,
+	};
+	player->dragDebrisMagicNum = def.magicNum;
+	return player->dragDebrisParticleGroup = NewParticleGroup(&def);
+}
+
+
+static float DustRandom(ObjNode* wheel)
+{
+	// Keep cosmetic randomness independent of the race's random stream.
+	uint32_t seed = (uint32_t)wheel->WheelDustSeed;
+	seed ^= seed << 13;
+	seed ^= seed >> 17;
+	seed ^= seed << 5;
+	wheel->WheelDustSeed = (seed & 0x7fffffffu) | 1u;
+	return (float)(seed & 0xffffu) / 65535.0f;
+}
+
+
+static void EmitDesertWheelDust(ObjNode* car, ObjNode* wheel, int index, bool onTerrain)
+{
+	PlayerInfoType* player = &gPlayerInfo[car->PlayerNum];
+	if (!onTerrain || gNoCarControls || player->isEliminated || gFramesPerSecond < 13.0f)
+	{
+		wheel->WheelDustCarry = 0;
+		return;
+	}
+
+	const float speed = car->Speed2D;
+	const float rolling = SDL_clamp((speed - 120.0f) / 3400.0f, 0, 1);
+	const float slip = player->braking || player->isPlaning ? SDL_clamp(speed/1450.0f, 0, 1) : 0;
+	float spinning = 0;
+	if (player->gasPedalDown && !player->braking)
+	{
+		const float launch = SDL_clamp((2350.0f-speed)/2100.0f, 0, 1) * SDL_clamp(speed/400.0f, 0, 1);
+		spinning = player->tiresAreDragging ? 1.0f : launch;
+	}
+	const float dust = SDL_clamp(0.62f*rolling + 0.53f*slip + 0.56f*spinning, 0, 1);
+	if (dust <= 0)
+	{
+		wheel->WheelDustCarry = 0;
+		return;
+	}
+
+	const OGLMatrix4x4* transform = &wheel->BaseTransformMatrix;
+	const float x = transform->value[M03], z = transform->value[M23];
+	const float floor = GetTerrainY(x, z);
+	const float radius = WheelRadius(wheel);
+	const float contactGap = transform->value[M13] - radius*(1-wheel->WheelCompression) - floor;
+	const float load = SDL_clamp(1 - contactGap / fmaxf(12.0f, 0.40f*radius), 0, 1);
+	if (load <= 0)
+	{
+		wheel->WheelDustCarry = 0;
+		return;
+	}
+
+	const float rate = (8.0f + 24.0f*dust) * load * (index < 2 ? 0.60f : 1.0f);
+	const float dt = gFramesPerSecondFrac;
+	wheel->WheelDustCarry += rate*dt;
+	if (wheel->WheelDustCarry < 1.0f)
+		return;
+	const short group = DesertWheelDustGroup(player, car->PlayerNum);
+	if (group < 0)
+	{
+		wheel->WheelDustCarry = 0;
+		return;
+	}
+
+	const float yaw = car->Rot.y + wheel->Rot.y;
+	const float rearX = sinf(yaw), rearZ = cosf(yaw);
+	const float motion = hypotf(car->Delta.x, car->Delta.z);
+	const float direction = player->accelBackwards ? -1.0f : 1.0f;
+	const float backX = motion > 80 ? -car->Delta.x/motion : direction*rearX;
+	const float backZ = motion > 80 ? -car->Delta.z/motion : direction*rearZ;
+	const float side = index == 0 || index == 3 ? -1 : 1;
+	while (wheel->WheelDustCarry >= 1.0f)
+	{
+		wheel->WheelDustCarry -= 1.0f;
+		const float age = fminf(wheel->WheelDustCarry/rate, dt);
+		const float spread = side * (14 + 38*slip) + (DustRandom(wheel)-0.5f)*96;
+		const float jet = 65 + speed*.045f + 70*spinning + 90*DustRandom(wheel);
+		OGLPoint3D origin =
+		{
+			x + backX*16 + rearZ*(side*8) - car->Delta.x*age,
+			0,
+			z + backZ*16 - rearX*(side*8) - car->Delta.z*age,
+		};
+		origin.y = GetTerrainY(origin.x, origin.z) + 16;
+		OGLVector3D velocity =
+		{
+			backX*jet + rearZ*spread,
+			33 + 68*dust + 48*DustRandom(wheel),
+			backZ*jet - rearX*spread,
+		};
+		NewParticleDefType puff =
+		{
+			.groupNum = group,
+			.where = &origin,
+			.delta = &velocity,
+			.scale = .65f + .53f*dust + .32f*DustRandom(wheel),
+			.rotZ = PI2*DustRandom(wheel),
+			.rotDZ = (DustRandom(wheel)-.5f)*2.0f,
+			.alpha = .37f + .47f*dust,
+		};
+		AddParticleToGroup(&puff);
+	}
+}
+
 
 void AlignCarDriver(const ObjNode* car, ObjNode* driver, short carType)
 {
@@ -3157,6 +3300,7 @@ static const OGLPoint3D	wheelOffsets[NUM_CAR_TYPES_TOTAL][4] =
 
 	carType = gPlayerInfo[playerNum].vehicleType;				// get car type
 	onWater = gPlayerInfo[playerNum].onWater;
+	const bool wheelDust = UsesDesertWheelDust(&gPlayerInfo[playerNum]);
 
 	carMatrix = &theCar->BaseTransformMatrix;					// point to car's transform matrix
 
@@ -3280,7 +3424,11 @@ static const OGLPoint3D	wheelOffsets[NUM_CAR_TYPES_TOTAL][4] =
 
 				/* SEE IF SHOOT DEBRIS FROM WHEEL */
 
-		if (debris)
+		if (wheelDust)
+		{
+			EmitDesertWheelDust(theCar, wheels[i], i, onTerrain);
+		}
+		else if (debris)
 		{
 			SpewDebrisFromWheel(playerNum, theCar, wheels[i]);
 		}
