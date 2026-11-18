@@ -36,19 +36,32 @@ static void ReserveRockMesh(MOVertexArrayData* mesh, int points, int triangles)
 }
 
 
-static void SceneryVertex(MOVertexArrayData* mesh, OGLPoint3D point, OGLTextureCoord uv, float rock)
+static uint8_t PackUnit(float value)
+{
+	return (uint8_t)(255 * SDL_clamp(value, 0, 1) + .5f);
+}
+
+
+static void SceneryVertex(MOVertexArrayData* mesh, OGLPoint3D point, OGLTextureCoord uv,
+							float rock, float dune, OGLVector2D downhill)
 {
 	const int i = mesh->numPoints++;
 	mesh->points[i] = point;
 	mesh->uvs[i] = uv;
-	// The terrain shader uses the alpha channel for the rock-to-sand blend.
-	mesh->colorsByte[i] = (OGLColorRGBA_Byte) {255, 255, 255, (uint8_t)(255*rock + 0.5f)};
+	// The terrain shader reads the smooth sand slope, dune coverage, and rock coverage.
+	mesh->colorsByte[i] = (OGLColorRGBA_Byte)
+	{
+		PackUnit(.5f + .5f*downhill.x),
+		PackUnit(.5f + .5f*downhill.y),
+		PackUnit(dune),
+		PackUnit(rock),
+	};
 }
 
 
 static void RockVertex(MOVertexArrayData* mesh, OGLPoint3D point, float surface, float shade)
 {
-	SceneryVertex(mesh, point, (OGLTextureCoord) {surface, shade}, 1.0f);
+	SceneryVertex(mesh, point, (OGLTextureCoord) {surface, shade}, 1, 0, (OGLVector2D){0, 0});
 }
 
 
@@ -194,13 +207,15 @@ typedef struct
 {
 	OGLPoint3D point;
 	OGLTextureCoord uv;
+	OGLVector2D downhill;
 	float bed;
 	float relief;
 	float rock;
+	float dune;
 } BedVertex;
 
 static const float kBedCuts[] = {0.0f, 0.09f, 0.21f, 0.44f, 0.72f, 0.91f, 1.0f};
-static const float kBedDepth[] = {6, 30, 0, 11, 22, 9, 6};
+static const float kBedDepth[] = {8, 46, 0, 17, 33, 15, 8};
 
 
 static BedVertex SampleBedVertex(OGLPoint3D p, OGLTextureCoord uv)
@@ -209,15 +224,25 @@ static BedVertex SampleBedVertex(OGLPoint3D p, OGLTextureCoord uv)
 	const float dx = GetTerrainY(p.x-probe, p.z) - GetTerrainY(p.x+probe, p.z);
 	const float dz = GetTerrainY(p.x, p.z-probe) - GetTerrainY(p.x, p.z+probe);
 	const float gradient = hypotf(dx, dz);
-	BedVertex vertex = {.point = p, .uv = uv, .bed = BedElevation(&p)};
+	const float cover = SDL_clamp(DesertDuneHeight(p.x, p.z) / 150.0f, 0, 1);
+	const float shallow = SDL_clamp((.94f - gradient/(2*probe))/.48f, 0, 1);
+	BedVertex vertex =
+	{
+		.point = p,
+		.uv = uv,
+		.downhill = {dx/(2*probe), dz/(2*probe)},
+		.bed = BedElevation(&p),
+		.dune = cover*cover*(3 - 2*cover) * shallow*shallow*(3 - 2*shallow),
+	};
 	if (gradient > probe*0.68f)
 	{
 		const float x = dx / gradient;
 		const float z = dz / gradient;
 		const float aboveToe = p.y-GetTerrainY(p.x+x*probe, p.z+z*probe);
 		const float rock = SDL_clamp((aboveToe/probe - 0.16f) / 0.55f, 0, 1);
-		vertex.relief = SDL_clamp((aboveToe/probe - 0.32f) / 0.60f, 0, 1);
-		vertex.rock = rock*rock*(3.0f-2.0f*rock);
+		const float exposed = 1 - vertex.dune;
+		vertex.relief = exposed * SDL_clamp((aboveToe/probe - 0.32f) / 0.60f, 0, 1);
+		vertex.rock = exposed * rock*rock*(3.0f-2.0f*rock);
 	}
 	return vertex;
 }
@@ -229,9 +254,11 @@ static BedVertex MixBedVertex(BedVertex a, BedVertex b, float t)
 	{
 		.point = MixPoint(a.point, b.point, t),
 		.uv = {a.uv.u+(b.uv.u-a.uv.u)*t, a.uv.v+(b.uv.v-a.uv.v)*t},
+		.downhill = {a.downhill.x+(b.downhill.x-a.downhill.x)*t, a.downhill.y+(b.downhill.y-a.downhill.y)*t},
 		.bed = a.bed+(b.bed-a.bed)*t,
 		.relief = a.relief+(b.relief-a.relief)*t,
 		.rock = a.rock+(b.rock-a.rock)*t,
+		.dune = a.dune+(b.dune-a.dune)*t,
 	};
 }
 
@@ -278,10 +305,12 @@ static void AddBedTriangleDetail(MOVertexArrayData* mesh, const BedVertex face[3
 		const float depth = depthBottom + (depthTop-depthBottom)*fraction;
 		const float weather = 0.78f + 0.22f*sinf(p.x*.0039f + p.z*.0051f + p.y*.0014f)
 		                             + 0.19f*sinf(p.x*.0073f - p.z*.0064f);
+		const float joint = (p.x*.79f - p.z*.62f + .26f*p.y + 43*sinf(p.y*.008f+p.z*.002f))/1140;
+		const float cleft = fmaxf(0, 1 - 8*fabsf(joint-floorf(joint)-.5f));
 		// Incise the rock within the collision surface. The triangle's XZ
 		// footprint stays on its original terrain facet.
-		p.y -= v.relief * depth * weather;
-		SceneryVertex(mesh, p, v.uv, v.rock);
+		p.y -= v.relief * (depth*weather + 43*cleft);
+		SceneryVertex(mesh, p, v.uv, v.rock, v.dune, v.downhill);
 	}
 	RockTriangle(mesh, start, start+3, start+5);
 	RockTriangle(mesh, start+3, start+1, start+4);
@@ -324,7 +353,7 @@ static void AddTerracedTerrain(MOVertexArrayData* result, const MOVertexArrayDat
 
 	ReserveRockMesh(result, terrain->numPoints, terrain->numTriangles);
 	for (int i = 0; i < terrain->numPoints; i++)
-		SceneryVertex(result, vertices[i].point, vertices[i].uv, vertices[i].rock);
+		SceneryVertex(result, vertices[i].point, vertices[i].uv, vertices[i].rock, vertices[i].dune, vertices[i].downhill);
 	for (int i = 0; i < terrain->numTriangles; i++)
 	{
 		const GLuint* ids = terrain->triangles[i].vertexIndices;

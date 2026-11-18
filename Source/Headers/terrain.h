@@ -86,6 +86,8 @@ struct SuperTileMemoryType
 typedef struct SuperTileMemoryType SuperTileMemoryType;
 
 bool UseDesertScenery(void);
+void ApplyDesertDunes(void);
+float DesertDuneHeight(float x, float z);
 void BuildDesertCliffMesh(SuperTileMemoryType* tile, long startCol, long startRow);
 void TextureDesertStartingLine(void);
 

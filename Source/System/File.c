@@ -981,7 +981,8 @@ void LoadPlayfield(FSSpec *specPtr)
 			/* READ PLAYFIELD RESOURCES */
 
 	ReadDataFromPlayfieldFile(specPtr);
-
+	if (UseDesertScenery())
+		ApplyDesertDunes();
 
 
 

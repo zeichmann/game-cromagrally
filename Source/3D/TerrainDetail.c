@@ -14,6 +14,7 @@ static struct
 {
 	{":TexturesHD:desert-detail.png", NULL, 0, GL_REPEAT},
 	{":TexturesHD:desert-sandstone.png", NULL, 0, GL_MIRRORED_REPEAT},
+	{":TexturesHD:desert-fractured-rock.png", NULL, 0, GL_MIRRORED_REPEAT},
 };
 static GLuint gTerrainProgram;
 static GLint gMinBlendWidthLocation;
@@ -51,6 +52,7 @@ static const char kTerrainFragmentShader[] =
 	"uniform sampler2D terrainImage;\n"
 	"uniform sampler2D detailImage;\n"
 	"uniform sampler2D sandstoneImage;\n"
+	"uniform sampler2D fracturedRockImage;\n"
 	"uniform float sandstoneBedHeight;\n"
 	"uniform float tileSize;\n"
 	"uniform float minBlendWidth;\n"
@@ -60,14 +62,18 @@ static const char kTerrainFragmentShader[] =
 	"varying vec3 worldPosition;\n"
 	"varying vec4 vertexColor;\n"
 	"varying float viewDepth;\n"
+	"const vec3 sunDirection = vec3(-0.47, 0.70, -0.54);\n"
+	"vec3 projectMaterial(sampler2D image, vec3 uv, vec3 weight) {\n"
+	"    return (texture2D(image, uv.zy).rgb * weight.x\n"
+	"          + texture2D(image, uv.xz).rgb * weight.y\n"
+	"          + texture2D(image, uv.xy).rgb * weight.z) / dot(weight, vec3(1.0));\n"
+	"}\n"
 	"vec3 sandstone(vec3 normal, vec3 weight) {\n"
 	"    vec3 p = worldPosition;\n"
 	"    float bed = p.y + 90.0 * sin(p.x * 0.00058 + p.z * 0.00087)\n"
 	"                    + 35.0 * sin(p.z * 0.0022 - p.x * 0.0016);\n"
 	"    vec3 uv = vec3(p.x / 990.0, bed / 680.0, p.z / 990.0);\n"
-	"    vec3 grain = (texture2D(sandstoneImage, uv.zy).rgb * weight.x\n"
-	"                + texture2D(sandstoneImage, uv.xz).rgb * weight.y\n"
-	"                + texture2D(sandstoneImage, uv.xy).rgb * weight.z) / dot(weight, vec3(1.0));\n"
+	"    vec3 grain = projectMaterial(sandstoneImage, uv, weight);\n"
 	"    float phase = (bed + (grain.g - 0.64) * 96.0) / sandstoneBedHeight;\n"
 	"    float band = fract(phase);\n"
 	"    float deposit = fract(sin(floor(phase) * 58.739 + 9.1) * 2137.314);\n"
@@ -78,24 +84,35 @@ static const char kTerrainFragmentShader[] =
 	"               * (1.0 - smoothstep(iron+0.15+0.21*deposit-edge, iron+0.15+0.21*deposit+edge, band));\n"
 	"    float ochre = smoothstep(0.25-edge, 0.25+edge, band)\n"
 	"                * (1.0 - smoothstep(0.87-edge, 0.87+edge, band));\n"
-	"    vec3 color = grain * mix(vec3(1.13, 1.16, 1.18), vec3(1.03, 1.0, 0.91), ochre);\n"
+	"    vec3 color = grain * mix(vec3(1.09, 1.07, 1.04), vec3(1.02, 0.98, 0.92), ochre);\n"
 	"    float ironStain = smoothstep(0.12, 0.80, 0.63*deposit + 0.37*minerals);\n"
-	"    color = mix(color, grain * vec3(1.05, 0.75, 0.63), rust * (0.32 + 0.63*ironStain));\n"
+	"    color = mix(color, grain * vec3(1.04, 0.81, 0.71), rust * (0.20 + 0.38*ironStain));\n"
 	"    float seam = abs(fract(phase + 0.5) - 0.5);\n"
 	"    float ledgeShade = mix(0.87, 1.0, smoothstep(0.006, 0.039 + edge, seam));\n"
-	"    float fracture = (p.x - p.z * 0.84 + 37.0*sin(p.y * 0.007 + p.x*0.0014)\n"
-	"                       + 51.0*sin(p.y*0.0022 + p.z*0.0023)) / 1280.0;\n"
-	"    float joint = abs(fract(fracture + 0.007*sin(p.y*0.023 + p.x*0.013))-0.5);\n"
-	"    float jointWidth = max(0.005, 1.25*fwidth(fracture));\n"
-	"    float jointShade = mix(0.83, 1.0, smoothstep(0.001, jointWidth, joint));\n"
-	"    float openJoint = smoothstep(-0.45, 0.50, sin(p.y*0.0029 + floor(fracture)*2.49));\n"
-	"    color *= mix(1.0, jointShade, openJoint * (0.40 + 0.60*minerals));\n"
-	"    float sun = max(dot(normal, normalize(vec3(-0.50, 0.84, -0.28))), 0.0);\n"
-	"    float light = (0.85 + 0.20 * sun) * (0.83 + 0.17 * smoothstep(-0.85, 0.08, normal.y));\n"
+	"    float sun = max(dot(normal, sunDirection), 0.0);\n"
+	"    float light = (0.77 + 0.31 * sun) * (0.82 + 0.18 * smoothstep(-0.85, 0.08, normal.y));\n"
 	"    if (terrainUV.x < -1.5)\n"
 	"        return mix(grain, vec3(0.83, 0.71, 0.55), 0.76) * light;\n"
+	"    vec3 slabUV = vec3((p.x + 0.16*p.z)/2420.0, (p.y + 0.085*p.x - 0.068*p.z)/2050.0,\n"
+	"                       (p.z - 0.16*p.x)/2690.0);\n"
+	"    vec3 slabs = projectMaterial(fracturedRockImage, slabUV, weight);\n"
+	"    float lithology = 0.5 + 0.5*sin(p.x*0.00078 + p.z*0.00113 + p.y*0.00032);\n"
+	"    slabs *= mix(vec3(1.03, 0.91, 0.82), vec3(0.99, 1.04, 1.11), lithology);\n"
+	"    float exposure = 1.0 - smoothstep(0.35, 0.91, abs(normal.y));\n"
+	"    color = mix(color*ledgeShade, slabs, 0.48 + 0.43*exposure);\n"
 	"    float weathering = terrainUV.x < 0.0 ? terrainUV.y : 1.0;\n"
-	"    return color * ledgeShade * light * weathering;\n"
+	"    return color * light * weathering;\n"
+	"}\n"
+	"vec3 duneColor(float grain) {\n"
+	"    vec2 wind = worldPosition.xz;\n"
+	"    vec3 normal = normalize(vec3(vertexColor.r*2.0 - 1.0, 1.0, vertexColor.g*2.0 - 1.0));\n"
+	"    float sun = max(dot(normal, sunDirection), 0.0);\n"
+	"    float phase = dot(wind, vec2(0.0034, 0.0037))\n"
+	"                + 0.19*sin(wind.x*0.0011 - wind.y*0.0013 + worldPosition.y*0.0021);\n"
+	"    float rippleFade = 1.0 - smoothstep(0.09, 0.46, fwidth(phase));\n"
+	"    float ripple = cos(phase*6.2831853) * rippleFade;\n"
+	"    float shade = (0.67 + 0.49*sun)*(1.0 + 0.045*ripple + 0.43*grain);\n"
+	"    return vec3(0.95, 0.73, 0.43)*shade;\n"
 	"}\n"
 	"vec3 agave(vec3 normal) {\n"
 	"    float u = (terrainUV.x + 4.0) * 1.25;\n"
@@ -115,7 +132,7 @@ static const char kTerrainFragmentShader[] =
 	"    vec2 width = clamp(fwidth(texel), vec2(minBlendWidth), vec2(1.0));\n"
 	"    vec2 blend = clamp((fract(texel) - 0.5) / width + 0.5, 0.0, 1.0);\n"
 	"    vec2 sampleUV = (floor(texel) + blend + 0.5) / tileSize;\n"
-	"    vec4 color = texture2D(terrainImage, sampleUV) * vec4(vertexColor.rgb, useDetail ? 1.0 : vertexColor.a);\n"
+	"    vec4 color = texture2D(terrainImage, sampleUV) * (useDetail ? vec4(1.0) : vertexColor);\n"
 	"    if (useDetail) {\n"
 	// The normal of the terrain triangle weights the three world-space projections.
 	"        vec3 normal = normalize(cross(dFdx(worldPosition), dFdy(worldPosition)));\n"
@@ -132,6 +149,8 @@ static const char kTerrainFragmentShader[] =
 	"            color.rgb = agave(normal);\n"
 	"        else if (vertexColor.a > 0.001)\n"
 	"            color.rgb = mix(color.rgb, sandstone(normal, weight), smoothstep(0.0, 0.84, vertexColor.a));\n"
+	"        if (vertexColor.b > 0.001)\n"
+	"            color.rgb = mix(color.rgb, duneColor(detailValue), smoothstep(0.0, 0.92, vertexColor.b));\n"
 	"    }\n"
 	"    if (useFog) {\n"
 	"        float visible = clamp((gl_Fog.end - viewDepth) * gl_Fog.scale, 0.0, 1.0);\n"
@@ -185,6 +204,7 @@ static bool InitTerrainProgram(void)
 	gUniform1i(gGetUniformLocation(gTerrainProgram, "terrainImage"), 0);
 	gUniform1i(gGetUniformLocation(gTerrainProgram, "detailImage"), 1);
 	gUniform1i(gGetUniformLocation(gTerrainProgram, "sandstoneImage"), 2);
+	gUniform1i(gGetUniformLocation(gTerrainProgram, "fracturedRockImage"), 3);
 	gUniform1f(gGetUniformLocation(gTerrainProgram, "sandstoneBedHeight"), DESERT_SANDSTONE_BED_HEIGHT);
 	gUniform1f(gGetUniformLocation(gTerrainProgram, "tileSize"), SUPERTILE_TEXMAP_SIZE + (HQ_TERRAIN ? 2 : 0));
 	gUseProgram((GLuint)previousProgram);
