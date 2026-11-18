@@ -187,7 +187,6 @@ FSSpec	spec;
 
 void DoTitleScreen(void)
 {
-	DisplayPicture(":Images:PangeaLogo.jpg", 4.0f);
 	DisplayPicture(":Images:TitleScreen.jpg", 5.0f);
 }
 
