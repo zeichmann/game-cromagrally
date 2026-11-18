@@ -84,10 +84,11 @@ static bool CutBed(const OGLPoint3D face[3], const float heights[3], float level
 }
 
 
-static void AddShelf(MOVertexArrayData* mesh, OGLPoint3D a, OGLPoint3D b, OGLVector3D normal, uint32_t seed)
+static void AddShelf(MOVertexArrayData* mesh, OGLPoint3D a, OGLPoint3D b,
+					OGLPoint3D lower, OGLPoint3D upper, OGLVector3D normal, uint32_t seed)
 {
-	// The slice runs along a sediment bed. Both roots and both ends sink back
-	// into the original slope, so the ledge can meet other rock faces cleanly.
+	// Keep the shelf inside its terrain triangle, with the crest near the
+	// same plane that supports the tires and the roots cut into the rock.
 	enum { COLUMNS = 6, PROFILE = 6 };
 	static const float width[] = {0.03f, 0.17f, 0.40f, 0.65f, 0.84f, 0.97f};
 	static const float crest[] = {0.0f, 0.62f, 1.0f, 0.94f, 0.70f, 0.0f};
@@ -101,46 +102,25 @@ static void AddShelf(MOVertexArrayData* mesh, OGLPoint3D a, OGLPoint3D b, OGLVec
 		b = swap;
 	}
 
-	const float length = OGLPoint3D_Distance(&a, &b);
-	const float depth = fminf(length * 0.31f, 104.0f + 93.0f * RockVariation(seed));
+	const float depth = 32.0f + 14.0f * RockVariation(seed);
 	const float thickness = 77.0f + 57.0f * RockVariation(seed+1);
-	const float sideways = hypotf(normal.x, normal.z);
-	const OGLVector3D up = {-normal.x*normal.y / sideways, sideways, -normal.z*normal.y / sideways};
-
-	OGLPoint3D points[COLUMNS][PROFILE];
+	ReserveRockMesh(mesh, COLUMNS*PROFILE, 2*(COLUMNS-1)*(PROFILE-1));
+	const GLuint base = mesh->numPoints;
 	for (int column = 0; column < COLUMNS; column++)
 	{
 		const OGLPoint3D anchor = MixPoint(a, b, width[column]);
-		const float relief = depth * crest[column] * (0.80f + 0.31f * RockVariation(seed+7+column));
+		const float relief = crest[column] * (0.80f + 0.20f * RockVariation(seed+7+column));
 		const float offset = 27.0f * (RockVariation(seed+20+column) - 0.5f);
 		for (int row = 0; row < PROFILE; row++)
 		{
 			const float height = rise[row]*thickness + offset;
-			const float overhang = lip[row]*relief - 18.0f;
-			points[column][row] = (OGLPoint3D)
-			{
-				anchor.x + up.x*height + normal.x*overhang,
-				anchor.y + up.y*height + normal.y*overhang,
-				anchor.z + up.z*height + normal.z*overhang,
-			};
+			const OGLPoint3D edge = height > 0 ? upper : lower;
+			const float t = fminf(.96f, fabsf(height)/fmaxf(1.0f, fabsf(edge.y-anchor.y)));
+			OGLPoint3D point = MixPoint(anchor, edge, t);
+			point.y -= 1.5f + depth*(1.0f - lip[row]*relief);
+			RockVertex(mesh, point, -1, shade[row]);
 		}
 	}
-
-	// At a corner the contour can cross into a much flatter neighboring face.
-	// Leave those places open so rock lips do not jut over the driving surface.
-	for (int column = 1; column < COLUMNS-1; column++)
-	{
-		const OGLPoint3D p = points[column][2];
-		GetTerrainY(p.x, p.z);
-		if (fabsf(gRecentTerrainNormal.y) > 0.94f)
-			return;
-	}
-
-	ReserveRockMesh(mesh, COLUMNS*PROFILE, 2*(COLUMNS-1)*(PROFILE-1));
-	const GLuint base = mesh->numPoints;
-	for (int column = 0; column < COLUMNS; column++)
-		for (int row = 0; row < PROFILE; row++)
-			RockVertex(mesh, points[column][row], -1, shade[row]);
 
 	for (int column = 0; column < COLUMNS-1; column++)
 		for (int row = 0; row < PROFILE-1; row++)
@@ -215,13 +195,12 @@ typedef struct
 	OGLPoint3D point;
 	OGLTextureCoord uv;
 	float bed;
-	float reliefX;
-	float reliefZ;
+	float relief;
 	float rock;
 } BedVertex;
 
 static const float kBedCuts[] = {0.0f, 0.09f, 0.21f, 0.44f, 0.72f, 0.91f, 1.0f};
-static const float kBedDepth[] = {-9, -14, 150, 78, 28, 14, -9};
+static const float kBedDepth[] = {6, 30, 0, 11, 22, 9, 6};
 
 
 static BedVertex SampleBedVertex(OGLPoint3D p, OGLTextureCoord uv)
@@ -236,10 +215,8 @@ static BedVertex SampleBedVertex(OGLPoint3D p, OGLTextureCoord uv)
 		const float x = dx / gradient;
 		const float z = dz / gradient;
 		const float aboveToe = p.y-GetTerrainY(p.x+x*probe, p.z+z*probe);
-		const float weight = SDL_clamp((aboveToe/probe - 0.32f) / 0.60f, 0, 1);
 		const float rock = SDL_clamp((aboveToe/probe - 0.16f) / 0.55f, 0, 1);
-		vertex.reliefX = x * weight;
-		vertex.reliefZ = z * weight;
+		vertex.relief = SDL_clamp((aboveToe/probe - 0.32f) / 0.60f, 0, 1);
 		vertex.rock = rock*rock*(3.0f-2.0f*rock);
 	}
 	return vertex;
@@ -253,8 +230,7 @@ static BedVertex MixBedVertex(BedVertex a, BedVertex b, float t)
 		.point = MixPoint(a.point, b.point, t),
 		.uv = {a.uv.u+(b.uv.u-a.uv.u)*t, a.uv.v+(b.uv.v-a.uv.v)*t},
 		.bed = a.bed+(b.bed-a.bed)*t,
-		.reliefX = a.reliefX+(b.reliefX-a.reliefX)*t,
-		.reliefZ = a.reliefZ+(b.reliefZ-a.reliefZ)*t,
+		.relief = a.relief+(b.relief-a.relief)*t,
 		.rock = a.rock+(b.rock-a.rock)*t,
 	};
 }
@@ -302,8 +278,9 @@ static void AddBedTriangleDetail(MOVertexArrayData* mesh, const BedVertex face[3
 		const float depth = depthBottom + (depthTop-depthBottom)*fraction;
 		const float weather = 0.78f + 0.22f*sinf(p.x*.0039f + p.z*.0051f + p.y*.0014f)
 		                             + 0.19f*sinf(p.x*.0073f - p.z*.0064f);
-		p.x += v.reliefX * depth * weather;
-		p.z += v.reliefZ * depth * weather;
+		// Incise the rock within the collision surface. The triangle's XZ
+		// footprint stays on its original terrain facet.
+		p.y -= v.relief * depth * weather;
 		SceneryVertex(mesh, p, v.uv, v.rock);
 	}
 	RockTriangle(mesh, start, start+3, start+5);
@@ -356,8 +333,7 @@ static void AddTerracedTerrain(MOVertexArrayData* result, const MOVertexArrayDat
 		const BedVertex c = vertices[ids[2]];
 		const float low = fminf(a.point.y, fminf(b.point.y, c.point.y));
 		const float high = fmaxf(a.point.y, fmaxf(b.point.y, c.point.y));
-		if (high-low < 275 && a.reliefX == 0 && a.reliefZ == 0
-			&& b.reliefX == 0 && b.reliefZ == 0 && c.reliefX == 0 && c.reliefZ == 0)
+		if (high-low < 275 && a.relief == 0 && b.relief == 0 && c.relief == 0)
 		{
 			ReserveRockMesh(result, 0, 1);
 			RockTriangle(result, ids[0], ids[1], ids[2]);
@@ -386,6 +362,14 @@ static void BuildRockFace(MOVertexArrayData* mesh, OGLPoint3D face[3], uint32_t 
 	const float high = fmaxf(heights[0], fmaxf(heights[1], heights[2]));
 	const int first = (int)ceilf((low+205.0f) / DESERT_SANDSTONE_BED_HEIGHT);
 	const int last = (int)floorf((high-100.0f) / DESERT_SANDSTONE_BED_HEIGHT);
+	int lower = 0, upper = 0;
+	for (int i = 1; i < 3; i++)
+	{
+		if (face[i].y < face[lower].y)
+			lower = i;
+		if (face[i].y > face[upper].y)
+			upper = i;
+	}
 	OGLPoint3D ends[2];
 	for (int bed = first; bed <= last; bed++)
 	{
@@ -395,12 +379,11 @@ static void BuildRockFace(MOVertexArrayData* mesh, OGLPoint3D face[3], uint32_t 
 			|| !CutBed(face, heights, level, ends)
 			|| OGLPoint3D_Distance(&ends[0], &ends[1]) < 450.0f)
 			continue;
-		AddShelf(mesh, ends[0], ends[1], normal, variation);
+		AddShelf(mesh, ends[0], ends[1], face[lower], face[upper], normal, variation);
 	}
 
 	const float baseHeights[] = {face[0].y, face[1].y, face[2].y};
-	const float bottom = fminf(baseHeights[0], fminf(baseHeights[1], baseHeights[2]));
-	if (RockVariation(seed+75) < 0.38f && CutBed(face, baseHeights, bottom+120.0f, ends)
+	if (RockVariation(seed+75) < 0.38f && CutBed(face, baseHeights, face[lower].y+120.0f, ends)
 		&& OGLPoint3D_Distance(&ends[0], &ends[1]) > 140.0f)
 		AddScree(mesh, ends[0], ends[1], normal, seed+81);
 }

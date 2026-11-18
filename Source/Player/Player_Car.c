@@ -10,6 +10,7 @@
 /****************************/
 
 #include "game.h"
+#include <float.h>
 
 /****************************/
 /*    PROTOTYPES            */
@@ -170,6 +171,22 @@ Boolean			gAutoPilot = false;
 #define WheelTravel			SpecialF[2]
 #define WheelDustCarry		SpecialF[3]
 #define WheelDustSeed		Special[0]
+
+static const OGLPoint3D kWheelOffsets[NUM_CAR_TYPES_TOTAL][4] =
+{
+	//                         Front Left         Front Right        Back Right        Back Left
+	[CAR_TYPE_WICKER]      = {{-105,-34,-100},    {105,-34,-100},    {109,-31,98},     {-109,-31,98}},
+	[CAR_TYPE_MAMMOTH]     = {{-109,-19,-92},     {109,-19,-92},     {129,4,91},       {-129,4,91}},
+	[CAR_TYPE_BONEBUGGY]   = {{-76,-35,-101},     {76,-35,-101},     {84,-9,91},       {-84,-9,91}},
+	[CAR_TYPE_GEODE]       = {{-126,-27,-85},     {126,-27,-85},     {126,-27,82},     {-126,-27,82}},
+	[CAR_TYPE_LOG]         = {{-112,-49,-122},    {112,-49,-122},    {123,-27,37},     {-123,-27,37}},
+	[CAR_TYPE_TURTLE]      = {{-99,-31,-102},     {99,-31,-102},     {109,-23,73},     {-109,-23,73}},
+	[CAR_TYPE_ROCK]        = {{-70,-45,-84},      {70,-45,-84},      {96,-38,77},      {-96,-38,77}},
+	[CAR_TYPE_TROJANHORSE] = {{-103,-57,-64},     {103,-57,-64},     {103,-57,94},     {-103,-57,94}},
+	[CAR_TYPE_OBELISK]     = {{-111,-58,-89},     {111,-58,-89},     {112,-38,79},     {-112,-38,79}},
+	[CAR_TYPE_CATAPULT]    = {{-108,-38,-109},    {108,-38,-109},    {112,-10,105},    {-112,-10,105}},
+	[CAR_TYPE_CHARIOT]     = {{-122,-28,-80},     {122,-28,-80},     {122,-2,85},      {-122,-2,85}},
+};
 
 OGLVector3D				gPreCollisionDelta;
 
@@ -914,6 +931,87 @@ Boolean		onWater;
 
 /********************* CAR GROUND CONTACT ********************/
 
+typedef struct
+{
+	float lift;
+	OGLPoint3D point;
+	OGLVector3D normal;
+} WheelGroundContact;
+
+static float WheelModelRadius(const OGLBoundingBox* bounds)
+{
+	return fmaxf(-bounds->min.y, bounds->max.y);
+}
+
+static float WheelRadius(const ObjNode* wheel)
+{
+	return WheelModelRadius(&gObjectGroupBBoxList[wheel->Group][wheel->Type]) * wheel->Scale.y;
+}
+
+static float WheelTravelLimit(const ObjNode* wheel)
+{
+	return WheelRadius(wheel) * 0.38f;
+}
+
+static void GetWheelFrame(const ObjNode* car, const PlayerInfoType* player, int index, OGLMatrix4x4* frame)
+{
+	const OGLPoint3D position = kWheelOffsets[player->vehicleType][index];
+	OGLMatrix4x4 local;
+	OGLMatrix4x4_SetRotate_Y(&local, index < 2 ? player->steering * -.6f : 0);
+	local.value[M03] = position.x;
+	local.value[M13] = position.y;
+	local.value[M23] = position.z;
+	OGLMatrix4x4_Multiply(&local, &car->BaseTransformMatrix, frame);
+}
+
+static void SquashWheel(OGLMatrix4x4* frame, float compression)
+{
+	const float bulge = 1.0f + 0.22f * compression;
+	for (int col = 0; col < 3; col++)
+	{
+		float* axis = &frame->value[4*col];
+		axis[0] *= bulge;
+		axis[1] *= 1.0f - compression;
+		axis[2] *= bulge;
+	}
+}
+
+static WheelGroundContact ProbeWheelGround(const ObjNode* wheel, const OGLMatrix4x4* frame)
+{
+	// Sample both shoulders and the center of the tread. The unspun frame
+	// keeps the support points stable as the visible wheel rotates.
+	static const OGLVector2D ring[] =
+	{
+		{-1,0}, {-.8660254f,.5f}, {-.5f,.8660254f}, {0,1},
+		{.5f,.8660254f}, {.8660254f,.5f}, {1,0}, {.8660254f,-.5f},
+		{.5f,-.8660254f}, {0,-1}, {-.5f,-.8660254f}, {-.8660254f,-.5f},
+	};
+	const OGLBoundingBox* bounds = &gObjectGroupBBoxList[wheel->Group][wheel->Type];
+	const bool wicker = wheel->Group == MODEL_GROUP_WICKER;
+	const float width = wicker ? .88f : 1.0f;
+	const float bands[] = {0, width*bounds->min.x, width*bounds->max.x};
+	const float radius = WheelModelRadius(bounds) * 1.025f;
+	WheelGroundContact contact = {.lift = -FLT_MAX};
+	for (int band = 0; band < SDL_arraysize(bands); band++)
+	{
+		const float r = band && wicker ? .97f*radius : radius;
+		for (int i = 0; i < SDL_arraysize(ring); i++)
+		{
+			const OGLPoint3D local = {bands[band], r*ring[i].x, r*ring[i].y};
+			OGLPoint3D point;
+			OGLPoint3D_Transform(&local, frame, &point);
+			const float terrainY = GetTerrainY(point.x, point.z);
+			const float lift = terrainY - point.y;
+			if (lift > contact.lift)
+			{
+				point.y = terrainY;
+				contact = (WheelGroundContact){lift, point, gRecentTerrainNormal};
+			}
+		}
+	}
+	return contact;
+}
+
 static void DampenCarTilt(float target, float response, float dt, float* angle, float* velocity)
 {
 	// Critically damped spring. Evolve both angle and angular velocity for this step.
@@ -933,17 +1031,47 @@ static void DoCarGroundCollision(ObjNode *theNode)
 	const float incomingY = gDelta.y;
 	const float groundY = GetTerrainY(gCoord.x, gCoord.z);
 	const float carBottomY = gCoord.y + theNode->BottomOff;
-	bool onGround = carBottomY <= groundY;
+	float chassisLift = groundY - carBottomY;
+	OGLVector3D groundNormal = gRecentTerrainNormal;
+	bool tireOnGround = false;
+
+	theNode->Coord = gCoord;
+	UpdateObjectTransforms(theNode);
+	if (!player->onWater)
+	{
+		for (int i = 0; i < 4; i++)
+		{
+			const ObjNode* wheel = player->wheelObj[i];
+			OGLMatrix4x4 frame;
+			GetWheelFrame(theNode, player, i, &frame);
+			SquashWheel(&frame, wheel->WheelCompression);
+			const WheelGroundContact contact = ProbeWheelGround(wheel, &frame);
+			tireOnGround |= contact.lift >= 0.0f;
+
+			// If an uphill tire runs out of suspension travel, lift the chassis
+			// along with it. A body supported only at its center can bury a wheel.
+			const float lift = contact.lift - WheelTravelLimit(wheel);
+			if (lift > chassisLift)
+			{
+				chassisLift = lift;
+				groundNormal = contact.normal;
+			}
+		}
+	}
+	bool onGround = chassisLift >= 0.0f || tireOnGround;
 
 	player->tireImpactCompression *= expf(-10.0f * dt);
 
-	if (onGround)
+	if (chassisLift >= 0.0f)
 	{
-		gCoord.y += groundY - carBottomY;
+		gCoord.y += chassisLift;
+		theNode->Coord.y = gCoord.y;
+		theNode->BaseTransformMatrix.value[M13] = gCoord.y;
+		SetObjectTransformMatrix(theNode);
 
 		// Absorb the impact along the surface normal and keep the tangential speed.
-		const OGLVector3D normal = gRecentTerrainNormal;
-		const float intoGround = -OGLVector3D_Dot(&gDelta, &normal);
+		const OGLVector3D normal = groundNormal;
+		const float intoGround = -(gDelta.x*normal.x + gDelta.y*normal.y + gDelta.z*normal.z);
 		if (intoGround > 0.0f)
 		{
 			const float shock = fmaxf(intoGround - LANDING_SHOCK_SPEED, 0.0f);
@@ -969,9 +1097,8 @@ static void DoCarGroundCollision(ObjNode *theNode)
 		{ theNode->LeftOff,  theNode->BottomOff, theNode->FrontOff },
 	};
 	bool contact[4] = { false };
-	theNode->Coord = gCoord;
-	UpdateObjectTransforms(theNode);
 	OGLPoint3D_TransformArray(corners, &theNode->BaseTransformMatrix, corners, 4);
+	const float followDrop = tireOnGround ? 1.8f*WheelRadius(player->wheelObj[0]) : 0.0f;
 
 	for (int i = 0; i < 4; i++)
 	{
@@ -981,6 +1108,11 @@ static void DoCarGroundCollision(ObjNode *theNode)
 			corners[i].y = height;
 			contact[i] = true;
 			onGround = true;
+		}
+		else
+		{
+			// Follow the nearby lower side of a bank within the tire's reach.
+			corners[i].y = fmaxf(corners[i].y-followDrop, height);
 		}
 	}
 
@@ -3059,47 +3191,32 @@ ObjNode	*obj;
 #pragma mark -
 
 
-static float WheelRadius(const ObjNode* wheel)
-{
-	const OGLBoundingBox* bounds = &gObjectGroupBBoxList[wheel->Group][wheel->Type];
-	return fmaxf(-bounds->min.y, bounds->max.y) * wheel->Scale.y;
-}
-
-
-static void UpdateWheelSuspension(ObjNode* wheel, bool onTerrain, float impact, float dt)
+static WheelGroundContact UpdateWheelSuspension(ObjNode* wheel, bool onLand, bool onTerrain, float impact, float dt)
 {
 	OGLMatrix4x4* matrix = &wheel->BaseTransformMatrix;
 	const float radius = WheelRadius(wheel);
 	float targetCompression = 0.0f;
-	const float travelLimit = radius * 0.38f;
-	float floorOffset = 0.0f;
+	const float travelLimit = WheelTravelLimit(wheel);
 
 	if (onTerrain && radius > 0.0f)
 	{
 		const float floor = GetTerrainY(matrix->value[M03], matrix->value[M23]);
-		floorOffset = floor - (matrix->value[M13] - radius);
+		const float floorOffset = floor - (matrix->value[M13] - radius);
 		const float contact = SDL_clamp(1.0f + floorOffset / travelLimit, 0.0f, 1.0f);
 		const float load = 0.065f + fmaxf(floorOffset, 0.0f) * 0.22f / radius + impact;
 		targetCompression = contact * fminf(load, 0.24f);
 	}
 
 	wheel->WheelCompression += (targetCompression - wheel->WheelCompression) * (1.0f - expf(-32.0f * dt));
-	const float compression = wheel->WheelCompression;
-	const float targetTravel = onTerrain
-		? SDL_clamp(floorOffset - radius * compression, -travelLimit, travelLimit)
-		: 0.0f;
+	SquashWheel(matrix, wheel->WheelCompression);
+	WheelGroundContact contact = onLand ? ProbeWheelGround(wheel, matrix) : (WheelGroundContact){.lift = -FLT_MAX};
+	const float targetTravel = onTerrain ? SDL_clamp(contact.lift, -travelLimit, travelLimit) : 0.0f;
 	wheel->WheelTravel += (targetTravel - wheel->WheelTravel) * (1.0f - expf(-40.0f * dt));
-
-	// Deform in world space so the flat contact area stays under the spinning wheel.
-	const float bulge = 1.0f + 0.22f * compression;
-	for (int col = 0; col < 3; col++)
-	{
-		float* axis = &matrix->value[4 * col];
-		axis[0] *= bulge;
-		axis[1] *= 1.0f - compression;
-		axis[2] *= bulge;
-	}
+	// Suspension may ease toward the ground, but the tire cannot ease through it.
+	wheel->WheelTravel = fmaxf(wheel->WheelTravel, contact.lift);
 	matrix->value[M13] += wheel->WheelTravel;
+	contact.lift -= wheel->WheelTravel;
+	return contact;
 }
 
 
@@ -3145,7 +3262,7 @@ static float DustRandom(ObjNode* wheel)
 }
 
 
-static void EmitDesertWheelDust(ObjNode* car, ObjNode* wheel, int index, bool onTerrain)
+static void EmitDesertWheelDust(ObjNode* car, ObjNode* wheel, int index, bool onTerrain, const WheelGroundContact* contact)
 {
 	PlayerInfoType* player = &gPlayerInfo[car->PlayerNum];
 	if (!onTerrain || gNoCarControls || player->isEliminated || gFramesPerSecond < 13.0f)
@@ -3170,12 +3287,9 @@ static void EmitDesertWheelDust(ObjNode* car, ObjNode* wheel, int index, bool on
 		return;
 	}
 
-	const OGLMatrix4x4* transform = &wheel->BaseTransformMatrix;
-	const float x = transform->value[M03], z = transform->value[M23];
-	const float floor = GetTerrainY(x, z);
+	const float x = contact->point.x, z = contact->point.z;
 	const float radius = WheelRadius(wheel);
-	const float contactGap = transform->value[M13] - radius*(1-wheel->WheelCompression) - floor;
-	const float load = SDL_clamp(1 - contactGap / fmaxf(12.0f, 0.40f*radius), 0, 1);
+	const float load = SDL_clamp(1 + contact->lift / fmaxf(12.0f, 0.40f*radius), 0, 1);
 	if (load <= 0)
 	{
 		wheel->WheelDustCarry = 0;
@@ -3275,34 +3389,17 @@ Boolean			debris,onWater;
 float			dr2,dr,drDiff;
 float			fps = gFramesPerSecondFrac;
 ObjNode			*wheels[4],*head;
-OGLMatrix4x4	*carMatrix;
-OGLMatrix4x4	m1,m2,m3;
 short			i,playerNum = theCar->PlayerNum;
-static const OGLPoint3D	wheelOffsets[NUM_CAR_TYPES_TOTAL][4] =
-{
-	[CAR_TYPE_WICKER]      = { {-105,-34,-100}, {105,-34,-100}, {109,-31,98}, {-109,-31,98} },
-	//                         Front Left		Front Right		Back Right		Back Left
-	[CAR_TYPE_MAMMOTH]     = { {-109,-19,-92},	{109,-19,-92},	{129,4,91},		{-129,4,91} },
-	[CAR_TYPE_BONEBUGGY]   = { {-76,-35,-101},	{76,-35,-101},	{84,-9,91},		{-84,-9,91} },
-	[CAR_TYPE_GEODE]       = { {-126,-27,-85},	{126,-27,-85},	{126,-27,82},	{-126,-27,82} },
-	[CAR_TYPE_LOG]         = { {-112,-49,-122},	{112,-49,-122},	{123,-27,37},	{-123,-27,37} },
-	[CAR_TYPE_TURTLE]      = { {-99,-31,-102},	{99,-31,-102},	{109,-23,73},	{-109,-23,73} },
-	[CAR_TYPE_ROCK]        = { {-70,-45,-84},	{70,-45,-84},	{96,-38,77},	{-96,-38,77} },
-	[CAR_TYPE_TROJANHORSE] = { {-103,-57,-64},	{103,-57,-64},	{103,-57,94},	{-103,-57,94} },
-	[CAR_TYPE_OBELISK]     = { {-111,-58,-89},	{111,-58,-89},	{112,-38,79},	{-112,-38,79} },
-	[CAR_TYPE_CATAPULT]    = { {-108,-38,-109},	{108,-38,-109},	{112,-10,105},	{-112,-10,105} },
-	[CAR_TYPE_CHARIOT]     = { {-122,-28,-80},	{122,-28,-80},	{122,-2,85},	{-122,-2,85} },
-};
 
 
 	if (playerNum >= gNumTotalPlayers)
 		DoFatalAlert("AlignWheelsAndHeadOnCar: playerNum >= gNumTotalPlayers");
 
-	carType = gPlayerInfo[playerNum].vehicleType;				// get car type
-	onWater = gPlayerInfo[playerNum].onWater;
-	const bool wheelDust = UsesDesertWheelDust(&gPlayerInfo[playerNum]);
-
-	carMatrix = &theCar->BaseTransformMatrix;					// point to car's transform matrix
+	const PlayerInfoType* player = &gPlayerInfo[playerNum];
+	carType = player->vehicleType;
+	onWater = player->onWater;
+	const bool wheelDust = UsesDesertWheelDust(player);
+	const bool onTerrain = !onWater && (theCar->StatusBits & STATUS_BIT_ONTERRAIN);
 
 	GAME_ASSERT(IsLandCarType(carType));
 
@@ -3397,42 +3494,22 @@ static const OGLPoint3D	wheelOffsets[NUM_CAR_TYPES_TOTAL][4] =
 
 	for (i = 0; i < 4; i++)
 	{
-			/* DO WHEEL ROTATION */
+		ObjNode* wheel = wheels[i];
+		if (!player->braking)
+			wheel->WheelSpinRot -= dr;
+		wheel->Rot.y = i < 2 ? player->steering * -.6f : 0;
 
-		if (!gPlayerInfo[playerNum].braking)														// wheels do not spin during braking
-			wheels[i]->WheelSpinRot -= dr;
-
-		OGLMatrix4x4_SetRotate_X(&m1, wheels[i]->WheelSpinRot);										// set rotation matrix
-
-
-		if (i < 2)																					// set y rot for turning on front 2 wheels
-		{
-			wheels[i]->Rot.y = gPlayerInfo[playerNum].steering * -.6f;
-			OGLMatrix4x4_SetRotate_Y(&m2, wheels[i]->Rot.y);
-			OGLMatrix4x4_Multiply(&m1, &m2, &m3);
-			m1 = m3;
-		}
-
-		OGLMatrix4x4_SetTranslate(&m2, wheelOffsets[carType][i].x, wheelOffsets[carType][i].y, wheelOffsets[carType][i].z);	// locate tire on axel
-		OGLMatrix4x4_Multiply(&m1, &m2, &m3);
-		OGLMatrix4x4_Multiply(&m3, carMatrix, &wheels[i]->BaseTransformMatrix);
-		const bool onTerrain = !onWater && (theCar->StatusBits & STATUS_BIT_ONTERRAIN);
-		UpdateWheelSuspension(wheels[i], onTerrain, gPlayerInfo[playerNum].tireImpactCompression, fps);
-
-		SetObjectTransformMatrix(wheels[i]);														// make sure to update it internally
-
-
-				/* SEE IF SHOOT DEBRIS FROM WHEEL */
+		GetWheelFrame(theCar, player, i, &wheel->BaseTransformMatrix);
+		const WheelGroundContact contact = UpdateWheelSuspension(wheel, !onWater, onTerrain, player->tireImpactCompression, fps);
+		OGLMatrix4x4 spin;
+		OGLMatrix4x4_SetRotate_X(&spin, wheel->WheelSpinRot);
+		OGLMatrix4x4_Multiply(&spin, &wheel->BaseTransformMatrix, &wheel->BaseTransformMatrix);
+		SetObjectTransformMatrix(wheel);
 
 		if (wheelDust)
-		{
-			EmitDesertWheelDust(theCar, wheels[i], i, onTerrain);
-		}
+			EmitDesertWheelDust(theCar, wheel, i, onTerrain, &contact);
 		else if (debris)
-		{
-			SpewDebrisFromWheel(playerNum, theCar, wheels[i]);
-		}
-
+			SpewDebrisFromWheel(playerNum, theCar, wheel);
 	}
 
 

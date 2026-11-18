@@ -307,6 +307,7 @@ ObjNode* MakeCarDriver(const ObjNode* car, short carType, short playerNum);
 void AlignCarDriver(const ObjNode* car, ObjNode* driver, short carType);
 void CreatePlayerClub(ObjNode* driver);
 void UpdatePlayerClub(ObjNode* driver);
+void ResolvePlayerClubHits(void);
 void BlastCars(short whoThrew, float x, float y, float z, float radius);
 void SetTractionPhysics(CarStatsType *carStats, float p);
 void SetSuspensionPhysics(CarStatsType *carStats, float n);

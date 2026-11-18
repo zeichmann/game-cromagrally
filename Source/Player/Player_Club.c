@@ -71,10 +71,31 @@ typedef struct
 } ClubInterval;
 
 // Local to DriverClub.bg3d. The origin is inside the driver's palm.
-static const OGLPoint3D kClubContact = {-4, 94, 0};
-static const float kClubHeadRadius = 26;
+static const OGLPoint3D kClubContact = {-4, 160, 0};
+static const float kClubHeadRadius = 38;
+static const float kClubFlinchDuration = .34f;
 
-#define ClubHitPlayers Special[0]
+static const struct
+{
+	OGLPoint3D center;
+	float radius;
+} kDriverSkulls[] =
+{
+	{{-2, 27, -28}, 39},	// Brog
+	{{-2, 36, -29}, 40},	// Grag (the ponytail lies outside this volume)
+};
+
+typedef struct
+{
+	uint32_t hitPlayers;
+	OGLPoint3D previousContact;
+	OGLPoint3D previousSkull;
+	float hitStart, hitStop;
+	float flinchTime, flinchSide;
+	bool trackedSkull;
+} PlayerClubData;
+
+CheckSpecialDataStruct(PlayerClubData);
 
 
 static OGLPoint3D GetRackGrip(const ObjNode* driver)
@@ -464,61 +485,40 @@ static OGLPoint3D PoseDriverArm(ObjNode* driver, const DriverArm* arm, const OGL
 }
 
 
-static bool ClubPathHitsCar(OGLPoint3D from, OGLPoint3D to, float enter, float exit, const CollisionBoxType* box)
+static void MakeClubHitSparks(OGLPoint3D position, const OGLVector3D* carVelocity)
 {
-	// Test the club head's path relative to the other car's movement this frame.
-	const float start[] = {from.x + (box->left - box->oldLeft),
-						   from.y + (box->bottom - box->oldBottom),
-						   from.z + (box->back - box->oldBack)};
-	const float end[] = {to.x, to.y, to.z};
-	const float low[] = {box->left, box->bottom, box->back};
-	const float high[] = {box->right, box->top, box->front};
-	for (int axis = 0; axis < 3; axis++)
+	NewParticleGroupDefType group =
 	{
-		const float a = low[axis] - kClubHeadRadius - start[axis];
-		const float b = high[axis] + kClubHeadRadius - start[axis];
-		const float travel = end[axis] - start[axis];
-		if (fabsf(travel) < EPS)
+		.type = PARTICLE_TYPE_FALLINGSPARKS,
+		.flags = PARTICLE_FLAGS_DONTCHECKGROUND,
+		.gravity = 480,
+		.baseScale = 15,
+		.fadeRate = 2.9f,
+		.particleTextureNum = PARTICLE_SObjType_WhiteSpark,
+		.srcBlend = GL_SRC_ALPHA,
+		.dstBlend = GL_ONE,
+	};
+	const short groupNum = NewParticleGroup(&group);
+	if (groupNum < 0)
+		return;
+
+	position.y += 17;
+	for (int i = 0; i < 6; i++)
+	{
+		const float angle = i*PI2/6.0f;
+		OGLVector3D velocity = {carVelocity->x + 142*cosf(angle), 155 + 52*(i%2),
+							   carVelocity->z + 142*sinf(angle)};
+		NewParticleDefType spark =
 		{
-			if (a > 0 || b < 0)
-				return false;
-			continue;
-		}
-
-		const float t1 = a / travel;
-		const float t2 = b / travel;
-		enter = fmaxf(enter, fminf(t1, t2));
-		exit = fminf(exit, fmaxf(t1, t2));
-		if (enter > exit)
-			return false;
-	}
-	return true;
-}
-
-
-static void CheckClubHits(ObjNode* club, const ObjNode* car, OGLPoint3D from, OGLPoint3D to, float start, float stop)
-{
-	const float rightX = cosf(car->Rot.y);
-	const float rightZ = -sinf(car->Rot.y);
-	for (int i = 0; i < gNumTotalPlayers; i++)
-	{
-		PlayerInfoType* rival = &gPlayerInfo[i];
-		ObjNode* target = rival->objNode;
-		if (i == car->PlayerNum || (club->ClubHitPlayers & (1u << i))
-			|| !target || !target->CollisionBoxes || target->CType == INVALID_NODE_FLAG || rival->isEliminated)
-			continue;
-
-		const float side = (target->Coord.x - car->Coord.x) * rightX + (target->Coord.z - car->Coord.z) * rightZ;
-		if (side <= 0 || !ClubPathHitsCar(from, to, start, stop, target->CollisionBoxes))
-			continue;
-
-		club->ClubHitPlayers |= 1u << i;
-		target->Delta.x += 625.0f * rightX;
-		target->Delta.z += 625.0f * rightZ;
-		target->DeltaRot.y += 2.4f;
-		rival->greasedTiresTimer = fmaxf(rival->greasedTiresTimer, .40f);
-		rival->isPlaning = true;
-		PlayEffect_Parms3D(EFFECT_CRASH2, &to, NORMAL_CHANNEL_RATE, .8f);
+			.groupNum = groupNum,
+			.where = &position,
+			.delta = &velocity,
+			.scale = i%2 ? 1.0f : 1.3f,
+			.rotZ = angle,
+			.rotDZ = i%2 ? 4.5f : -4.5f,
+			.alpha = 1,
+		};
+		AddParticleToGroup(&spark);
 	}
 }
 
@@ -547,6 +547,102 @@ static void LeanDriver(ObjNode* driver, OGLPoint3D angles, float glance)
 	OGLMatrix4x4_Multiply(&seated, &inverse, &correction);
 	OGLMatrix4x4_Multiply(&joints[DRIVER_RIGHT_LEG], &correction, &joints[DRIVER_RIGHT_LEG]);
 	OGLMatrix4x4_Multiply(&joints[DRIVER_LEFT_LEG], &correction, &joints[DRIVER_LEFT_LEG]);
+}
+
+typedef struct
+{
+	ObjNode* club;
+	PlayerClubData* data;
+	OGLPoint3D oldSkull, skull;
+	float radius;
+} ClubPlayerPose;
+
+
+static bool ClubPathHitsHead(const PlayerClubData* swing, OGLPoint3D clubEnd, const ClubPlayerPose* target, float clubRadius)
+{
+	// Sweep relative to the other driver's head, including both players' motion.
+	OGLVector3D start, end;
+	OGLPoint3D_Subtract(&swing->previousContact, &target->oldSkull, &start);
+	OGLPoint3D_Subtract(&clubEnd, &target->skull, &end);
+	const OGLVector3D travel = {end.x-start.x, end.y-start.y, end.z-start.z};
+	const float distanceSquared = SQUARED(travel.x) + SQUARED(travel.y) + SQUARED(travel.z);
+	const float approach = -(start.x*travel.x + start.y*travel.y + start.z*travel.z);
+	const float closest = distanceSquared > EPS ? approach/distanceSquared : swing->hitStart;
+	const float t = SDL_clamp(closest, swing->hitStart, swing->hitStop);
+	const OGLVector3D separation = {start.x+t*travel.x, start.y+t*travel.y, start.z+t*travel.z};
+	const float radius = clubRadius + target->radius;
+	return SQUARED(separation.x) + SQUARED(separation.y) + SQUARED(separation.z) <= radius*radius;
+}
+
+
+void ResolvePlayerClubHits(void)
+{
+	ClubPlayerPose poses[MAX_PLAYERS] = {0};
+	for (int i = 0; i < gNumTotalPlayers; i++)
+	{
+		const PlayerInfoType* player = &gPlayerInfo[i];
+		ObjNode* driver = player->headObj;
+		if (!IsLandCarType(player->vehicleType) || !player->objNode || player->isEliminated
+			|| player->objNode->CType == INVALID_NODE_FLAG || !driver || driver->CType == INVALID_NODE_FLAG
+			|| !driver->Skeleton || !driver->ChainNode || !driver->ChainNode->ChainNode)
+			continue;
+
+		ClubPlayerPose* pose = &poses[i];
+		pose->club = driver->ChainNode->ChainNode;
+		PlayerClubData* data = GetSpecialData(pose->club, PlayerClubData);
+		pose->data = data;
+		if (data->flinchTime > 0)
+		{
+			const float amount = data->flinchTime/kClubFlinchDuration;
+			RotateJoint(&driver->Skeleton->jointTransformMatrix[DRIVER_HEAD],
+				(OGLPoint3D){-15*amount, -10*amount*data->flinchSide, -23*amount*data->flinchSide});
+			data->flinchTime -= gFramesPerSecondFrac;
+		}
+
+		const int sex = player->sex;
+		FindCoordOnJoint(driver, DRIVER_HEAD, &kDriverSkulls[sex].center, &pose->skull);
+		pose->oldSkull = data->trackedSkull ? data->previousSkull : pose->skull;
+		pose->radius = kDriverSkulls[sex].radius * driver->Scale.x;
+		data->previousSkull = pose->skull;
+		data->trackedSkull = true;
+	}
+
+	for (int i = 0; i < gNumTotalPlayers; i++)
+	{
+		const ClubPlayerPose* attack = &poses[i];
+		PlayerClubData* data = attack->data;
+		if (!data || data->hitStop <= data->hitStart)
+			continue;
+
+		const ObjNode* car = gPlayerInfo[i].objNode;
+		const float rightX = cosf(car->Rot.y), rightZ = -sinf(car->Rot.y);
+		const float radius = kClubHeadRadius * car->Scale.x;
+		OGLPoint3D contact;
+		OGLPoint3D_Transform(&kClubContact, &attack->club->BaseTransformMatrix, &contact);
+		for (int j = 0; j < gNumTotalPlayers; j++)
+		{
+			const ClubPlayerPose* other = &poses[j];
+			if (i == j || !other->data || (data->hitPlayers & (1u << j)))
+				continue;
+			const float side = (other->skull.x-car->Coord.x)*rightX + (other->skull.z-car->Coord.z)*rightZ;
+			if (side <= 0 || !ClubPathHitsHead(data, contact, other, radius))
+				continue;
+
+			data->hitPlayers |= 1u << j;
+			PlayerInfoType* rival = &gPlayerInfo[j];
+			ObjNode* target = rival->objNode;
+			MakeClubHitSparks(other->skull, &target->Delta);
+			PlayEffect_Parms3D(EFFECT_CRASH2, &other->skull, NORMAL_CHANNEL_RATE, .8f);
+			target->Delta.x += 625.0f * rightX;
+			target->Delta.z += 625.0f * rightZ;
+			target->DeltaRot.y += 2.4f;
+			rival->greasedTiresTimer = fmaxf(rival->greasedTiresTimer, .40f);
+			rival->isPlaning = true;
+			other->data->flinchTime = kClubFlinchDuration;
+			other->data->flinchSide = rightX*cosf(target->Rot.y)-rightZ*sinf(target->Rot.y) >= 0 ? 1 : -1;
+		}
+		data->hitStop = 0;
+	}
 }
 
 
@@ -584,6 +680,8 @@ void UpdatePlayerClub(ObjNode* driver)
 	PlayerInfoType* player = &gPlayerInfo[driver->PlayerNum];
 	ObjNode* rack = driver->ChainNode;
 	ObjNode* club = rack->ChainNode;
+	PlayerClubData* data = GetSpecialData(club, PlayerClubData);
+	data->hitStop = 0;
 	const ObjNode* car = player->objNode;
 	const OGLPoint3D stowed = GetRackGrip(driver);
 	const OGLMatrix4x4 rackFrame = MakeClubFrame(car, GetRackAxis());
@@ -604,7 +702,7 @@ void UpdatePlayerClub(ObjNode* driver)
 
 	player->clubSwingTime = time;
 	if (previousTime == 0)
-		club->ClubHitPlayers = 0;
+		data->hitPlayers = 0;
 
 	const ClubInterval interval = FindClubInterval(time);
 	const ClubPose* before = &kClubPoses[interval.before];
@@ -670,8 +768,7 @@ void UpdatePlayerClub(ObjNode* driver)
 	const OGLPoint3D heldGrip = PoseDriverArm(driver, &kRightArm, rightGrip, targetGrip, rightHand,
 											&clubFrame, &interval, gripBlend);
 
-	OGLPoint3D previousContact;
-	OGLPoint3D_Transform(&kClubContact, &club->BaseTransformMatrix, &previousContact);
+	OGLPoint3D_Transform(&kClubContact, &club->BaseTransformMatrix, &data->previousContact);
 	if (interval.from >= CLUB_GRAB && interval.from < CLUB_STOW)
 		PlaceClubPiece(club, &clubFrame, heldGrip);
 	else
@@ -683,11 +780,8 @@ void UpdatePlayerClub(ObjNode* driver)
 		PlayEffect_Parms3D(EFFECT_THROW1, &club->Coord, NORMAL_CHANNEL_RATE, .7f);
 	if (time > hitStart && previousTime < hitEnd)
 	{
-		OGLPoint3D contact;
-		OGLPoint3D_Transform(&kClubContact, &club->BaseTransformMatrix, &contact);
 		const float dt = time - previousTime;
-		const float start = fmaxf(0, (hitStart-previousTime)/dt);
-		const float stop = fminf(1, (hitEnd-previousTime)/dt);
-		CheckClubHits(club, car, previousContact, contact, start, stop);
+		data->hitStart = fmaxf(0, (hitStart-previousTime)/dt);
+		data->hitStop = fminf(1, (hitEnd-previousTime)/dt);
 	}
 }

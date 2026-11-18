@@ -1110,6 +1110,7 @@ void MoveEverything(void)
 {
 
 	MoveObjects();
+	ResolvePlayerClubHits();
 	MoveSplineObjects();
 	MoveParticleGroups();
 	UpdateCameras(false, false);				// update cameras for ALL players
