@@ -123,6 +123,7 @@ const UserPhysics kDefaultPhysics =
 		[CAR_TYPE_CATAPULT]		= {{6, 7, 5, 4}},
 		[CAR_TYPE_CHARIOT]		= {{7, 7, 4, 3}},
 		[CAR_TYPE_SUB]			= {{0, 7, 0, 0}},
+		[CAR_TYPE_WICKER]		= {{5, 5, 5, 6}},
 	},
 };
 
@@ -198,7 +199,7 @@ ObjNode *InitPlayer_Car(int playerNum, OGLPoint3D *where, float rotY)
 {
 short			carType;
 ObjNode			*newObj;
-static const float bottomOffsets[NUM_LAND_CAR_TYPES] =
+static const float bottomOffsets[NUM_CAR_TYPES_TOTAL] =
 {
 	-57,				// mammoth
 	-78,				// bone buggy
@@ -212,10 +213,10 @@ static const float bottomOffsets[NUM_LAND_CAR_TYPES] =
 
 	-77,				// catapult
 	-100,				// chariot
-
+	[CAR_TYPE_WICKER] = -94,
 };
 
-static const float shadowScale[NUM_LAND_CAR_TYPES] =
+static const float shadowScale[NUM_CAR_TYPES_TOTAL] =
 {
 	11.0,				// mammoth
 	9.0,				// bone buggy
@@ -229,18 +230,20 @@ static const float shadowScale[NUM_LAND_CAR_TYPES] =
 
 	9,					// catapult
 	10,					// chariot
-
+	[CAR_TYPE_WICKER] = 11,
 };
 
 	carType = gPlayerInfo[playerNum].vehicleType;
+	GAME_ASSERT(IsLandCarType(carType));
+	const bool wicker = carType == CAR_TYPE_WICKER;
 
 
 		/* CREATE CAR BODY AS MAIN OBJECT FOR PLAYER */
 
 	NewObjectDefinitionType def =
 	{
-		.group		= MODEL_GROUP_CARPARTS,
-		.type		= CARPARTS_ObjType_Body_Mammoth + carType,
+		.group		= wicker ? MODEL_GROUP_WICKER : MODEL_GROUP_CARPARTS,
+		.type		= wicker ? WICKER_ObjType_Body : CARPARTS_ObjType_Body_Mammoth + carType,
 		.coord.x	= where->x,
 		.coord.z	= where->z,
 		.coord.y	= GetTerrainY(where->x,where->z)+100,
@@ -274,7 +277,8 @@ static const float shadowScale[NUM_LAND_CAR_TYPES] =
 
 				/* MAKE SHADOW */
 
-	AttachShadowToObject(newObj, SHADOW_TYPE_CAR_MAMMOTH + carType, shadowScale[carType], shadowScale[carType], true);
+	short shadowType = wicker ? SHADOW_TYPE_CAR_MAMMOTH : SHADOW_TYPE_CAR_MAMMOTH + carType;
+	AttachShadowToObject(newObj, shadowType, shadowScale[carType], shadowScale[carType], true);
 
 
 	return(newObj);
@@ -2527,7 +2531,8 @@ ObjNode			*wheel,*link;
 		DoFatalAlert("CreateCarWheelsAndHead: sx > 1");
 
 	carType = gPlayerInfo[playerNum].vehicleType;				// get car type
-	GAME_ASSERT(carType < NUM_LAND_CAR_TYPES);
+	GAME_ASSERT(IsLandCarType(carType));
+	const bool wicker = carType == CAR_TYPE_WICKER;
 
 	link = theCar;
 
@@ -2538,8 +2543,8 @@ ObjNode			*wheel,*link;
 	{
 		NewObjectDefinitionType def =
 		{
-			.group		= MODEL_GROUP_CARPARTS,
-			.type		= (carType * 4) + CARPARTS_ObjType_Wheel_MammothFL + i,
+			.group		= wicker ? MODEL_GROUP_WICKER : MODEL_GROUP_CARPARTS,
+			.type		= wicker ? WICKER_ObjType_FrontLeft + i : CARPARTS_ObjType_Wheel_MammothFL + carType * 4 + i,
 			.coord		= {0,0,0},
 			.slot		= theCar->Slot+1,
 			.scale		= theCar->Scale.x,
@@ -2570,7 +2575,7 @@ ObjNode			*wheel,*link;
 	NewObjectDefinitionType def =
 	{
 		.moveCall	= MovePlayer_HeadSkeleton,
-		.type		= SKELETON_TYPE_PLAYER_MALE + sex,
+		.type		= wicker ? SKELETON_TYPE_WICKER_DRIVER : SKELETON_TYPE_PLAYER_MALE + sex,
 		.coord		= {0,0,0},
 		.animNum	= PLAYER_ANIM_SIT,
 		.slot		= theCar->Slot+1,
@@ -2592,8 +2597,11 @@ ObjNode			*wheel,*link;
 			/* SET OVERRIDE TEXTURE */
 			/************************/
 
-	int skinID = gPlayerInfo[playerNum].skin;
-	wheel->Skeleton->overrideTexture = gCavemanSkins[sex][skinID];
+	if (!wicker)
+	{
+		int skinID = gPlayerInfo[playerNum].skin;
+		wheel->Skeleton->overrideTexture = gCavemanSkins[sex][skinID];
+	}
 
 
 			/* ALIGN THEM */
@@ -3107,8 +3115,9 @@ ObjNode			*wheels[4],*head;
 OGLMatrix4x4	*carMatrix;
 OGLMatrix4x4	m1,m2,m3;
 short			i,playerNum = theCar->PlayerNum;
-static const OGLPoint3D	wheelOffsets[NUM_LAND_CAR_TYPES][4] =
+static const OGLPoint3D	wheelOffsets[NUM_CAR_TYPES_TOTAL][4] =
 {
+	[CAR_TYPE_WICKER]      = { {-105,-34,-100}, {105,-34,-100}, {109,-31,98}, {-109,-31,98} },
 	//                         Front Left		Front Right		Back Right		Back Left
 	[CAR_TYPE_MAMMOTH]     = { {-109,-19,-92},	{109,-19,-92},	{129,4,91},		{-129,4,91} },
 	[CAR_TYPE_BONEBUGGY]   = { {-76,-35,-101},	{76,-35,-101},	{84,-9,91},		{-84,-9,91} },
@@ -3123,7 +3132,7 @@ static const OGLPoint3D	wheelOffsets[NUM_LAND_CAR_TYPES][4] =
 };
 
 
-static const OGLPoint3D	headOffsets[NUM_LAND_CAR_TYPES] =
+static const OGLPoint3D	headOffsets[NUM_CAR_TYPES_TOTAL] =
 {
 	[CAR_TYPE_MAMMOTH]     = { 0, 58, -10 },
 	[CAR_TYPE_BONEBUGGY]   = { 0, 65, -20 },
@@ -3146,7 +3155,7 @@ static const OGLPoint3D	headOffsets[NUM_LAND_CAR_TYPES] =
 
 	carMatrix = &theCar->BaseTransformMatrix;					// point to car's transform matrix
 
-	GAME_ASSERT(carType < NUM_LAND_CAR_TYPES);
+	GAME_ASSERT(IsLandCarType(carType));
 
 
 			/* GET OBJ NODES OF ALL OF THE WHEELS */

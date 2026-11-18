@@ -130,6 +130,7 @@ void SavePrefs(void);
 void LoadPlayfield(FSSpec *specPtr);
 void PreloadGameArt(void);
 void LoadLevelArt(void);
+void LoadWickerRacerModel(void);
 void LoadCavemanSkins(void);
 void DisposeCavemanSkins(void);
 void SetDefaultDirectory(void);

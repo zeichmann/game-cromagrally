@@ -411,7 +411,12 @@ static void LayOutScoreboardForTrack(void)
 			defDate.slot = slot++;
 			nodes[n++] = TextMesh_New(text, kTextMeshAlignLeft, &defDate);
 
-			if (record->vehicleType != CAR_TYPE_SUB)
+			if (record->vehicleType == CAR_TYPE_WICKER)
+			{
+				NewObjectDefinitionType defName = {.coord = {x-66, defCar.coord.y, 0}, .scale = 0.12f, .slot = slot++};
+				nodes[n++] = TextMesh_New(Localize(STR_CAR_WICKER), kTextMeshAlignCenter, &defName);
+			}
+			else if (record->vehicleType < NUM_STOCK_LAND_CAR_TYPES)
 			{
 				defCar.slot = slot++;
 				defCar.type = 1 + record->vehicleType;

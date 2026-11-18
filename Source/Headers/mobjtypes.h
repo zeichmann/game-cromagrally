@@ -10,10 +10,20 @@ enum
 	MODEL_GROUP_LEVELSPECIFIC =	3,
 	MODEL_GROUP_WINNERS		=	4,
 	MODEL_GROUP_CARSELECT	=	5,
+	MODEL_GROUP_WICKER,
 
 	MODEL_GROUP_SKELETONBASE				// skeleton files' models are attached here
 };
 
+enum
+{
+	WICKER_ObjType_Body,
+	WICKER_ObjType_FrontLeft,
+	WICKER_ObjType_FrontRight,
+	WICKER_ObjType_RearRight,
+	WICKER_ObjType_RearLeft,
+	WICKER_ObjType_Preview,
+};
 
 
 

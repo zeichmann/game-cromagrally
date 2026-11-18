@@ -155,21 +155,19 @@ short	i;
 void InitPlayersAtStartOfLevel(void)
 {
 int		i,j,type;
-Boolean	taken[NUM_LAND_CAR_TYPES];
+Boolean	taken[NUM_STOCK_LAND_CAR_TYPES] = {false};
 
 	gWorstHumanPlace = 0;
 
 
 		/* FIRST MARK WHICH CAR TYPES THE HUMANS HAVE */
 
-	for (i = 0; i < NUM_LAND_CAR_TYPES; i++)						// first mark all unused
-		taken[i] = false;
-
 	for (i = 0; i < gNumTotalPlayers; i++)
 	{
-		if (!gPlayerInfo[i].isComputer)								// check for human player
+		int carType = gPlayerInfo[i].vehicleType;
+		if (!gPlayerInfo[i].isComputer && carType >= 0 && carType < NUM_STOCK_LAND_CAR_TYPES)
 		{
-			taken[gPlayerInfo[i].vehicleType] = true;				// mark this used
+			taken[carType] = true;
 		}
 	}
 

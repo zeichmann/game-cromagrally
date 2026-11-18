@@ -63,7 +63,17 @@ static ObjNode	*gVehicleLeftArrow = nil;
 static ObjNode	*gVehicleRightArrow = nil;
 static ObjNode	*gVehiclePadlock = nil;
 
-static int		gNumVehiclesToChooseFrom;
+static int		gNumUnlockedStockCars;
+
+static int GetSelectedCarType(void)
+{
+	return gSelectedVehicleIndex == NUM_STOCK_LAND_CAR_TYPES ? CAR_TYPE_WICKER : gSelectedVehicleIndex;
+}
+
+static bool IsSelectedCarUnlocked(void)
+{
+	return GetSelectedCarType() == CAR_TYPE_WICKER || gSelectedVehicleIndex < gNumUnlockedStockCars;
+}
 
 
 
@@ -192,7 +202,7 @@ Boolean DoVehicleSelectScreen(short whichPlayer, Boolean allowAborting)
 
 		/* SET VEHICLE TYPE SELECTED */
 
-	gPlayerInfo[whichPlayer].vehicleType = gSelectedVehicleIndex;
+	gPlayerInfo[whichPlayer].vehicleType = GetSelectedCarType();
 
 	return(false);
 }
@@ -220,10 +230,10 @@ int					age;
 	age = GetNumAgesCompleted();
 	if (age > 2)											// prevent extra cars after winning Iron Age
 		age = 2;
-	gNumVehiclesToChooseFrom = 6 + (age * 2);				// set # cars we can pick from
+	gNumUnlockedStockCars = 6 + (age * 2);
 
 	if (gNumRealPlayers > 1)							// let use any car in mutliplayer mode
-		gNumVehiclesToChooseFrom = NUM_LAND_CAR_TYPES;
+		gNumUnlockedStockCars = NUM_STOCK_LAND_CAR_TYPES;
 
 			/**************/
 			/* SETUP VIEW */
@@ -270,6 +280,7 @@ int					age;
 
 	FSMakeFSSpec(gDataSpec.vRefNum, gDataSpec.parID, ":Models:carselect.bg3d", &spec);
 	ImportBG3D(&spec, MODEL_GROUP_CARSELECT);
+	LoadWickerRacerModel();
 
 			/*****************/
 			/* BUILD OBJECTS */
@@ -398,9 +409,9 @@ static void MakeVehicleName(void)
 	};
 
 	const char* nameStr = "???";
-	if (gSelectedVehicleIndex < gNumVehiclesToChooseFrom)
+	if (IsSelectedCarUnlocked())
 	{
-		nameStr = Localize(STR_CAR_MODEL_1 + gSelectedVehicleIndex);
+		nameStr = Localize(GetSelectedCarType() == CAR_TYPE_WICKER ? STR_CAR_WICKER : STR_CAR_MODEL_1 + gSelectedVehicleIndex);
 	}
 
 	gVehicleName = TextMesh_New(nameStr, kTextMeshAlignCenter, &def);
@@ -426,7 +437,10 @@ static void FreeVehicleSelectArt(void)
 static void UpdateSelectedVehicle(void)
 {
 
-	gVehicleObj->Type = gSelectedVehicleIndex;
+	const bool wicker = GetSelectedCarType() == CAR_TYPE_WICKER;
+	const bool unlocked = IsSelectedCarUnlocked();
+	gVehicleObj->Group = wicker ? MODEL_GROUP_WICKER : MODEL_GROUP_CARSELECT;
+	gVehicleObj->Type = wicker ? WICKER_ObjType_Preview : gSelectedVehicleIndex;
 	ResetDisplayGroupObject(gVehicleObj);
 	MakeVehicleName();
 
@@ -438,7 +452,7 @@ static void UpdateSelectedVehicle(void)
 
 			/* FOR LOCKED CARS SHOW OUTLINE ONLY */
 
-	if (gSelectedVehicleIndex >= gNumVehiclesToChooseFrom)
+	if (!unlocked)
 	{
 		gVehicleObj->ColorFilter = (OGLColorRGBA) {0,0,0,1};
 	}
@@ -450,8 +464,8 @@ static void UpdateSelectedVehicle(void)
 			/* SHOW/HIDE ARROWS, PADLOCK */
 
 	SetObjectVisible(gVehicleLeftArrow,		gSelectedVehicleIndex > 0);
-	SetObjectVisible(gVehicleRightArrow,	gSelectedVehicleIndex < NUM_LAND_CAR_TYPES-1);
-	SetObjectVisible(gVehiclePadlock,		gSelectedVehicleIndex >= gNumVehiclesToChooseFrom);
+	SetObjectVisible(gVehicleRightArrow,	gSelectedVehicleIndex < NUM_STOCK_LAND_CAR_TYPES);
+	SetObjectVisible(gVehiclePadlock,		!unlocked);
 }
 
 
@@ -459,7 +473,7 @@ static void UpdateSelectedVehicle(void)
 
 static const char* GetBoneString(int statID)
 {
-	int n = gUserPhysics.carStats[gSelectedVehicleIndex].params[statID];
+	int n = gUserPhysics.carStats[GetSelectedCarType()].params[statID];
 
 	static char boneString[NUM_PARAM_BONES+1];
 
@@ -516,7 +530,7 @@ short	p;
 
 	if (GetNewNeedState(kNeed_UIConfirm, p))
 	{
-		if (gSelectedVehicleIndex < gNumVehiclesToChooseFrom)
+		if (IsSelectedCarUnlocked())
 		{
 			PlayEffect_Parms(EFFECT_SELECTCLICK, FULL_CHANNEL_VOLUME, FULL_CHANNEL_VOLUME, NORMAL_CHANNEL_RATE * 2/3);
 			return(true);
@@ -546,7 +560,7 @@ short	p;
 		MakeTwitch(gVehicleName, kTwitchPreset_DisplaceRTL);
 	}
 	else
-	if (GetNewNeedState(kNeed_UIRight, p) && (gSelectedVehicleIndex < NUM_LAND_CAR_TYPES-1))
+	if (GetNewNeedState(kNeed_UIRight, p) && gSelectedVehicleIndex < NUM_STOCK_LAND_CAR_TYPES)
 	{
 		PlayEffect(EFFECT_SELECTCLICK);
 		gSelectedVehicleIndex++;

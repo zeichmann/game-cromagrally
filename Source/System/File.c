@@ -144,6 +144,7 @@ static const char* kSkeletonNames[MAX_SKELETON_TYPES] =
 	[SKELETON_TYPE_POLARBEAR]		= "PolarBear",
 	[SKELETON_TYPE_FLOWER]			= "Flower",
 	[SKELETON_TYPE_VIKING]			= "Viking",
+	[SKELETON_TYPE_WICKER_DRIVER]	= "WickerDriver",
 };
 
 short		fRefNum;
@@ -749,6 +750,13 @@ void PreloadGameArt(void)
 
 /************************** LOAD LEVEL ART ***************************/
 
+void LoadWickerRacerModel(void)
+{
+	FSSpec spec;
+	FSMakeFSSpec(gDataSpec.vRefNum, gDataSpec.parID, ":Models:WickerRacer.bg3d", &spec);
+	ImportBG3D(&spec, MODEL_GROUP_WICKER);
+}
+
 void LoadLevelArt(void)
 {
 FSSpec	spec;
@@ -865,6 +873,19 @@ static const char*	levelModelFiles[NUM_TRACKS] =
 
 	LoadASkeleton(SKELETON_TYPE_PLAYER_MALE);
 	LoadASkeleton(SKELETON_TYPE_PLAYER_FEMALE);
+
+	if (gTrackNum != TRACK_NUM_ATLANTIS)
+	{
+		for (int player = 0; player < gNumRealPlayers; player++)
+		{
+			if (gPlayerInfo[player].vehicleType == CAR_TYPE_WICKER)
+			{
+				LoadWickerRacerModel();
+				LoadASkeleton(SKELETON_TYPE_WICKER_DRIVER);
+				break;
+			}
+		}
+	}
 
 	LoadASkeleton(SKELETON_TYPE_BIRDBOMB);
 

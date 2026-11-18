@@ -1661,7 +1661,7 @@ void GameMain(void)
 		gTrackNum = gCommandLine.bootToTrack - 1;
 		InitPlayerInfo_Game();
 
-		if (gCommandLine.car)
+		if (gCommandLine.car > 0 && IsLandCarType(gCommandLine.car - 1))
 		{
 			gPlayerInfo[0].vehicleType = gCommandLine.car - 1;
 		}
