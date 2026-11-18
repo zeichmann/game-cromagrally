@@ -1100,8 +1100,12 @@ enum
 		if (data->nIncrements > kSuperInsaneIncrement)
 			deltaFrac *= 20;
 
-		float valueFrac = *entry->floatRange.valuePtr / *entry->floatRange.equilibriumPtr;
+		const float oldValue = *entry->floatRange.valuePtr;
+		float valueFrac = oldValue / *entry->floatRange.equilibriumPtr;
 		valueFrac += deltaFrac;
+
+		if (entry->floatRange.showSlider)
+			valueFrac = SDL_clamp(valueFrac, 0.0f, 1.0f);
 
 		// If possible, round fraction to 0% or 100%, to avoid floating-point drift
 		// when the user sets values back to 0% or 100% manually.
@@ -1111,6 +1115,9 @@ enum
 			valueFrac = 0.0f;
 
 		float newValue = valueFrac * *entry->floatRange.equilibriumPtr;
+
+		if (entry->floatRange.showSlider && newValue == oldValue)
+			return;
 
 		// Set value
 		*entry->floatRange.valuePtr = newValue;
@@ -1765,17 +1772,63 @@ static ObjNode* LayOutCycler1(int row)
 	return node;
 }
 
+static void DrawSlider(ObjNode* node)
+{
+	const float left = -35.0f;
+	const float right = 95.0f;
+	const float y = node->Coord.y;
+	const float thumb = left + (right - left) * node->SpecialF[0];
+	const float alpha = node->ChainHead->ColorFilter.a;
+
+	OGL_PushState();
+	glDisable(GL_TEXTURE_2D);
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	glColor4f(.12f, .10f, .08f, .75f * alpha);
+	glRectf(left, y - 3.0f, right, y + 3.0f);
+	glColor4f(.32f, .56f, .22f, alpha);
+	glRectf(left, y - 3.0f, thumb, y + 3.0f);
+	glColor4f(.20f, .15f, .10f, alpha);
+	glRectf(thumb - 5.0f, y - 8.0f, thumb + 5.0f, y + 8.0f);
+	glColor4f(1.0f, .92f, .75f, alpha);
+	glRectf(thumb - 3.0f, y - 6.0f, thumb + 3.0f, y + 6.0f);
+
+	OGL_PopState();
+}
+
 static ObjNode* LayOutFloatRangeValueText(int row)
 {
 	const MenuItem* entry = &gNav->menu[row];
 	DECLARE_WORKBUF(buf, bufSize);
 
-	float percent = *entry->floatRange.valuePtr / *entry->floatRange.equilibriumPtr;
-	percent *= 100.0f;
+	const float fraction = *entry->floatRange.valuePtr / *entry->floatRange.equilibriumPtr;
 
-	SDL_snprintf(buf, bufSize, "%d%%", (int)roundf(percent));
+	SDL_snprintf(buf, bufSize, "%d%%", (int)roundf(fraction * 100.0f));
 	ObjNode* node2 = MakeText(buf, row, 1, kTextMeshAlignRight);
 	node2->MoveCall = MoveAction;
+
+	if (entry->floatRange.showSlider)
+	{
+		ObjNode* slider = node2->ChainNode;
+		if (!slider)
+		{
+			NewObjectDefinitionType def =
+			{
+				.genre = CUSTOM_GENRE,
+				.flags = STATUS_BITS_FOR_2D | STATUS_BIT_MOVEINPAUSE | STATUS_BIT_OVERLAYPANE,
+				.projection = kProjectionType2DOrthoCentered,
+				.coord = {0, gNav->menuRowYs[row], 0},
+				.scale = 1,
+				.slot = node2->Slot + 1,
+				.drawCall = DrawSlider,
+			};
+			slider = MakeNewObject(&def);
+			AppendNodeToChain(gNav->menuObjects[row], slider);
+		}
+		slider->SpecialF[0] = fraction;
+	}
+
 	return node2;
 }
 
@@ -1784,7 +1837,7 @@ static ObjNode* LayOutFloatRange(int row)
 	DECLARE_WORKBUF(buf, bufSize);
 	const MenuItem* entry = &gNav->menu[row];
 
-	SDL_snprintf(buf, bufSize, "%s:", GetMenuItemLabel(entry));
+	SDL_snprintf(buf, bufSize, entry->floatRange.showSlider ? "%s" : "%s:", GetMenuItemLabel(entry));
 	ObjNode* node1 = MakeText(buf, row, 0, kTextMeshAlignLeft);
 	node1->MoveCall = MoveAction;
 	node1->Coord.x -= entry->floatRange.xSpread;

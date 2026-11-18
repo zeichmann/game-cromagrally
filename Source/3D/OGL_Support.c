@@ -646,7 +646,7 @@ void OGL_DrawScene(void (*drawRoutine)(void))
 
 
 	if (gDebugMode != 3)
-		OGL_SharpenFrame(gGameWindowWidth, gGameWindowHeight);
+		OGL_SharpenFrame(gGameWindowWidth, gGameWindowHeight, gFrameSharpeningStrength);
 
 				/**************************/
 				/* SEE IF SHOW DEBUG INFO */

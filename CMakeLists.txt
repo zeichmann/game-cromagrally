@@ -327,7 +327,9 @@ if(CMR_BUILD_RENDER_TESTS)
 			COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_RUNTIME_DLLS:GeometryBuffersTest> $<TARGET_FILE_DIR:GeometryBuffersTest>)
 	endif()
 	add_test(NAME GeometryBuffers COMMAND GeometryBuffersTest)
-	add_executable(FrameSharpenTest tests/FrameSharpenTest.c ${GAME_SRCDIR}/3D/FrameSharpen.c)
+	add_executable(FrameSharpenTest tests/FrameSharpenTest.c
+		${GAME_SRCDIR}/3D/FrameSharpen.c
+		${GAME_SRCDIR}/3D/ShaderProgram.c)
 	target_include_directories(FrameSharpenTest PRIVATE ${GAME_SRCDIR}/Headers)
 	target_link_libraries(FrameSharpenTest PRIVATE SDL3::SDL3 OpenGL::GL)
 	add_test(NAME FrameSharpen COMMAND FrameSharpenTest)

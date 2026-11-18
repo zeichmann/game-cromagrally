@@ -3,7 +3,8 @@
 - **3.0.2 (NOT RELEASED YET)**
     - Updated to SDL 3
     - Smoothed steering and landings on land vehicles, with tires that compress under load
-    - Sharpened the image at native screen resolution
+    - Sharpened the image at native screen resolution with a live sharpness slider in Graphics
+    - Sharpened original terrain textures up close and improved surface detail on steep desert cliffs
     - Fix StonehengeMap search path on case-sensitive filesystems (#19)
     - **NOTE:** The Mac version now requires macOS 10.13.
 

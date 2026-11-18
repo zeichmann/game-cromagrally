@@ -47,6 +47,7 @@ typedef struct
 	const float*	equilibriumPtr;
 	float			incrementFrac;
 	float			xSpread;
+	bool			showSlider;
 } MenuFloatRangeData;
 
 typedef struct MenuItem

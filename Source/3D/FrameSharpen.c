@@ -1,24 +1,15 @@
 #include "framesharpen.h"
+#include "shaderprogram.h"
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_opengl.h>
 #include <SDL3/SDL_opengl_glext.h>
 
 #define SHARPEN_GL_FUNCTIONS(X) \
 	X(ActiveTexture, PFNGLACTIVETEXTUREPROC) \
-	X(CreateShader, PFNGLCREATESHADERPROC) \
-	X(ShaderSource, PFNGLSHADERSOURCEPROC) \
-	X(CompileShader, PFNGLCOMPILESHADERPROC) \
-	X(GetShaderiv, PFNGLGETSHADERIVPROC) \
-	X(GetShaderInfoLog, PFNGLGETSHADERINFOLOGPROC) \
-	X(DeleteShader, PFNGLDELETESHADERPROC) \
-	X(CreateProgram, PFNGLCREATEPROGRAMPROC) \
-	X(AttachShader, PFNGLATTACHSHADERPROC) \
-	X(LinkProgram, PFNGLLINKPROGRAMPROC) \
-	X(GetProgramiv, PFNGLGETPROGRAMIVPROC) \
-	X(GetProgramInfoLog, PFNGLGETPROGRAMINFOLOGPROC) \
 	X(DeleteProgram, PFNGLDELETEPROGRAMPROC) \
 	X(UseProgram, PFNGLUSEPROGRAMPROC) \
 	X(GetUniformLocation, PFNGLGETUNIFORMLOCATIONPROC) \
+	X(Uniform1f, PFNGLUNIFORM1FPROC) \
 	X(Uniform2f, PFNGLUNIFORM2FPROC)
 
 #define DECLARE_GL(name, type) static type p##name;
@@ -28,6 +19,7 @@ SHARPEN_GL_FUNCTIONS(DECLARE_GL)
 static GLuint gSharpenProgram;
 static GLuint gFrameTexture;
 static GLint gTexelSizeLocation;
+static GLint gStrengthLocation;
 static GLint gMaxTextureSize;
 static int gFrameTextureWidth;
 static int gFrameTextureHeight;
@@ -41,6 +33,7 @@ static const GLchar kFragmentShader[] =
 	"#version 110\n"
 	"uniform sampler2D frame;\n"
 	"uniform vec2 texelSize;\n"
+	"uniform float strength;\n"
 	"void main() {\n"
 	"    vec2 uv = gl_FragCoord.xy * texelSize;\n"
 	"    vec4 center = texture2D(frame, uv);\n"
@@ -51,29 +44,9 @@ static const GLchar kFragmentShader[] =
 	"    vec3 low = min(center.rgb, min(min(left, right), min(down, up)));\n"
 	"    vec3 high = max(center.rgb, max(max(left, right), max(down, up)));\n"
 	"    vec3 blur = 0.25 * (left + right + down + up);\n"
-	"    vec3 color = clamp(center.rgb + 0.65 * (center.rgb - blur), low, high);\n"
+	"    vec3 color = clamp(center.rgb + strength * (center.rgb - blur), low, high);\n"
 	"    gl_FragColor = vec4(color, center.a);\n"
 	"}\n";
-
-static GLuint CompileShader(GLenum stage, const GLchar* source)
-{
-	GLuint shader = pCreateShader(stage);
-	if (!shader)
-		return 0;
-
-	pShaderSource(shader, 1, &source, NULL);
-	pCompileShader(shader);
-	GLint compiled = GL_FALSE;
-	pGetShaderiv(shader, GL_COMPILE_STATUS, &compiled);
-	if (compiled)
-		return shader;
-
-	char log[512] = {0};
-	pGetShaderInfoLog(shader, sizeof(log), NULL, log);
-	SDL_Log("Frame sharpening shader: %s", log);
-	pDeleteShader(shader);
-	return 0;
-}
 
 bool OGL_InitFrameSharpening(void)
 {
@@ -84,42 +57,13 @@ bool OGL_InitFrameSharpening(void)
 	SHARPEN_GL_FUNCTIONS(LOAD_GL)
 #undef LOAD_GL
 
-	GLuint vertex = CompileShader(GL_VERTEX_SHADER, kVertexShader);
-	if (!vertex)
-		return false;
-
-	GLuint fragment = CompileShader(GL_FRAGMENT_SHADER, kFragmentShader);
-	if (!fragment)
-	{
-		pDeleteShader(vertex);
-		return false;
-	}
-
-	gSharpenProgram = pCreateProgram();
-	if (gSharpenProgram)
-	{
-		pAttachShader(gSharpenProgram, vertex);
-		pAttachShader(gSharpenProgram, fragment);
-		pLinkProgram(gSharpenProgram);
-	}
-	pDeleteShader(fragment);
-	pDeleteShader(vertex);
+	gSharpenProgram = OGL_BuildShaderProgram("Frame sharpening", kVertexShader, kFragmentShader);
 	if (!gSharpenProgram)
 		return false;
 
-	GLint linked = GL_FALSE;
-	pGetProgramiv(gSharpenProgram, GL_LINK_STATUS, &linked);
-	if (!linked)
-	{
-		char log[512] = {0};
-		pGetProgramInfoLog(gSharpenProgram, sizeof(log), NULL, log);
-		SDL_Log("Frame sharpening program: %s", log);
-		OGL_DisposeFrameSharpening();
-		return false;
-	}
-
 	// The frame sampler defaults to texture unit zero.
 	gTexelSizeLocation = pGetUniformLocation(gSharpenProgram, "texelSize");
+	gStrengthLocation = pGetUniformLocation(gSharpenProgram, "strength");
 	glGetIntegerv(GL_MAX_TEXTURE_SIZE, &gMaxTextureSize);
 	glGenTextures(1, &gFrameTexture);
 	if (!gFrameTexture)
@@ -142,9 +86,15 @@ void OGL_DisposeFrameSharpening(void)
 	gFrameTextureHeight = 0;
 }
 
-bool OGL_SharpenFrame(int width, int height)
+bool OGL_IsFrameSharpeningAvailable(void)
 {
-	if (!gSharpenProgram || width <= 0 || height <= 0 || width > gMaxTextureSize || height > gMaxTextureSize)
+	return gSharpenProgram != 0;
+}
+
+bool OGL_SharpenFrame(int width, int height, float strength)
+{
+	if (!(strength > 0.0f) || !OGL_IsFrameSharpeningAvailable()
+		|| width <= 0 || height <= 0 || width > gMaxTextureSize || height > gMaxTextureSize)
 		return false;
 
 	glPushAttrib(GL_COLOR_BUFFER_BIT | GL_ENABLE_BIT | GL_PIXEL_MODE_BIT | GL_TEXTURE_BIT | GL_VIEWPORT_BIT);
@@ -181,6 +131,7 @@ bool OGL_SharpenFrame(int width, int height)
 
 		pUseProgram(gSharpenProgram);
 		pUniform2f(gTexelSizeLocation, 1.0f / width, 1.0f / height);
+		pUniform1f(gStrengthLocation, SDL_min(strength, 1.0f));
 		glBegin(GL_TRIANGLES);
 		glVertex2f(-1.0f, -1.0f);
 		glVertex2f(3.0f, -1.0f);

@@ -4,7 +4,10 @@
 /****************************/
 
 #include "game.h"
+#include "framesharpen.h"
 #include "menu.h"
+
+static const float kMaxSharpeningStrength = 1.0f;
 
 static void OnPickLanguage(const MenuItem* mi)
 {
@@ -54,6 +57,11 @@ static int ShouldDisplayMonitorCycler(const MenuItem* mi)
 {
 	// Expose the option if we have more than one display
 	return (GetNumDisplays() <= 1) ? kMILayoutFlagHidden : 0;
+}
+
+static int ShouldDisplaySharpnessSlider(const MenuItem* mi)
+{
+	return OGL_IsFrameSharpeningAvailable() ? 0 : kMILayoutFlagHidden;
 }
 
 static void OnChangeMSAA(const MenuItem* mi)
@@ -182,6 +190,19 @@ const MenuItem gSettingsMenuTree[] =
 				{STR_MSAA_4X, 2},
 				{STR_MSAA_8X, 3},
 			},
+		},
+	},
+	{
+		kMIFloatRange, STR_SHARPNESS,
+		.customHeight = .85f,
+		.getLayoutFlags = ShouldDisplaySharpnessSlider,
+		.floatRange =
+		{
+			.valuePtr = &gFrameSharpeningStrength,
+			.equilibriumPtr = &kMaxSharpeningStrength,
+			.incrementFrac = .05f,
+			.xSpread = 200.0f,
+			.showSlider = true,
 		},
 	},
 	{kMISpacer, .customHeight=.5f },

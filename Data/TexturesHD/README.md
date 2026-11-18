@@ -9,7 +9,7 @@ Requested sizes were generation guidance; actual delivered sizes are below.
 | `Fences/desertskin.png` | 1254 x 1254 RGBA | Spotted hide and timber fence |
 | `Fences/rockwall.png` | 1774 x 887 RGBA | Low and tall dry-stone walls |
 | `Fences/aztec.png` | 2172 x 724 RGB | Ornate golden stone fence |
-| `desert-detail.png` | 1254 x 1254 RGB | Repeating grayscale desert surface detail |
+| `desert-detail.png` | 1254 x 1254 RGB | Grayscale detail projected onto desert ground and cliffs |
 
 Fence references were the corresponding original textures. Transparent areas were
 preserved for hide and stone wall. The final Aztec iteration removed unwanted white

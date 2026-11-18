@@ -90,6 +90,13 @@ MOMaterialObject* gCavemanSkins[2][NUM_CAVEMAN_SKINS];
 
 PrefsType gDiskShadowPrefs;
 
+// Keep the additional graphics setting readable alongside the existing Prefs format.
+#define SHARPNESS_PREF_FILENAME "Sharpness"
+#define SHARPNESS_PREF_MAGIC "CMR Sharpness v1"
+enum { kDefaultSharpnessPercent = 65 };
+float gFrameSharpeningStrength = kDefaultSharpnessPercent * 0.01f;
+static Byte gDiskSharpnessPercent = kDefaultSharpnessPercent;
+
 
 /****************** SET DEFAULT DIRECTORY ********************/
 //
@@ -560,6 +567,14 @@ OSErr LoadPrefs(void)
 
 	SDL_memcpy(&gDiskShadowPrefs, &gGamePrefs, sizeof(gDiskShadowPrefs));
 
+	Byte sharpnessPercent = kDefaultSharpnessPercent;
+	if (LoadUserDataFile(SHARPNESS_PREF_FILENAME, SHARPNESS_PREF_MAGIC, sizeof(sharpnessPercent), (Ptr)&sharpnessPercent) != noErr
+		|| sharpnessPercent > 100)
+	{
+		sharpnessPercent = kDefaultSharpnessPercent;
+	}
+	gDiskSharpnessPercent = sharpnessPercent;
+	gFrameSharpeningStrength = sharpnessPercent * 0.01f;
 	return err;
 }
 
@@ -568,6 +583,13 @@ OSErr LoadPrefs(void)
 
 void SavePrefs(void)
 {
+	Byte sharpnessPercent = (Byte)SDL_roundf(SDL_clamp(gFrameSharpeningStrength, 0.0f, 1.0f) * 100.0f);
+	if (sharpnessPercent != gDiskSharpnessPercent
+		&& SaveUserDataFile(SHARPNESS_PREF_FILENAME, SHARPNESS_PREF_MAGIC, sizeof(sharpnessPercent), (Ptr)&sharpnessPercent) == noErr)
+	{
+		gDiskSharpnessPercent = sharpnessPercent;
+	}
+
 	// If prefs didn't change relative to what's on disk, don't bother rewriting them
 	if (0 == SDL_memcmp(&gDiskShadowPrefs, &gGamePrefs, sizeof(gGamePrefs)))
 	{
