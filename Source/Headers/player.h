@@ -98,6 +98,7 @@ typedef struct
 	ObjNode				*objNode;
 
 	ObjNode				*wheelObj[4],*headObj;
+	float				clubSwingTime;
 
 	short				sex;					// 0 = male, 1 = female
 	short				vehicleType;
@@ -302,6 +303,8 @@ ObjNode *InitPlayer_Car(int playerNum, OGLPoint3D *where, float rotY);
 void SetPhysicsForVehicleType(short playerNum);
 void CreateCarWheelsAndHead(ObjNode *theCar, short playerNum);
 void AlignWheelsAndHeadOnCar(ObjNode *theCar);
+void CreatePlayerClub(ObjNode* driver);
+void UpdatePlayerClub(ObjNode* driver);
 void BlastCars(short whoThrew, float x, float y, float z, float radius);
 void SetTractionPhysics(CarStatsType *carStats, float p);
 void SetSuspensionPhysics(CarStatsType *carStats, float n);

@@ -48,6 +48,7 @@ Gamepad				gGamepads[MAX_LOCAL_PLAYERS];
 
 static KeyState		gKeyboardStates[SDL_SCANCODE_COUNT];
 static KeyState		gMouseButtonStates[NUM_SUPPORTED_MOUSE_BUTTONS];
+static uint32_t		gMouseButtonPresses;
 static KeyState		gNeedStates[NUM_CONTROL_NEEDS];
 
 Boolean				gMouseMotionNow = false;
@@ -89,6 +90,7 @@ void InvalidateNeedState(int need)
 
 void InvalidateAllInputs(void)
 {
+	gMouseButtonPresses = 0;
 	_Static_assert(1 == sizeof(KeyState), "sizeof(KeyState) has changed -- Rewrite this function without SDL_memset()!");
 
 	SDL_memset(gNeedStates, KEYSTATE_IGNOREHELD, NUM_CONTROL_NEEDS);
@@ -242,6 +244,7 @@ void DoSDLMaintenance(void)
 {
 	gTextInput[0] = '\0';
 	gMouseMotionNow = false;
+	gMouseButtonPresses = 0;
 	int mouseWheelDelta = 0;
 
 			/**********************/
@@ -273,6 +276,15 @@ void DoSDLMaintenance(void)
 			case SDL_EVENT_MOUSE_MOTION:
 				gMouseMotionNow = true;
 				break;
+
+			case SDL_EVENT_MOUSE_BUTTON_DOWN:
+			{
+				const int button = event.button.button;
+				if (button > 0 && button < NUM_SUPPORTED_MOUSE_BUTTONS_PURESDL
+					&& gMouseButtonStates[button] != KEYSTATE_IGNOREHELD)
+					gMouseButtonPresses |= SDL_BUTTON_MASK(button);
+				break;
+			}
 
 			case SDL_EVENT_MOUSE_WHEEL:
 				mouseWheelDelta += event.wheel.y;
@@ -362,9 +374,10 @@ Boolean GetClickState(int mouseButton)
 
 Boolean GetNewClickState(int mouseButton)
 {
-	if (mouseButton >= NUM_SUPPORTED_MOUSE_BUTTONS)
+	if (mouseButton <= 0 || mouseButton >= NUM_SUPPORTED_MOUSE_BUTTONS)
 		return false;
-	return gMouseButtonStates[mouseButton] == KEYSTATE_PRESSED;
+	return gMouseButtonStates[mouseButton] == KEYSTATE_PRESSED
+		|| (gMouseButtonPresses & SDL_BUTTON_MASK(mouseButton)) != 0;
 }
 
 #pragma mark -

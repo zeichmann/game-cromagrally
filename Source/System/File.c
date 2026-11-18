@@ -876,6 +876,9 @@ static const char*	levelModelFiles[NUM_TRACKS] =
 
 	if (gTrackNum != TRACK_NUM_ATLANTIS)
 	{
+		FSMakeFSSpec(gDataSpec.vRefNum, gDataSpec.parID, ":Models:DriverClub.bg3d", &spec);
+		ImportBG3D(&spec, MODEL_GROUP_DRIVER_CLUB);
+
 		for (int player = 0; player < gNumRealPlayers; player++)
 		{
 			if (gPlayerInfo[player].vehicleType == CAR_TYPE_WICKER)

@@ -2607,6 +2607,7 @@ ObjNode			*wheel,*link;
 			/* ALIGN THEM */
 
 	AlignWheelsAndHeadOnCar(theCar);
+	CreatePlayerClub(wheel);
 }
 
 
@@ -2616,6 +2617,8 @@ static void MovePlayer_HeadSkeleton(ObjNode *head)
 {
 short		powType;
 short		playerNum = head->PlayerNum;
+
+	UpdatePlayerClub(head);
 
 	switch(head->Skeleton->AnimNum)
 	{

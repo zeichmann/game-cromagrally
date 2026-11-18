@@ -147,6 +147,11 @@ short	i;
 			/* BUILD "NEW" BITFIELD */
 
 	gPlayerInfo[playerNum].controlBits_New = (gPlayerInfo[playerNum].controlBits ^ old) & gPlayerInfo[playerNum].controlBits;
+
+	// The mouse belongs to one local player, and each pad can use its right shoulder button.
+	const bool mousePlayer = gActiveSplitScreenMode == SPLITSCREEN_MODE_NONE || playerNum == 0;
+	if ((mousePlayer && GetNewClickState(SDL_BUTTON_LEFT)) || GetNewNeedState(kNeed_UINext, playerNum))
+		gPlayerInfo[playerNum].controlBits_New |= 1u << kControlBit_ClubSwing;
 }
 
 

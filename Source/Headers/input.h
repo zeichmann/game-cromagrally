@@ -88,6 +88,7 @@ enum
 	kControlBit_Backward      = kNeed_Backward,
 	kControlBit_CameraMode    = kNeed_CameraMode,
 	kControlBit_RearView      = kNeed_RearView,
+	kControlBit_ClubSwing     = NUM_CONTROL_BITS,
 };
 
 

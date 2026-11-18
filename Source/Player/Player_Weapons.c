@@ -188,6 +188,9 @@ static void PlayerThrowsWeapon(short playerNum, Boolean forwardThrow)
 	PlayerInfoType* pinfo = &gPlayerInfo[playerNum];
 	ObjNode* head = pinfo->headObj;
 
+	if (pinfo->clubSwingTime > 0)
+		return;
+
 	head->HEAD_THROW_READY_FLAG = false;
 
 	if ((head->Skeleton->AnimNum != PLAYER_ANIM_THROWFORWARD) && (head->Skeleton->AnimNum != PLAYER_ANIM_THROWBACKWARD))
