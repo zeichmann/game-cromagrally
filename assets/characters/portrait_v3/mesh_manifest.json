@@ -1,0 +1,32 @@
+{
+	"swinka_driver": {
+		"eye_center": "(0.195, 0.955)",
+		"surfaces": 2,
+		"vertices": 63537
+	},
+	"swinka_driver_balanced": {
+		"eye_center": "(0.195, 0.955)",
+		"surfaces": 2,
+		"vertices": 38363
+	},
+	"swinka_driver_performance": {
+		"eye_center": "(0.195, 0.955)",
+		"surfaces": 2,
+		"vertices": 22392
+	},
+	"zabol_driver": {
+		"eye_center": "(0.235, 0.975)",
+		"surfaces": 2,
+		"vertices": 51282
+	},
+	"zabol_driver_balanced": {
+		"eye_center": "(0.235, 0.975)",
+		"surfaces": 2,
+		"vertices": 30480
+	},
+	"zabol_driver_performance": {
+		"eye_center": "(0.235, 0.975)",
+		"surfaces": 2,
+		"vertices": 17328
+	}
+}

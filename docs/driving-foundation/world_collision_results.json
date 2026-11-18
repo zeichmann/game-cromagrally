@@ -1,0 +1,70 @@
+{
+	"assertions": 54,
+	"evidence": {
+		"blocked_driving_lanes": [],
+		"building_impact": {
+			"asset": "teahouse",
+			"contact": true,
+			"minimum_wall_distance": 1.600013256073,
+			"position": "(113.1886, 9.7353, 44.61112)",
+			"velocity": "(0.882689, 0.000001, 1.137896)"
+		},
+		"live_race_impact": {
+			"a_position": "(-83.51688, 4.935088, -4.824929)",
+			"a_velocity": "(-0.526229, 0.032584, 2.256087)",
+			"b_position": "(-82.34896, 4.928307, -10.2143)",
+			"b_velocity": "(-0.0, 0.0, -0.0)",
+			"contact": true,
+			"minimum_separation": 3.0817539691925,
+			"outward_speed": 3.71333789825439
+		},
+		"scenery": {
+			"building_rays": 200,
+			"counts": {
+				"ancient_oak": 1,
+				"arch": 3,
+				"bakery": 1,
+				"bench": 7,
+				"boathouse": 1,
+				"castle_keep": 1,
+				"cottage_blue": 5,
+				"cottage_peach": 5,
+				"cottage_rose": 4,
+				"crystal_grotto": 1,
+				"dock_supplies": 3,
+				"elder_gate": 1,
+				"footbridge": 1,
+				"foundations_and_castle": 1,
+				"fountain": 2,
+				"garden_fence": 14,
+				"garden_planter": 14,
+				"lantern": 37,
+				"lighthouse": 1,
+				"mailbox": 7,
+				"market_stall": 3,
+				"moss_boulder": 32,
+				"pavilion": 2,
+				"port_crane": 1,
+				"rose_arbor": 1,
+				"stone_rail": 33,
+				"tea_bridge_banks_garden": 1,
+				"tea_garden": 1,
+				"teahouse": 1,
+				"town_post": 3,
+				"town_tea": 2,
+				"town_workshop": 1,
+				"tree_birch": 31,
+				"tree_blossom": 43,
+				"tree_cypress": 15,
+				"tree_oak": 55,
+				"tree_willow": 11,
+				"turret": 4,
+				"windmill": 1
+			},
+			"instances": 351,
+			"shared_shapes": 39,
+			"walls_hit": 186
+		}
+	},
+	"failures": 0
+}

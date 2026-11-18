@@ -1,0 +1,113 @@
+{
+	"adapter": "Intel(R) Iris(R) Xe Graphics",
+	"adventure_observed": {
+		"boost": true,
+		"collectibles": true,
+		"jump": false,
+		"leaf_wake": true,
+		"splash": true
+	},
+	"completed_laps": 1,
+	"districts": {
+		"castle": {
+			"mean_fps": 30.7115512050149,
+			"p99_ms": 52.663,
+			"samples": 104
+		},
+		"gardens": {
+			"mean_fps": 26.9779341611728,
+			"p99_ms": 49.886,
+			"samples": 115
+		},
+		"grove": {
+			"mean_fps": 25.320565604861,
+			"p99_ms": 57.812,
+			"samples": 367
+		},
+		"harbor": {
+			"mean_fps": 29.342751945745,
+			"p99_ms": 43.316,
+			"samples": 119
+		},
+		"village": {
+			"mean_fps": 25.7295929636212,
+			"p99_ms": 48.396,
+			"samples": 178
+		},
+		"waterfall": {
+			"mean_fps": 27.3548656717261,
+			"p99_ms": 49.127,
+			"samples": 155
+		}
+	},
+	"draw_calls": 105,
+	"driver_detail": 2,
+	"driver_vertices": [
+		16586,
+		20850,
+		16586,
+		20850,
+		16586,
+		20850
+	],
+	"driving_audio": true,
+	"duration_seconds": 45.0,
+	"frame_ms_max": 60.434,
+	"frame_ms_mean": 37.3633198458574,
+	"frame_ms_p50": 35.899,
+	"frame_ms_p95": 49.126,
+	"frame_ms_p99": 53.555,
+	"frames_over_100ms": 0,
+	"frames_over_250ms": 0,
+	"gpu_dust": true,
+	"gpu_ms_by_viewport": [
+		1.05317630129283,
+		28.5972408596031
+	],
+	"gpu_pose_generation": true,
+	"graphics_prepared": true,
+	"instance_layout_valid": true,
+	"mean_fps": 26.7642169947828,
+	"obstacle_aware_camera": true,
+	"pipeline_compilations": {
+		"PIPELINE_COMPILATIONS_CANVAS": 0.0,
+		"PIPELINE_COMPILATIONS_DRAW": 13.0,
+		"PIPELINE_COMPILATIONS_MESH": 0.0,
+		"PIPELINE_COMPILATIONS_SPECIALIZATION": 21.0,
+		"PIPELINE_COMPILATIONS_SURFACE": 0.0
+	},
+	"primitives": 564178,
+	"profile": "performance",
+	"renderer": "forward_plus",
+	"root_camera_active": false,
+	"samples": 1038,
+	"screenshot": "single_forward_plus_performance_circuit.png",
+	"skeleton_bones": 6,
+	"startup_preparation_ms": 8635,
+	"textures": {
+		"linen": {
+			"height": 1254,
+			"width": 1254
+		},
+		"road": {
+			"height": 1254,
+			"width": 1254
+		},
+		"wood": {
+			"height": 1254,
+			"width": 1254
+		}
+	},
+	"viewport_size": "(1920, 1080)",
+	"views": 1,
+	"views_3d": [
+		{
+			"msaa": 0,
+			"render_scale": 0.600000023841858,
+			"screen_aa": 1,
+			"size": "(1438, 898)",
+			"upscaler": 1
+		}
+	],
+	"world_instance_layout_valid": true
+}

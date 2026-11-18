@@ -1,0 +1,233 @@
+{
+  "recorded_utc": "2026-11-16T23:20:18.043824+00:00",
+  "geometry": "Original local authored meshes and offline LOD generation; no external 3D models.",
+  "bitmap": {
+    "path": "assets/textures/tea_ancient_bark_v1.png",
+    "width": 1254,
+    "height": 1254,
+    "method": "Built-in image_gen, text prompt only; copied without editing or upscaling."
+  },
+  "captures": "Unmodified native Godot output, copied byte for byte.",
+  "files": [
+    {
+      "path": "docs/tea-bend/screenshots/drive_10.png",
+      "bytes": 1173662,
+      "sha256": "22336553d6652090015c3669ff994ff41fc0f8b7e3603011723220325b858a79"
+    },
+    {
+      "path": "docs/tea-bend/screenshots/drive_15.png",
+      "bytes": 1101022,
+      "sha256": "c411bc4a6b01e423011c43ce8173df0e1051ddba1732d93dbff4adb0a4ab8184"
+    },
+    {
+      "path": "docs/tea-bend/screenshots/drive_19.png",
+      "bytes": 1165544,
+      "sha256": "fee3867663c23f740b7debcb9d7e7fdf3601aba511fb3d3a655bc5feef79c3d9"
+    },
+    {
+      "path": "docs/tea-bend/screenshots/drive_24.png",
+      "bytes": 1149766,
+      "sha256": "161e5f6f2f734e66c61f380d7d065226061745efc1986bb1b9cfd390622b3035"
+    },
+    {
+      "path": "docs/tea-bend/screenshots/drive_29.png",
+      "bytes": 1198406,
+      "sha256": "513de13a8d5cae61d8f12cbeae03ef0136b1ffe23dd03132930ff81502eb8bbf"
+    },
+    {
+      "path": "docs/tea-bend/screenshots/drive_35.png",
+      "bytes": 1185183,
+      "sha256": "71033b6013748e101e36c27466fb07d1e9d84454c78aa4f84be083308bd57f52"
+    },
+    {
+      "path": "docs/tea-bend/screenshots/bend_overview.png",
+      "bytes": 1064704,
+      "sha256": "3bb9682a219347a91039d2d48903e8e9a56b288b5a75690efae077469e99aede"
+    },
+    {
+      "path": "docs/tea-bend/screenshots/teahouse.png",
+      "bytes": 1105822,
+      "sha256": "822e4460a478bf00f2a2dd68392ad9120824e69a8583efbe0bc9d6d8e7e45ba1"
+    },
+    {
+      "path": "docs/tea-bend/screenshots/house_front.png",
+      "bytes": 972977,
+      "sha256": "6a28b8af2cda10c4db3249259188dbad6e90e6d055ebbee1c45ac6458869d6ca"
+    },
+    {
+      "path": "docs/tea-bend/screenshots/stream_bridge.png",
+      "bytes": 1290249,
+      "sha256": "3f575004131fa2b4fd5b6b71d85f428d4e00f467f931852fd64714b89cc4ca85"
+    },
+    {
+      "path": "docs/tea-bend/screenshots/garden.png",
+      "bytes": 910132,
+      "sha256": "282b86524241498f424b5b97b453c27efb44d71078079b172740fc0f64ace5b8"
+    },
+    {
+      "path": "docs/tea-bend/screenshots/stone_arch.png",
+      "bytes": 1085390,
+      "sha256": "2ec77001925352ed2bf65c494b3f8c3bd5dd8b0412d032a1b91fd6e096b76b65"
+    },
+    {
+      "path": "docs/tea-bend/screenshots/ancient_oak.png",
+      "bytes": 1130974,
+      "sha256": "1c83bddce7875daba9f7b8a7cbc8bd8178ac0e7f2c85d9dd82c075db66448ad0"
+    },
+    {
+      "path": "docs/tea-bend/screenshots/stream_close.png",
+      "bytes": 1083232,
+      "sha256": "e05821ed2ca461949d5f960586b1b75a447bf4f01bc1a2da8ce47cf33a9f1465"
+    },
+    {
+      "path": "docs/tea-bend/screenshots/teapot_sign.png",
+      "bytes": 1042691,
+      "sha256": "d6419f861dad242691f282094500c7a27f1ffc4f05ace87fe1b6c4535f47ba5a"
+    },
+    {
+      "path": "docs/tea-bend/screenshots/gpu_leaves.png",
+      "bytes": 112362,
+      "sha256": "93e3420bfb181494a8ec9dec11b0b08c1c9440eb0046e450e250702707ae2804"
+    },
+    {
+      "path": "docs/tea-bend/screenshots/gpu_sign.png",
+      "bytes": 21135,
+      "sha256": "00b5ad4078cf5249919a4e9224a315293c3ccce44a5b7274432fd1ec7349d309"
+    },
+    {
+      "path": "docs/tea-bend/screenshots/gpu_water.png",
+      "bytes": 19777,
+      "sha256": "a85829eebcd2819c61849c700cd33eb9115318b74b5971596965e8a2faca8788"
+    },
+    {
+      "path": "docs/benchmarks/tea_single_forward_plus_high_circuit.json",
+      "bytes": 2104,
+      "sha256": "ef1309c8e35c251dc3635697b27e7a9c5c429792a473a4f56e6a6de0b6c66f03"
+    },
+    {
+      "path": "docs/benchmarks/tea_single_forward_plus_balanced.json",
+      "bytes": 1538,
+      "sha256": "428da937366b86cfd49297ecb62e45a89e132f85a408d242ce757ac4c2a660df"
+    },
+    {
+      "path": "docs/benchmarks/tea_four_forward_plus_balanced.json",
+      "bytes": 1851,
+      "sha256": "c261b69231a1d0b69cf783f278f8bbc7a848dc046411a0519dcef67ef883f68b"
+    },
+    {
+      "path": "docs/benchmarks/tea_four_forward_plus_performance.json",
+      "bytes": 1856,
+      "sha256": "5d8325da7e236345fa3764af54a3ece5db0829e1d603aa2c3b2ff390c8ce0f0c"
+    },
+    {
+      "path": "docs/tea-bend/screenshots/fixed_drive_high.png",
+      "bytes": 1169536,
+      "sha256": "8667784a80c16f0652c40b2f9f239036e93da8a6fce380f11271333d9f9b5d26"
+    },
+    {
+      "path": "docs/tea-bend/screenshots/fixed_drive_balanced.png",
+      "bytes": 1094379,
+      "sha256": "f6de4513fda3f13a40c736c9267359013328354a9acedb1ffbc261a5e34b8abd"
+    },
+    {
+      "path": "docs/tea-bend/screenshots/fixed_drive_performance.png",
+      "bytes": 1034915,
+      "sha256": "470c74c08adacf31be1512fcd4b35dcca91391deeac039d4c9e5ecee7dc257ac"
+    },
+    {
+      "path": "docs/tea-bend/screenshots/fixed_stream_high.png",
+      "bytes": 1281719,
+      "sha256": "2a4718949c637cc23673eaeb0b03e6761bea2854e6d5485121ff7957e486766b"
+    },
+    {
+      "path": "docs/tea-bend/screenshots/fixed_stream_balanced.png",
+      "bytes": 1157015,
+      "sha256": "52841b563f367e75f68cf19032057df17c9ef473cecb37ef0b9e7a85eb04e525"
+    },
+    {
+      "path": "docs/tea-bend/screenshots/fixed_stream_performance.png",
+      "bytes": 1119653,
+      "sha256": "13f2e4280501e292f7039bb25df7c82fca0aa43b6eafaf1f0458ce81a27c03cb"
+    },
+    {
+      "path": "assets/tea_bend/ancient_oak.res",
+      "bytes": 3140237,
+      "sha256": "5654b9ad855b903a95e3c987a5857639be4c7ba86cb84fe3ef69074fdd18f4e8"
+    },
+    {
+      "path": "assets/tea_bend/tea_garden.res",
+      "bytes": 323137,
+      "sha256": "7eb58eff51a50ef3a7b1db9abfe59d31bae6ef7b6943ddee8af48e09e303283e"
+    },
+    {
+      "path": "assets/tea_bend/teahouse.res",
+      "bytes": 872845,
+      "sha256": "332078f823b63e3dc23b73c4f0d05514aab3cf7846093b7dee02fcdcf394948e"
+    },
+    {
+      "path": "assets/tea_bend/teapot_sign.res",
+      "bytes": 183737,
+      "sha256": "1d2328c5e6b258d900c32226764e5c4b834c420795601d2e27514c8b521f34ae"
+    },
+    {
+      "path": "assets/textures/tea_ancient_bark_v1.png",
+      "bytes": 2613532,
+      "sha256": "4aed77d6bca828667dedc08074bc7d04eca1cf68379939d9ad55fdb1e8bc2e26"
+    },
+    {
+      "path": "tools/tea_asset_builder.gd",
+      "bytes": 18875,
+      "sha256": "47e448fb81f81ee9913c317a49b6ec9e4e359ac2c93a66ff330920a75b7bf60a"
+    },
+    {
+      "path": "scripts/tea_bend.gd",
+      "bytes": 13291,
+      "sha256": "48645881416d022e58fa1344b779a17d29450dad67d6588360bbbd6db630b065"
+    },
+    {
+      "path": "scripts/tea_bend_layout.gd",
+      "bytes": 1623,
+      "sha256": "1d6bb8d19e4c54b7013575ddb74ab4a17cf0ec275e66c5b466ca7e948b7cdfee"
+    },
+    {
+      "path": "scripts/tea_geometry.gd",
+      "bytes": 1504,
+      "sha256": "8f6d65991238d311d346a8e28e509bb207b712cbfdc6b5ee8d40fb00937907de"
+    },
+    {
+      "path": "docs/tea-bend/BARK_PROMPT.txt",
+      "bytes": 1344,
+      "sha256": "9e0675970a5641ebc01dc4e5ef6130573d758560211fb4f8fcb270e0c271a8c0"
+    },
+    {
+      "path": "docs/tea-bend/TEST_LOGS.json",
+      "bytes": 8588,
+      "sha256": "08c373363256ff00f945f36bc7259904c8f4008a4e0e7ec8c4e6189e4b9b28c4"
+    },
+    {
+      "path": "docs/tea-bend/fixed_camera_benchmarks.json",
+      "bytes": 2172,
+      "sha256": "878ee50af281e0a85fea9af8e83af0e95ee727ff7ac63e6f9efa64c67b1fe66d"
+    },
+    {
+      "path": "shaders/tea_bank.gdshader",
+      "bytes": 650,
+      "sha256": "24198972016ab476fc9fe219a1bfef58dbbdd46066b0da14627e8ed7244519cf"
+    },
+    {
+      "path": "shaders/tea_sign.gdshader",
+      "bytes": 337,
+      "sha256": "ae2e7995a619569ca80fe787007b6e6caa6c7906411b36dc3ff0be1b460ce25b"
+    },
+    {
+      "path": "shaders/tea_steam.gdshader",
+      "bytes": 510,
+      "sha256": "ecf0b46b40fcc66082cb0c1027d2979d85e354e5a178998d19e66c777bd90433"
+    },
+    {
+      "path": "shaders/tea_stream.gdshader",
+      "bytes": 985,
+      "sha256": "ffaaeb801b72f7e2e5974228088ef624f7866f527f31ff331d6b5cfc328f3ce3"
+    }
+  ]
+}

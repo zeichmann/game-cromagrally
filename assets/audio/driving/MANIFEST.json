@@ -1,0 +1,63 @@
+{
+  "source": "Original mathematical synthesis; deterministic seed 48170",
+  "sample_rate": 22050,
+  "channels": 1,
+  "files": [
+    {
+      "path": "assets/audio/driving/sail_drive.wav",
+      "seconds": 1,
+      "peak": 0.6513447813031055,
+      "rms": 0.3173326330524485,
+      "sha256": "a5ab8d7ac629a7601e2c07630b2f79258f46fb57af629691087cd3cbc2575431"
+    },
+    {
+      "path": "assets/audio/driving/flywheel_drive.wav",
+      "seconds": 1,
+      "peak": 0.4981994084515266,
+      "rms": 0.34734708865916814,
+      "sha256": "bedd8b0f0699a34eb0e9ef5cc31897c1fbc225351d7b04207a18438b4e33afbc"
+    },
+    {
+      "path": "assets/audio/driving/tires.wav",
+      "seconds": 1,
+      "peak": 0.8418404912527586,
+      "rms": 0.2252198925494817,
+      "sha256": "4b4f4a48c8d6e6d91ce1a9a7c20cacec6f749d67f15f91ec3eb37858d7738e1b"
+    },
+    {
+      "path": "assets/audio/driving/rolling.wav",
+      "seconds": 1,
+      "peak": 0.4839623998393683,
+      "rms": 0.12257650672131286,
+      "sha256": "dc95dfb286f6ca4f32cfdc79c3a7ff23f7a1ab11a4490db96df07a0a0d1b831e"
+    },
+    {
+      "path": "assets/audio/driving/impact.wav",
+      "seconds": 0.32,
+      "peak": 0.92,
+      "rms": 0.17975698576839033,
+      "sha256": "4540bb2c22a7b791569a8d77ad910359ddc2c3782a7ee366ba4afd829d028759"
+    },
+    {
+      "path": "assets/audio/driving/landing.wav",
+      "seconds": 0.27,
+      "peak": 0.784737980962411,
+      "rms": 0.18237286089565288,
+      "sha256": "daf761e3e7c7773be6eb0aa91aa8f0956412f00f8390f3d8d352ac0fcbd1c699"
+    },
+    {
+      "path": "assets/audio/driving/boost.wav",
+      "seconds": 0.75,
+      "peak": 0.6178043063837281,
+      "rms": 0.09026246866479247,
+      "sha256": "11892c677df33cbfdcae9b0ee7c4596294d5caf2ff332b42c8a4d197a57f1c89"
+    },
+    {
+      "path": "assets/audio/driving/pickup.wav",
+      "seconds": 0.22,
+      "peak": 0.5303964590515843,
+      "rms": 0.13173469277656044,
+      "sha256": "3c83e79cdcdd562111d92f40bb8a3fa0f1aa48765c4616940c5368cc1e8ec09b"
+    }
+  ]
+}

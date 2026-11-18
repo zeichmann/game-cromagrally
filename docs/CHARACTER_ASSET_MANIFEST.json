@@ -1,0 +1,141 @@
+{
+  "created": "2026-11-15",
+  "validated": "2026-11-16",
+  "visual_review": "rejected_by_user_2026-11-16",
+  "validation_scope": "Technical mesh, session and renderer checks only; character likeness not accepted",
+  "ownership": "Akademia Oli characters and source artwork retain their original ownership; adapted at user request",
+  "sources": [
+    {
+      "path": "assets/characters/zabol-seated-v1.glb",
+      "source_project": "AkademiaOli",
+      "source_relative_path": "public/games/chess/assets/pirate/models/zabol-seated-v1.glb",
+      "sha256": "02e9a18c2546fc850558abe7b965a6a961301e7d49eec3d32fd98924279558b5",
+      "bytes": 4099884,
+      "copied_unchanged": true
+    },
+    {
+      "path": "docs/character-references/zabol-seated-v1.png",
+      "source_project": "AkademiaOli",
+      "source_relative_path": "public/games/chess/assets/pirate/characters/zabol-seated-v1.png",
+      "sha256": "af0bb04e1ab870dc43e88b36d5302b9c54979f7c2c71b5d970eef4a63060769a",
+      "bytes": 1896178,
+      "copied_unchanged": true
+    },
+    {
+      "path": "docs/character-references/swinka-seated-v1.png",
+      "source_project": "AkademiaOli",
+      "source_relative_path": "public/games/chess/assets/pirate/characters/swinka-seated-v1.png",
+      "sha256": "63f5c124321a7022d4d5e975930f06b8ae2a535fd58873d7c7e789ac5c4142ca",
+      "bytes": 2018315,
+      "copied_unchanged": true
+    },
+    {
+      "path": "docs/character-sources/AKADEMIA_OLI_NOTICES.md",
+      "source_project": "AkademiaOli",
+      "source_relative_path": "public/games/chess/THIRD_PARTY.md",
+      "sha256": "f000213c0927ee20a6cef19ced34a3db376ada43fc15a13fd1c3e2bb92089961",
+      "bytes": 9351,
+      "copied_unchanged": true
+    },
+    {
+      "path": "docs/character-sources/CHARACTER_ART_PROMPTS.md",
+      "source_project": "AkademiaOli",
+      "source_relative_path": "public/games/chess/provenance/design/campaign/character-art-prompts.md",
+      "sha256": "594cd401d7e98285f0a42f2a0d403199a58b0e441fffdffb1758150cb8ee830c",
+      "bytes": 5654,
+      "copied_unchanged": true
+    },
+    {
+      "path": "docs/character-sources/zabol-model.js",
+      "source_project": "AkademiaOli",
+      "source_relative_path": "public/games/chess/provenance/design/board-3d/zabol-model.js",
+      "sha256": "0b493eca28c78aa53af31f92a0a258a4fe69c4be57e55ead9e728ab2900fa79d",
+      "bytes": 10158,
+      "copied_unchanged": true
+    },
+    {
+      "path": "docs/character-sources/zabol-hat.js",
+      "source_project": "AkademiaOli",
+      "source_relative_path": "public/games/chess/provenance/design/board-3d/zabol-hat.js",
+      "sha256": "14d0dd735daa9fdfefe0aad51bcada8a02cec1860af2ba178e657d32872fd1aa",
+      "bytes": 8648,
+      "copied_unchanged": true
+    },
+    {
+      "path": "docs/character-sources/zabol-outfit.js",
+      "source_project": "AkademiaOli",
+      "source_relative_path": "public/games/chess/provenance/design/board-3d/zabol-outfit.js",
+      "sha256": "7725ba6d79f597f5729a98609b27a5acb453c6afad9c3a2577bb05460e661e8e",
+      "bytes": 17338,
+      "copied_unchanged": true
+    }
+  ],
+  "generated_meshes": [
+    {
+      "path": "assets/characters/zabol_driver.res",
+      "surfaces": 7,
+      "vertices": 149810,
+      "surface_lod_count_total": 55,
+      "sha256": "89fe2c103ac7dc470ac3f1aa2cc36c75ad019eae82a0886d0b6b0e3a4dba0172",
+      "bytes": 4491297,
+      "generator": "tools/build_academy_drivers.gd",
+      "engine": "Godot 4.7.2",
+      "bone_count": 6
+    },
+    {
+      "path": "assets/characters/zabol_driver_balanced.res",
+      "surfaces": 7,
+      "vertices": 33484,
+      "surface_lod_count_total": 37,
+      "sha256": "1ed5b7763b31ad9161e30096c9e29630de99b00ebb67c7f92e8deee77806bf60",
+      "bytes": 1057071,
+      "generator": "tools/build_academy_drivers.gd",
+      "engine": "Godot 4.7.2",
+      "bone_count": 6
+    },
+    {
+      "path": "assets/characters/zabol_driver_performance.res",
+      "surfaces": 7,
+      "vertices": 12531,
+      "surface_lod_count_total": 28,
+      "sha256": "4de299c1580f874de4efc93429428e904c252ba379a00830136d0fdd1a46bcc6",
+      "bytes": 373952,
+      "generator": "tools/build_academy_drivers.gd",
+      "engine": "Godot 4.7.2",
+      "bone_count": 6
+    },
+    {
+      "path": "assets/characters/swinka_driver.res",
+      "surfaces": 7,
+      "vertices": 169213,
+      "surface_lod_count_total": 55,
+      "sha256": "f8aedc6627aef79d348fbbeeb3f3e84ba8586b4853b493c4e98cff6298fa28f4",
+      "bytes": 4743416,
+      "generator": "tools/build_academy_drivers.gd",
+      "engine": "Godot 4.7.2",
+      "bone_count": 6
+    },
+    {
+      "path": "assets/characters/swinka_driver_balanced.res",
+      "surfaces": 7,
+      "vertices": 30998,
+      "surface_lod_count_total": 36,
+      "sha256": "3a33936b991f3836629c4b2246b101dbc38c07537628292acd0b4ebaaa917dc9",
+      "bytes": 966231,
+      "generator": "tools/build_academy_drivers.gd",
+      "engine": "Godot 4.7.2",
+      "bone_count": 6
+    },
+    {
+      "path": "assets/characters/swinka_driver_performance.res",
+      "surfaces": 7,
+      "vertices": 12854,
+      "surface_lod_count_total": 26,
+      "sha256": "a576bd420503024a48c296b7789ac45dc2966bbb6c427ae74d9f8e66b5337e1d",
+      "bytes": 368677,
+      "generator": "tools/build_academy_drivers.gd",
+      "engine": "Godot 4.7.2",
+      "bone_count": 6
+    }
+  ]
+}

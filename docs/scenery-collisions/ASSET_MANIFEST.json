@@ -1,0 +1,528 @@
+{
+  "engine": "Godot 4.7.2 ed1daf0bf",
+  "physics_backend": "Jolt Physics",
+  "capture_method": "Native fullscreen Vulkan captures copied byte for byte without image editing.",
+  "log_method": "Original log text stored in JSON with newline normalization; errors retained separately for the pre-fix race.",
+  "race_finish_times": {
+    "4": 85.62,
+    "0": 90.12,
+    "2": 92.25,
+    "1": 98.1,
+    "3": 107.63,
+    "5": 110.23
+  },
+  "images": [
+    {
+      "path": "docs/scenery-collisions/cars_before.png",
+      "width": 1728,
+      "height": 1080
+    },
+    {
+      "path": "docs/scenery-collisions/cars_contact.png",
+      "width": 1728,
+      "height": 1080
+    },
+    {
+      "path": "docs/scenery-collisions/cars_after.png",
+      "width": 1728,
+      "height": 1080
+    },
+    {
+      "path": "docs/scenery-collisions/building_before.png",
+      "width": 1728,
+      "height": 1080
+    },
+    {
+      "path": "docs/scenery-collisions/building_contact.png",
+      "width": 1728,
+      "height": 1080
+    }
+  ],
+  "files": [
+    {
+      "path": "assets/fairytale/arch.res",
+      "bytes": 17699,
+      "sha256": "e52d5dd2e8ec77c610d342734ce646416129dcdf11f3f14b3e0d632a61a2e923"
+    },
+    {
+      "path": "assets/fairytale/bakery.res",
+      "bytes": 353079,
+      "sha256": "288f9ca4e336cdbcc5cc59207367d0021d4daa5914c5bb62ebf3f02327f245d1"
+    },
+    {
+      "path": "assets/fairytale/bench.res",
+      "bytes": 6795,
+      "sha256": "61f54e947de1dfbc8e3cb6305dfd88ce0910e5e7518f3e867acd3cbd31cde149"
+    },
+    {
+      "path": "assets/fairytale/boathouse.res",
+      "bytes": 106225,
+      "sha256": "2fb87b03b59937e3d53222f8e27be3e011341beca8258cd86c286025b96023fb"
+    },
+    {
+      "path": "assets/fairytale/castle_keep.res",
+      "bytes": 330345,
+      "sha256": "6132fee843391a51dfc021fa72837b13283dd4951c0651efd6936fa7cbdeb8ef"
+    },
+    {
+      "path": "assets/fairytale/cottage_blue.res",
+      "bytes": 432152,
+      "sha256": "55722e9c84bb1ae58338dfd3d58fe7c89464579e88a00f9f34bdcb06023339aa"
+    },
+    {
+      "path": "assets/fairytale/cottage_peach.res",
+      "bytes": 492067,
+      "sha256": "e13b01054cfe0f0353195e59bed2680878a3cb7feb6d1c96e5b85c9ee88e70aa"
+    },
+    {
+      "path": "assets/fairytale/cottage_rose.res",
+      "bytes": 407656,
+      "sha256": "5b17757810a721f903137b001b50fbb1aa1f184faed63fb6a29fb98fd03aef03"
+    },
+    {
+      "path": "assets/fairytale/crystal_grotto.res",
+      "bytes": 71634,
+      "sha256": "8f9a1f73d05afe9170dbe03d88df9f05cbc60562e21ca3cb8d15300e49ba6d2e"
+    },
+    {
+      "path": "assets/fairytale/dock_supplies.res",
+      "bytes": 44581,
+      "sha256": "d90702a9a0b283326d581dc9f049ed80cd825e99e8f35414c4bbd5679593c35b"
+    },
+    {
+      "path": "assets/fairytale/elder_gate.res",
+      "bytes": 572217,
+      "sha256": "649a020a4d1628b6e9fa4d62533188369d3aa9bfc6c3cc69b11be1ee043d7051"
+    },
+    {
+      "path": "assets/fairytale/footbridge.res",
+      "bytes": 74347,
+      "sha256": "12aa15f11d704040e5b0ff1d8baef9894b12c715b8d39f75aaf3c2d6695c01b7"
+    },
+    {
+      "path": "assets/fairytale/fountain.res",
+      "bytes": 22619,
+      "sha256": "c081ccc52c239c7125c07f648e66ff66d4238371ba8746730449647c77eb9258"
+    },
+    {
+      "path": "assets/fairytale/garden_fence.res",
+      "bytes": 14938,
+      "sha256": "488f1cd869214c4ec9b728362044bf7cb0ecff46d714d3a2509dac9b13ead9ae"
+    },
+    {
+      "path": "assets/fairytale/garden_planter.res",
+      "bytes": 4594,
+      "sha256": "383632db78bba2be53adf16e3c1e53c52b17190eff1a77bae8b43745dadce428"
+    },
+    {
+      "path": "assets/fairytale/lantern.res",
+      "bytes": 7382,
+      "sha256": "94f5e21b1c6ea184673e7dfb03e9555a4dba6a3fcd3d8c68cfd2b8ebf55e4356"
+    },
+    {
+      "path": "assets/fairytale/lighthouse.res",
+      "bytes": 99571,
+      "sha256": "218e5de8736eb78fce3d47506e79bbe8bbf9e697efdfdf3a536481cec549100b"
+    },
+    {
+      "path": "assets/fairytale/mailbox.res",
+      "bytes": 2546,
+      "sha256": "974b37b08d258c1a5fbe93af2523eda8f0b7cb7be560b0086d5719ece59ef0d7"
+    },
+    {
+      "path": "assets/fairytale/market_stall.res",
+      "bytes": 57278,
+      "sha256": "e5e59450055c04c1bfa531694451fdb62d0a8c7029783ac022e48335b68c5c9d"
+    },
+    {
+      "path": "assets/fairytale/moss_boulder.res",
+      "bytes": 14537,
+      "sha256": "ffe71f8bfa47efa9bf1cea07d0ca183423c0f5e939d084dbe16c61d8c2a390eb"
+    },
+    {
+      "path": "assets/fairytale/pavilion.res",
+      "bytes": 119281,
+      "sha256": "516e5092c5a9718134c0b77b5cfd7fd1c33754ab2a997aa5e291ba2251199bd7"
+    },
+    {
+      "path": "assets/fairytale/port_crane.res",
+      "bytes": 54584,
+      "sha256": "88bdf957a0fb032877592e95305519fb999e7dc1801984cdefd46e45053f3ddc"
+    },
+    {
+      "path": "assets/fairytale/rose_arbor.res",
+      "bytes": 369713,
+      "sha256": "b121fd3cb69a83103da8eef04dd2946f251c7efac9b0b59106e4b9bd2e6e5bbb"
+    },
+    {
+      "path": "assets/fairytale/stone_rail.res",
+      "bytes": 15706,
+      "sha256": "e7cbcd3202bc47442629572ecccad688c21ad8cd230a227241f0fd918443e5f6"
+    },
+    {
+      "path": "assets/fairytale/town_post.res",
+      "bytes": 696353,
+      "sha256": "4cf5139bca36917ede5611f716a2f24858cff07c19a9c55ca3204a7ccb45787c"
+    },
+    {
+      "path": "assets/fairytale/town_tea.res",
+      "bytes": 689645,
+      "sha256": "6ccda5efb621fa17b80ccb9c29b5718f90b4cf3ccd92794869b48590750d4099"
+    },
+    {
+      "path": "assets/fairytale/town_workshop.res",
+      "bytes": 691143,
+      "sha256": "83c290c414287f3148e11a80cede8d4851a71c30c145a5d1ad21afc22946e6bf"
+    },
+    {
+      "path": "assets/fairytale/tree_birch.res",
+      "bytes": 278236,
+      "sha256": "0af163bf54c79a29dd849543b57bc1f5c4d789e81319c0abe8dec1381ed30093"
+    },
+    {
+      "path": "assets/fairytale/tree_blossom.res",
+      "bytes": 470335,
+      "sha256": "5abb959aecd9724ac6e14dbaf76c53371081c20cf3de7115cf0a1d135e5ea2db"
+    },
+    {
+      "path": "assets/fairytale/tree_cypress.res",
+      "bytes": 73192,
+      "sha256": "7ec9f61f9c4be55ed9b8fd53721ffa9fdc62f560e27068ab791f1f1e85a9aa51"
+    },
+    {
+      "path": "assets/fairytale/tree_oak.res",
+      "bytes": 341998,
+      "sha256": "d576de472e8f7e9f2f62d55a12b6a4fc8cb75e76b52deba7b6810638941af411"
+    },
+    {
+      "path": "assets/fairytale/tree_willow.res",
+      "bytes": 166602,
+      "sha256": "649ab054e0863264e40c3be6c8bc665931b2865c04088bbc87a2fdf2eef14b94"
+    },
+    {
+      "path": "assets/fairytale/turret.res",
+      "bytes": 42525,
+      "sha256": "8575927bf469f23c4bf4c73d47e232de0fab0b727b4ee8bfc05adf047aaae68c"
+    },
+    {
+      "path": "assets/fairytale/windmill.res",
+      "bytes": 9393,
+      "sha256": "d90b8286841de1a7aee974cf77ff1baf92ecda151a2b2b5591b3bfee66e76ded"
+    },
+    {
+      "path": "assets/tea_bend/ancient_oak.res",
+      "bytes": 3140237,
+      "sha256": "5654b9ad855b903a95e3c987a5857639be4c7ba86cb84fe3ef69074fdd18f4e8"
+    },
+    {
+      "path": "assets/tea_bend/tea_garden.res",
+      "bytes": 323137,
+      "sha256": "7eb58eff51a50ef3a7b1db9abfe59d31bae6ef7b6943ddee8af48e09e303283e"
+    },
+    {
+      "path": "assets/tea_bend/teahouse.res",
+      "bytes": 872845,
+      "sha256": "332078f823b63e3dc23b73c4f0d05514aab3cf7846093b7dee02fcdcf394948e"
+    },
+    {
+      "path": "docs/PROVENANCE.md",
+      "bytes": 11018,
+      "sha256": "53b5172bca27058d309640c3cb9f30eac717e8274935832a21893680ae1885f5"
+    },
+    {
+      "path": "docs/scenery-collisions/building_before.png",
+      "bytes": 2097346,
+      "sha256": "c8979d18b615301c7494a8eb2472abdc89a4e1e911d718457ba00d1b5296460c"
+    },
+    {
+      "path": "docs/scenery-collisions/building_contact.png",
+      "bytes": 2113228,
+      "sha256": "976f7650e528435e8b4dae4abbf8e4890a5f0bd8b8e89a89105a970083e72aa0"
+    },
+    {
+      "path": "docs/scenery-collisions/cars_after.png",
+      "bytes": 2437026,
+      "sha256": "fe1bb6e3368f4b40d474424157de6bb4f0106b2a730e82e0dcd71ec95b8afdb9"
+    },
+    {
+      "path": "docs/scenery-collisions/cars_before.png",
+      "bytes": 2509729,
+      "sha256": "d323118e0d2b76f115596cd056e9d2f81c0651df83fc48b9ec73f46b75c0c930"
+    },
+    {
+      "path": "docs/scenery-collisions/cars_contact.png",
+      "bytes": 2477527,
+      "sha256": "6d873af5f5e9dea26b388a1b8eeb4d57fed55760e75a40c0de30241376c389ad"
+    },
+    {
+      "path": "docs/scenery-collisions/EXPLORATORY_LOGS.json",
+      "bytes": 5579,
+      "sha256": "79527a854c78a49e17c2e43032cd7d1e4f366831e744b8e7dd094e56bb13a0a7"
+    },
+    {
+      "path": "docs/scenery-collisions/headless_results.json",
+      "bytes": 1616,
+      "sha256": "b53463c1ccd8033de8079d18fb6a3196cdf7bf142bca403e31add0647e45f2f6"
+    },
+    {
+      "path": "docs/scenery-collisions/native_results.json",
+      "bytes": 1621,
+      "sha256": "66571329707380696a979436896b7d7754f5e01abcbf9674684727b54c83fc10"
+    },
+    {
+      "path": "docs/scenery-collisions/offroad_results.json",
+      "bytes": 3498,
+      "sha256": "bd04c174dd6ead15b0206d56840463133a229e4b8c3d1c5acf2c42d79195fffd"
+    },
+    {
+      "path": "docs/scenery-collisions/physics_results.json",
+      "bytes": 4279,
+      "sha256": "b82595103f64fc64a748975c3f1f8382e758936caad241a6913150d6778a9736"
+    },
+    {
+      "path": "docs/scenery-collisions/README.md",
+      "bytes": 6408,
+      "sha256": "68ba0f2fa0ee275d74ee5dc80e13e40f9551e544d9364af181e25f4771990d98"
+    },
+    {
+      "path": "docs/scenery-collisions/TEST_LOGS.json",
+      "bytes": 10783,
+      "sha256": "39c4c4d71157657c93810c049bc0e7216b89c44db4b6ffe514a8c22ecf4b61f1"
+    },
+    {
+      "path": "project.godot",
+      "bytes": 1066,
+      "sha256": "3b17f9814b032ef8534385627c708baba5cefeffdb9a9cc138a9ed127036a698"
+    },
+    {
+      "path": "README.md",
+      "bytes": 15284,
+      "sha256": "d10d0b1c5d408116293d931adab823353b17ba828a4d155609639ef3ecaa3520"
+    },
+    {
+      "path": "Run.cmd",
+      "bytes": 457,
+      "sha256": "34d70b7dcb4c1088eed99795543a126855d000034d1ba5db621d950706023917"
+    },
+    {
+      "path": "scripts/art.gd",
+      "bytes": 7992,
+      "sha256": "9b3105b169418a14ba7ac5e7343f66fe0c2e447be4121d66994db991cae96978"
+    },
+    {
+      "path": "scripts/art.gd.uid",
+      "bytes": 19,
+      "sha256": "5145063d7a134a3b8fcc910ec8a7da392ce8f26f8523cd779d174d0df5ec8869"
+    },
+    {
+      "path": "scripts/fairytale_world.gd",
+      "bytes": 34637,
+      "sha256": "a1124fe9438fe2781944f7e15dce11525474ad165fcc5f84f6a72fa8a1baa6a2"
+    },
+    {
+      "path": "scripts/fairytale_world.gd.uid",
+      "bytes": 20,
+      "sha256": "248a41503ad5e392f592fff40162067918d5c35ac93b1af3f5a6870d3653a95d"
+    },
+    {
+      "path": "scripts/living_districts.gd",
+      "bytes": 3752,
+      "sha256": "9daffd950966e0d7eda1188b066f2f5374ff948fcc43aff3781fe4e50eaf5f6f"
+    },
+    {
+      "path": "scripts/living_districts.gd.uid",
+      "bytes": 20,
+      "sha256": "3c4cb08997bfc2ad1700a438840a6067d1ab2862fb8bdbb19d8157daee0a12de"
+    },
+    {
+      "path": "scripts/main.gd",
+      "bytes": 28796,
+      "sha256": "ee621286fc98d4b077093d7150fd77cf5e5fdf7db3bfa652aa52105d6c0bdcd3"
+    },
+    {
+      "path": "scripts/main.gd.uid",
+      "bytes": 20,
+      "sha256": "3f0b1cafd26461bb9b661cc0c9c76a56ea13d217a2f5125b1720bf31869407e2"
+    },
+    {
+      "path": "scripts/palette_mesh.gd",
+      "bytes": 7170,
+      "sha256": "6fb2d9890d4e192ed1436b3633423efd4d2221f74a4c1395d938081e5329d8ed"
+    },
+    {
+      "path": "scripts/palette_mesh.gd.uid",
+      "bytes": 19,
+      "sha256": "e5cdc6b442fbf5a1b0bfd707b0fd5c1b7ca3ea755da935b0df04bad0da15a5f4"
+    },
+    {
+      "path": "scripts/scenery_art.gd",
+      "bytes": 15421,
+      "sha256": "02a6dd7c76f8affead92029b41c08690aa077ec9740157cdbb16ecd81ae548b8"
+    },
+    {
+      "path": "scripts/scenery_art.gd.uid",
+      "bytes": 20,
+      "sha256": "6edc83c2d4de0639d6f24d6ccc5ac08be6211f9e2f7addccdcc5747fc084d2eb"
+    },
+    {
+      "path": "scripts/tea_bend.gd",
+      "bytes": 13490,
+      "sha256": "21efb6c830bbd8961728c97e7de40ca5caa0b9e07d63b2dc244b8627d765a129"
+    },
+    {
+      "path": "scripts/tea_bend.gd.uid",
+      "bytes": 19,
+      "sha256": "498872d06349e0650743acb314e229d627e2304e32a02c21231a2a717078d02e"
+    },
+    {
+      "path": "scripts/tea_bend_layout.gd",
+      "bytes": 1623,
+      "sha256": "1d6bb8d19e4c54b7013575ddb74ab4a17cf0ec275e66c5b466ca7e948b7cdfee"
+    },
+    {
+      "path": "scripts/tea_bend_layout.gd.uid",
+      "bytes": 20,
+      "sha256": "79d2f6ccfbb11f5c358611addaef79937aeff94a671998f0223cb4658de4f98f"
+    },
+    {
+      "path": "scripts/tea_geometry.gd",
+      "bytes": 1504,
+      "sha256": "8f6d65991238d311d346a8e28e509bb207b712cbfdc6b5ee8d40fb00937907de"
+    },
+    {
+      "path": "scripts/tea_geometry.gd.uid",
+      "bytes": 20,
+      "sha256": "96508225542f881bb7d4b26456392896c0cafe7f74efc9c5342a0a222b22249f"
+    },
+    {
+      "path": "scripts/track.gd",
+      "bytes": 11690,
+      "sha256": "4a35f8e36abc1f60cf4da80d49244b294cc0f9d113058a9bd82ab15c41f66b2c"
+    },
+    {
+      "path": "scripts/track.gd.uid",
+      "bytes": 20,
+      "sha256": "8d6e44f7554e45128daa0ae35d355bf55c44e5f1d716b3702ac38f8f3d7fb42f"
+    },
+    {
+      "path": "scripts/vehicle.gd",
+      "bytes": 14318,
+      "sha256": "62db6ecea743980fa0bf75ba14fb73af3692ca05c472696c392514d21be0914f"
+    },
+    {
+      "path": "scripts/vehicle.gd.uid",
+      "bytes": 20,
+      "sha256": "f1ec4b5c5cc918b18306a7d780f1398922a49ea8f2187c14d52f210981f2cb32"
+    },
+    {
+      "path": "scripts/vehicle_contacts.gd",
+      "bytes": 2231,
+      "sha256": "f2e323b9450674d1de380c687233a0f62b152b0fe7e6828aff76a19b4c45c219"
+    },
+    {
+      "path": "scripts/vehicle_contacts.gd.uid",
+      "bytes": 20,
+      "sha256": "949d312ab432f572aabfb10bc88459d8bd1d462e756314f626ac27cad0251af9"
+    },
+    {
+      "path": "scripts/world_collisions.gd",
+      "bytes": 3179,
+      "sha256": "46778b2cc4418f95cfe9dce0026b6da0a21132b62eebf9a4e976c109fe65f361"
+    },
+    {
+      "path": "scripts/world_collisions.gd.uid",
+      "bytes": 20,
+      "sha256": "4c2672a7df31b8e8ad691170456d21e82e379b1c7c09374d8944acdc3887675c"
+    },
+    {
+      "path": "shaders/palette_surface.gdshaderinc",
+      "bytes": 16105,
+      "sha256": "287f8c6bcf8439902ac915dc1f531fa0747638edd6752377d73cd84c101dee51"
+    },
+    {
+      "path": "shaders/palette_surface.gdshaderinc.uid",
+      "bytes": 20,
+      "sha256": "2e7331d9e1039ba90d1df9d78b89638fdf71bae651f0f2307aaac95a7d1dc84a"
+    },
+    {
+      "path": "tests/test_art.gd",
+      "bytes": 7031,
+      "sha256": "3e44bd8f76be0000bc65a75d777dcb22c3b6bbc29c4f0576a0d87d3acc435dff"
+    },
+    {
+      "path": "tests/test_art.gd.uid",
+      "bytes": 20,
+      "sha256": "40f0b61aa1ad24686c2efef684798892e849f3bc9d1d82e16716cbe121473f22"
+    },
+    {
+      "path": "tests/test_living.gd",
+      "bytes": 7109,
+      "sha256": "8391c81174120e9321c9dd51e8193ef516a20d41d45355ba3b28ffd698b04a47"
+    },
+    {
+      "path": "tests/test_living.gd.uid",
+      "bytes": 20,
+      "sha256": "f646c9b55c0e2ac13e74ed2704abe18e8d888ffc0e37b1a506496849fff4301c"
+    },
+    {
+      "path": "tests/test_offroad_physics.gd",
+      "bytes": 6486,
+      "sha256": "53b0ebce269ec80e113b2acd9bdf049ac0b6404d6921266f20f917c8e06ace17"
+    },
+    {
+      "path": "tests/test_offroad_physics.gd.uid",
+      "bytes": 20,
+      "sha256": "6bf7dad6080cddade50060f2976ac7cbcbad4cbb6abe043d3bce7c29cc6bc781"
+    },
+    {
+      "path": "tests/test_rules.gd",
+      "bytes": 5766,
+      "sha256": "513f0003a5626fddae96b88d946f94f007fa1711004e67619b8fa2f1b74aab38"
+    },
+    {
+      "path": "tests/test_rules.gd.uid",
+      "bytes": 20,
+      "sha256": "62f462aa4f0bd38bdc1f4dd97921fe821efb613dbbdda091ae58042cfe63a88f"
+    },
+    {
+      "path": "tests/test_session.gd",
+      "bytes": 5110,
+      "sha256": "3c748693554c4526714808f883f2d6c3c7a368580de8b1ee21ad3e9dd45b247b"
+    },
+    {
+      "path": "tests/test_session.gd.uid",
+      "bytes": 20,
+      "sha256": "a9a8b1ef05107f35d9f7194653380f4c155343a9bea7ac1464a5e2dfdec15344"
+    },
+    {
+      "path": "tests/test_vehicle_physics.gd",
+      "bytes": 10100,
+      "sha256": "4290a40056e974fc0e7c943781f1bf7268fbe16129065331b443ec93fa60c9d6"
+    },
+    {
+      "path": "tests/test_vehicle_physics.gd.uid",
+      "bytes": 20,
+      "sha256": "ac53851500c55a7a59114a54c631bad5ea5ffd04cc6e4c395ea5e85b96f6b756"
+    },
+    {
+      "path": "tests/test_world_collisions.gd",
+      "bytes": 10348,
+      "sha256": "ce01e75db80949ce4c356c44670b2a63bfeeb874a6703709054b0104935a9d00"
+    },
+    {
+      "path": "tests/test_world_collisions.gd.uid",
+      "bytes": 20,
+      "sha256": "89fc3f2ee0754cc0faf2e50dd306c0c980f56652a6ad0432f2f84392b4fad450"
+    },
+    {
+      "path": "tools/review_world_collisions.gd",
+      "bytes": 900,
+      "sha256": "39668011cf4ff24d69b34ce1cfc0e35257a188c9549f0b2f6e31ba89abc7e61c"
+    },
+    {
+      "path": "tools/review_world_collisions.gd.uid",
+      "bytes": 19,
+      "sha256": "bfc2fd9933b7bea379b63098cb714571836ed7103d31467c389412f44fffb701"
+    }
+  ]
+}

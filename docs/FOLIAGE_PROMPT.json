@@ -1,0 +1,6 @@
+{
+  "tool": "built-in image_gen",
+  "asset": "assets/textures/seagrape_sprig.png",
+  "prompt": "Use case: stylized-concept. Asset type: original game foliage cutout, one botanical sprig on a genuinely transparent background, to be used on 3D foliage cards in a polished stylized coastal racing game. Primary request: a lush young seagrape branch with nine broad rounded oval leaves in a pleasing alternating arrangement. Leaves are rich deep jade and warm emerald green, with delicate lighter veins and subtly curled natural margins, visible petioles and a slim curved woody stem. Premium hand-painted 3D game art with expressive clean shapes and convincing waxy leaf material, refined detailed but calm natural green gradients. The entire botanical sprig is fully visible and fills the square, centered with a small transparent safety margin. Mostly frontal orthographic view, each leaf visible and separated enough to read, gentle oblique leaf angles for volume. Neutral soft diffuse ambient illumination, no dramatic baked highlights and no cast shadow outside the leaves. True transparent alpha around and between all leaves and the branch. Output ideally 2048 square at maximum available native quality. No pot, ground, background, scene, text, watermark, border, checkerboard, other botanical species or existing game references.",
+  "reference_images": []
+}

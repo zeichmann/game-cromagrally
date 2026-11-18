@@ -1,0 +1,101 @@
+{
+	"adapter": "Intel(R) Iris(R) Xe Graphics",
+	"completed_laps": 1,
+	"districts": {
+		"castle": {
+			"mean_fps": 39.7647020328625,
+			"p99_ms": 30.056,
+			"samples": 175
+		},
+		"gardens": {
+			"mean_fps": 39.9245858245112,
+			"p99_ms": 27.108,
+			"samples": 166
+		},
+		"grove": {
+			"mean_fps": 37.2962529317868,
+			"p99_ms": 31.364,
+			"samples": 229
+		},
+		"harbor": {
+			"mean_fps": 41.6845959663097,
+			"p99_ms": 27.142,
+			"samples": 254
+		},
+		"village": {
+			"mean_fps": 39.5028995506892,
+			"p99_ms": 29.702,
+			"samples": 313
+		},
+		"waterfall": {
+			"mean_fps": 42.4803953435234,
+			"p99_ms": 28.697,
+			"samples": 462
+		}
+	},
+	"draw_calls": 193,
+	"driver_detail": 0,
+	"driver_vertices": [
+		149810,
+		169213,
+		149810,
+		169213,
+		149810,
+		169213
+	],
+	"duration_seconds": 45.0,
+	"frame_ms_max": 32.543,
+	"frame_ms_mean": 24.7599787367104,
+	"frame_ms_p50": 24.748,
+	"frame_ms_p95": 28.221,
+	"frame_ms_p99": 30.04,
+	"frames_over_100ms": 0,
+	"frames_over_250ms": 0,
+	"gpu_dust": true,
+	"gpu_ms_by_viewport": [
+		0.229649155661044,
+		23.6613695789979
+	],
+	"gpu_pose_generation": true,
+	"graphics_prepared": true,
+	"instance_layout_valid": true,
+	"mean_fps": 40.3877568165011,
+	"pipeline_compilations": {
+		"PIPELINE_COMPILATIONS_CANVAS": 0.0,
+		"PIPELINE_COMPILATIONS_DRAW": 0.0,
+		"PIPELINE_COMPILATIONS_MESH": 0.0,
+		"PIPELINE_COMPILATIONS_SPECIALIZATION": 0.0,
+		"PIPELINE_COMPILATIONS_SURFACE": 0.0
+	},
+	"profile": "high",
+	"renderer": "forward_plus",
+	"root_camera_active": false,
+	"samples": 1599,
+	"screenshot": "single_forward_plus_high_circuit.png",
+	"skeleton_bones": 6,
+	"startup_preparation_ms": 1325,
+	"textures": {
+		"linen": {
+			"height": 1254,
+			"width": 1254
+		},
+		"road": {
+			"height": 1254,
+			"width": 1254
+		},
+		"wood": {
+			"height": 1254,
+			"width": 1254
+		}
+	},
+	"viewport_size": "(1280, 800)",
+	"views": 1,
+	"views_3d": [
+		{
+			"msaa": 2,
+			"render_scale": 0.888888895511627,
+			"size": "(1438, 898)"
+		}
+	],
+	"world_instance_layout_valid": true
+}

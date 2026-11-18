@@ -1,0 +1,65 @@
+{
+	"adapter": "Intel(R) Iris(R) Xe Graphics",
+	"completed_laps": 0,
+	"draw_calls": 273,
+	"driver_detail": 1,
+	"driver_vertices": [
+		33484,
+		30998,
+		33484,
+		30998,
+		33484,
+		30998
+	],
+	"duration_seconds": 17.0,
+	"frame_ms_max": 27.72,
+	"frame_ms_mean": 21.2190702402957,
+	"frame_ms_p50": 21.265,
+	"frame_ms_p95": 25.529,
+	"frame_ms_p99": 26.56,
+	"frames_over_100ms": 0,
+	"frames_over_250ms": 0,
+	"gpu_dust": true,
+	"gpu_ms_by_viewport": [
+		0.431451015491142,
+		19.2438650325133
+	],
+	"instance_layout_valid": true,
+	"mean_fps": 47.1274183399877,
+	"pipeline_compilations": {
+		"PIPELINE_COMPILATIONS_CANVAS": 0.0,
+		"PIPELINE_COMPILATIONS_DRAW": 0.0,
+		"PIPELINE_COMPILATIONS_MESH": 0.0,
+		"PIPELINE_COMPILATIONS_SPECIALIZATION": 0.0,
+		"PIPELINE_COMPILATIONS_SURFACE": 0.0
+	},
+	"profile": "balanced",
+	"renderer": "forward_plus",
+	"samples": 541,
+	"screenshot": "single_forward_plus_balanced.png",
+	"skeleton_bones": 6,
+	"textures": {
+		"linen": {
+			"height": 1254,
+			"width": 1254
+		},
+		"road": {
+			"height": 1254,
+			"width": 1254
+		},
+		"wood": {
+			"height": 1254,
+			"width": 1254
+		}
+	},
+	"viewport_size": "(1280, 800)",
+	"views": 1,
+	"views_3d": [
+		{
+			"msaa": 1,
+			"render_scale": 0.888888895511627,
+			"size": "(1438, 898)"
+		}
+	],
+	"world_instance_layout_valid": true
+}

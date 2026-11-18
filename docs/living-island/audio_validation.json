@@ -1,0 +1,32 @@
+[
+  {
+    "file": "brook.wav",
+    "peak": 0.417816,
+    "rms": 0.109128,
+    "dc": -1e-08
+  },
+  {
+    "file": "forest.wav",
+    "peak": 0.183075,
+    "rms": 0.045627,
+    "dc": 1e-08
+  },
+  {
+    "file": "harbor.wav",
+    "peak": 0.288544,
+    "rms": 0.054667,
+    "dc": 1e-08
+  },
+  {
+    "file": "market.wav",
+    "peak": 0.237152,
+    "rms": 0.04571,
+    "dc": 2e-08
+  },
+  {
+    "file": "workshop.wav",
+    "peak": 0.225586,
+    "rms": 0.043881,
+    "dc": -0.0
+  }
+]

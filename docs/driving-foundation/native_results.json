@@ -1,0 +1,31 @@
+{
+	"assertions": 36,
+	"evidence": {
+		"blocked_traffic_speed_limit": 7.6,
+		"camera": {
+			"blocked_length": 2.97693919122219,
+			"open_length": 8.49756992340088,
+			"released_length": 8.09893501281738
+		},
+		"native_audio": {
+			"audio_events": {
+				"boost": 1,
+				"impact": 1,
+				"landing": 0,
+				"pickup": 0
+			},
+			"driving_pitch": 1.44214284420013,
+			"driving_speed": 18.1625747680664,
+			"idle_pitch": 0.742983818054199,
+			"impact_events": 1,
+			"impact_pitch": 0.834118902683258
+		},
+		"native_renderer": "forward_plus",
+		"passing_lane": -2.6,
+		"recovery": {
+			"blocker": "(-103.7461, 4.747465, 30.25867)",
+			"position": "(-100.2629, 4.747465, 31.16817)"
+		}
+	},
+	"failures": 0
+}

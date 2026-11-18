@@ -1,0 +1,80 @@
+{
+	"adapter": "Intel(R) Iris(R) Xe Graphics",
+	"adventure_observed": {
+		"boost": true,
+		"collectibles": true,
+		"jump": false,
+		"leaf_wake": true,
+		"splash": false
+	},
+	"completed_laps": 0,
+	"draw_calls": 311,
+	"driver_detail": 1,
+	"driver_vertices": [
+		27730,
+		35104,
+		27730,
+		35104,
+		27730,
+		35104
+	],
+	"driving_audio": true,
+	"duration_seconds": 17.0,
+	"frame_ms_max": 87.202,
+	"frame_ms_mean": 66.7754879518072,
+	"frame_ms_p50": 66.604,
+	"frame_ms_p95": 76.263,
+	"frame_ms_p99": 84.489,
+	"frames_over_100ms": 0,
+	"frames_over_250ms": 0,
+	"gpu_dust": true,
+	"gpu_ms_by_viewport": [
+		0.977969879845539,
+		61.5785301622138
+	],
+	"gpu_pose_generation": true,
+	"graphics_prepared": true,
+	"instance_layout_valid": true,
+	"mean_fps": 14.9755551127041,
+	"obstacle_aware_camera": true,
+	"pipeline_compilations": {
+		"PIPELINE_COMPILATIONS_CANVAS": 0.0,
+		"PIPELINE_COMPILATIONS_DRAW": 6.0,
+		"PIPELINE_COMPILATIONS_MESH": 0.0,
+		"PIPELINE_COMPILATIONS_SPECIALIZATION": 14.0,
+		"PIPELINE_COMPILATIONS_SURFACE": 0.0
+	},
+	"profile": "balanced",
+	"renderer": "forward_plus",
+	"root_camera_active": false,
+	"samples": 166,
+	"screenshot": "single_forward_plus_balanced.png",
+	"skeleton_bones": 6,
+	"startup_preparation_ms": 8562,
+	"textures": {
+		"linen": {
+			"height": 1254,
+			"width": 1254
+		},
+		"road": {
+			"height": 1254,
+			"width": 1254
+		},
+		"wood": {
+			"height": 1254,
+			"width": 1254
+		}
+	},
+	"viewport_size": "(1920, 1080)",
+	"views": 1,
+	"views_3d": [
+		{
+			"msaa": 0,
+			"render_scale": 0.900000035762787,
+			"screen_aa": 1,
+			"size": "(1438, 898)",
+			"upscaler": 1
+		}
+	],
+	"world_instance_layout_valid": true
+}

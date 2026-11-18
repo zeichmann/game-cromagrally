@@ -1,0 +1,45 @@
+{
+  "source": "Original deterministic synthesis in tools/build_soundscape.py",
+  "assets": [
+    {
+      "path": "assets/audio/forest.wav",
+      "rate": 44100,
+      "channels": 1,
+      "bits": 16,
+      "seconds": 8,
+      "sha256": "5f2f49182a792936a76baeea38003817a11e83ce5a28e7658fdacbf9b4ba3c82"
+    },
+    {
+      "path": "assets/audio/brook.wav",
+      "rate": 44100,
+      "channels": 1,
+      "bits": 16,
+      "seconds": 8,
+      "sha256": "9396329262690a4747fb94ef8a4a24d2977723edac606c03944755e5522446a2"
+    },
+    {
+      "path": "assets/audio/harbor.wav",
+      "rate": 44100,
+      "channels": 1,
+      "bits": 16,
+      "seconds": 8,
+      "sha256": "eee39040d90ec614b47d29c787c7750fc2f388f305b01c9b0ecfef7a1e0cc24e"
+    },
+    {
+      "path": "assets/audio/market.wav",
+      "rate": 44100,
+      "channels": 1,
+      "bits": 16,
+      "seconds": 8,
+      "sha256": "e80ec3938e0d4f6b572e8e2bd4ee159d3eb2ee2d56acc2eca7e2cec2aa2c6ce0"
+    },
+    {
+      "path": "assets/audio/workshop.wav",
+      "rate": 44100,
+      "channels": 1,
+      "bits": 16,
+      "seconds": 8,
+      "sha256": "a5539b46dbbca2d5cbce82f191383ec9856ced402ebb01bd5f32e43496bc9763"
+    }
+  ]
+}

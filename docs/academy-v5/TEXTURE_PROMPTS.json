@@ -1,0 +1,24 @@
+{
+  "tool": "Built-in image_gen",
+  "method": "Text prompts only; native generated PNGs copied byte for byte without scaling or editing.",
+  "assets": [
+    {
+      "key": "iris",
+      "prompt": "Use case: stylized-concept. Asset type: production diffuse albedo texture for the brown iris of a friendly storybook 3D game character. Generate ONE square, exceptionally detailed iris texture, straight-on orthographic, perfectly circular iris centered exactly in the image, iris touches all four image edges at their midpoints. Rich warm chestnut and amber brown, intricate irregular radial stromal fibers, a darker softly scalloped collarette around a pure black round central pupil whose radius is 38 percent of the iris radius, fine golden honey filaments, subtle broken concentric furrows and dark umber limbal ring. Corners outside the circle are uniformly dark umber. Flat diffuse color only, no baked illumination. NO specular highlights, NO white catchlights, NO reflections, NO sclera, NO eyelids, NO surrounding face, NO text, NO border. Must be usable as a UV-mapped albedo under a separately rendered transparent 3D cornea. Painterly realism, organic and richly varied, no perfect radial starburst or mechanical symmetry.",
+      "source": "C:\\Users\\Adam\\.codex\\generated_images\\01a1a18d-4771-7e41-8fa3-0d1c6195f042\\exec-9b59821b-e91c-48fd-b700-a97f24c6792f.png",
+      "destination": "assets/textures/academy_iris_v5.png"
+    },
+    {
+      "key": "frog_skin",
+      "prompt": "Use case: stylized-concept. Asset type: high quality tileable diffuse skin albedo texture for a friendly green frog in a richly illustrated storybook 3D racing game. ONE square flat material swatch filling the entire image edge to edge. Delicate organic frog skin in spring leaf green, olive green and muted golden chartreuse, many irregular tiny rounded pores and very fine soft granular microstructure, restrained naturally clustered minute darker green freckles, subtle uneven mottling across several scales. Small-scale detail, rich but low contrast with no large distinctive islands. Flat evenly lit diffuse pigment, NOT a 3D sphere and NOT a photograph of an animal. Seamless tile with matching opposite edges. NO eyes, NO mouth, NO face, NO limbs, NO scales, NO warts, NO dramatic spots, NO veins, NO baked highlights, NO reflections, NO directional shadows, NO text, NO checkerboard. Soft organic skin, not plastic, leather or cloth. Original material artwork, usable on independently sculpted geometry.",
+      "source": "C:\\Users\\Adam\\.codex\\generated_images\\01a1a18d-4771-7e41-8fa3-0d1c6195f042\\exec-09077c35-6478-4e7f-86d6-371f6ec8250e.png",
+      "destination": "assets/textures/academy_frog_skin_v5.png"
+    },
+    {
+      "key": "pig_skin",
+      "prompt": "Use case: stylized-concept. Asset type: high quality tileable diffuse skin albedo texture for a friendly pink pig character in a richly illustrated storybook 3D racing game. ONE square flat material swatch filling the whole image edge to edge. Warm peach-pink and soft salmon rosy skin pigment, fine delicate organic pores and restrained almost invisible short peach-fuzz follicle marks, soft translucent-looking color variation and faint tiny capillary blush distributed irregularly. Delicate multiscale color richness, low contrast, consistent average pink; no large obvious blotches. Flat evenly lit diffuse pigment, NOT a 3D sphere and NOT a photograph of an animal. Seamless tile with matching opposite edges. NO eyes, NO nose, NO mouth, NO face, NO limbs, NO large freckles, NO deep wrinkles, NO hair strands, NO baked illumination, NO highlights, NO reflections, NO shadows, NO fabric weave, NO leather grain, NO text, NO border. Soft warm organic skin instead of smooth vinyl. Original material artwork, usable on independently sculpted geometry.",
+      "source": "C:\\Users\\Adam\\.codex\\generated_images\\01a1a18d-4771-7e41-8fa3-0d1c6195f042\\exec-03b4cd61-0376-45b1-8382-764fd804c0c8.png",
+      "destination": "assets/textures/academy_pig_skin_v5.png"
+    }
+  ]
+}

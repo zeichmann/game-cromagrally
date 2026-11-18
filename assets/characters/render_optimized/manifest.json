@@ -1,0 +1,71 @@
+{
+	"meshes": [
+		{
+			"geometry_max_delta": 0.0,
+			"lods": 7,
+			"path": "res://assets/characters/render_optimized/zabol_driver.res",
+			"source": "res://assets/characters/zabol_driver.res",
+			"source_sha256": "89fe2c103ac7dc470ac3f1aa2cc36c75ad019eae82a0886d0b6b0e3a4dba0172",
+			"surfaces_after": 2,
+			"surfaces_before": 7,
+			"triangles": 248516,
+			"vertices": 149810
+		},
+		{
+			"geometry_max_delta": 0.0,
+			"lods": 5,
+			"path": "res://assets/characters/render_optimized/zabol_driver_balanced.res",
+			"source": "res://assets/characters/zabol_driver_balanced.res",
+			"source_sha256": "1ed5b7763b31ad9161e30096c9e29630de99b00ebb67c7f92e8deee77806bf60",
+			"surfaces_after": 2,
+			"surfaces_before": 7,
+			"triangles": 53926,
+			"vertices": 33484
+		},
+		{
+			"geometry_max_delta": 0.0,
+			"lods": 3,
+			"path": "res://assets/characters/render_optimized/zabol_driver_performance.res",
+			"source": "res://assets/characters/zabol_driver_performance.res",
+			"source_sha256": "4de299c1580f874de4efc93429428e904c252ba379a00830136d0fdd1a46bcc6",
+			"surfaces_after": 2,
+			"surfaces_before": 7,
+			"triangles": 18044,
+			"vertices": 12531
+		},
+		{
+			"geometry_max_delta": 0.0,
+			"lods": 7,
+			"path": "res://assets/characters/render_optimized/swinka_driver.res",
+			"source": "res://assets/characters/swinka_driver.res",
+			"source_sha256": "f8aedc6627aef79d348fbbeeb3f3e84ba8586b4853b493c4e98cff6298fa28f4",
+			"surfaces_after": 2,
+			"surfaces_before": 7,
+			"triangles": 263764,
+			"vertices": 169213
+		},
+		{
+			"geometry_max_delta": 0.0,
+			"lods": 5,
+			"path": "res://assets/characters/render_optimized/swinka_driver_balanced.res",
+			"source": "res://assets/characters/swinka_driver_balanced.res",
+			"source_sha256": "3a33936b991f3836629c4b2246b101dbc38c07537628292acd0b4ebaaa917dc9",
+			"surfaces_after": 2,
+			"surfaces_before": 7,
+			"triangles": 48852,
+			"vertices": 30998
+		},
+		{
+			"geometry_max_delta": 0.0,
+			"lods": 3,
+			"path": "res://assets/characters/render_optimized/swinka_driver_performance.res",
+			"source": "res://assets/characters/swinka_driver_performance.res",
+			"source_sha256": "a576bd420503024a48c296b7789ac45dc2966bbb6c427ae74d9f8e66b5337e1d",
+			"surfaces_after": 2,
+			"surfaces_before": 7,
+			"triangles": 17748,
+			"vertices": 12854
+		}
+	],
+	"scope": "Render packing only; character likeness remains rejected"
+}

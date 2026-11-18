@@ -1,0 +1,80 @@
+{
+  "created": "2026-11-16",
+  "assets": [
+    {
+      "path": "assets/textures/fairy_paving.png",
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGB",
+      "alpha_extrema": null,
+      "sha256": "2e4fa76a9410932788b32dad8e58c780e3c1bf6d12bc6ea2157da8fc2bc7f607",
+      "source": "built-in image_gen",
+      "reference_images": [],
+      "prompt_file": "docs/fairytale-assets/PROMPTS.json"
+    },
+    {
+      "path": "assets/textures/fairy_masonry.png",
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGB",
+      "alpha_extrema": null,
+      "sha256": "cbfe356acee2cfad557e14779822d40ba1e6f1bd8b0b55bfb26cfa4ad57572b1",
+      "source": "built-in image_gen",
+      "reference_images": [],
+      "prompt_file": "docs/fairytale-assets/PROMPTS.json"
+    },
+    {
+      "path": "assets/textures/fairy_roof.png",
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGB",
+      "alpha_extrema": null,
+      "sha256": "f4f953f65128cc6f7c7cc1b321c1ba7ea25ceb2f6c4287565b4c7fe79f6ea684",
+      "source": "built-in image_gen",
+      "reference_images": [],
+      "prompt_file": "docs/fairytale-assets/PROMPTS.json"
+    },
+    {
+      "path": "assets/textures/wisteria_blossoms.png",
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "fa12fb88d4e998ca8e39490811ee56e565fe5523992ed218394e2356db1855f5",
+      "source": "built-in image_gen",
+      "reference_images": [],
+      "prompt_file": "docs/fairytale-assets/PROMPTS.json"
+    },
+    {
+      "path": "assets/textures/storybook_oak_spray.png",
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "f5e3df762ae8e27a1ea0dcced2b8fc3e13c80c1fe61d9cf8b5d600aff40e2b0e",
+      "source": "built-in image_gen",
+      "reference_images": [],
+      "prompt_file": "docs/fairytale-assets/PROMPTS.json"
+    },
+    {
+      "path": "assets/textures/storybook_blossom_spray.png",
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "4f78de5b31ae71282e053e74d2f4e973829be446f4803c1f11a6e6a8b65f9302",
+      "source": "built-in image_gen",
+      "reference_images": [],
+      "prompt_file": "docs/fairytale-assets/PROMPTS.json"
+    }
+  ]
+}

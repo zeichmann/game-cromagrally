@@ -1,0 +1,303 @@
+{
+  "date": "2026-11-16",
+  "new_bitmap_textures": 0,
+  "source": "Original local geometry and synthesis. Character designs reference Akademia Oli.",
+  "screenshots": "Unmodified Godot native renderer output; file copies only.",
+  "files": [
+    {
+      "path": "docs/benchmarks/living_single_forward_plus_high_circuit.json",
+      "bytes": 2106,
+      "sha256": "d10c0003f89d4b407df33d64450319ad5d578e692783e33607769304741c9c54"
+    },
+    {
+      "path": "docs/screenshots/living_single_forward_plus_high_circuit.png",
+      "bytes": 1135383,
+      "sha256": "015cfcf77b4b46b0728f02b2e6acbaa219baa0088637292e666f8f12b3d3dcd7"
+    },
+    {
+      "path": "docs/benchmarks/living_single_forward_plus_balanced.json",
+      "bytes": 1540,
+      "sha256": "f52076f42af86a647903f31e43017e3872d879d589241449fc6a90ce48845f87"
+    },
+    {
+      "path": "docs/screenshots/living_single_forward_plus_balanced.png",
+      "bytes": 1114065,
+      "sha256": "983091a5080fe040928325466dfe20ff85d7ad983f72aad8a2109248ebb63e42"
+    },
+    {
+      "path": "docs/benchmarks/living_four_forward_plus_balanced.json",
+      "bytes": 1850,
+      "sha256": "6d7d40ee11ad16e122e73f4a53a7f92b057c74fc0bb5b64f51e82bc33f2fc754"
+    },
+    {
+      "path": "docs/screenshots/living_four_forward_plus_balanced.png",
+      "bytes": 1250263,
+      "sha256": "dcd7b0a63bcedaf295eaef1b4e3882709ff27ec767ce0ce254b62f5b34e0b871"
+    },
+    {
+      "path": "docs/benchmarks/living_four_forward_plus_performance.json",
+      "bytes": 1857,
+      "sha256": "0d701873ac5799f22cf6e25aa3e9c36be03110052f44790bb61dab6bb0249072"
+    },
+    {
+      "path": "docs/screenshots/living_four_forward_plus_performance.png",
+      "bytes": 1209123,
+      "sha256": "777f5b6152f0b25b354df893b88a6e1f4a1e5c116a5579c3610809a13a7fcd3c"
+    },
+    {
+      "path": "docs/screenshots/living_road_015.png",
+      "bytes": 1177280,
+      "sha256": "da6a15cd7672ddb1bb8134ce75c537aa878f6954393899fa2b9185aabccf2ac7"
+    },
+    {
+      "path": "docs/screenshots/living_road_045.png",
+      "bytes": 1257677,
+      "sha256": "e8fd2bbdff4db3de743f541edb75205b7f2e34e85431dc755fc1f5b93e737a07"
+    },
+    {
+      "path": "docs/screenshots/living_road_089.png",
+      "bytes": 1172024,
+      "sha256": "26de05a2df5cc1d9df9e69afbe58aeddca6eb5cf1581438851a163d864f1baa1"
+    },
+    {
+      "path": "docs/screenshots/living_road_146.png",
+      "bytes": 966998,
+      "sha256": "931c9724ef0e26328e329ff52ea333f593e1c099beb580af354e5d4c970425eb"
+    },
+    {
+      "path": "docs/screenshots/living_road_163.png",
+      "bytes": 964366,
+      "sha256": "a3dfcec98a8a7f26b39ce44e1b7e63b030e108e50ccb3661aa5a4fa480bb5b86"
+    },
+    {
+      "path": "docs/screenshots/living_road_223.png",
+      "bytes": 1071161,
+      "sha256": "c88a7ab5301360d2fa66c73a0faaae8ea1ee65a2c482034467353ac448255949"
+    },
+    {
+      "path": "docs/screenshots/living_road_333.png",
+      "bytes": 1375561,
+      "sha256": "cc5cebe619323be733379e4ae75115e8c1853afca8787da6c7f810bd8964a3b4"
+    },
+    {
+      "path": "docs/screenshots/living_crystal_grotto.png",
+      "bytes": 1553842,
+      "sha256": "4646a64d735f84ee27e3f21e09d1c8c0359f048c15efa104ec34daa539e2aad0"
+    },
+    {
+      "path": "docs/screenshots/living_town_workshop.png",
+      "bytes": 1090439,
+      "sha256": "1615e5e4f2e6b7f620862ffe2f5667679fc88bbab0ab0ce08cd04f42a9c18248"
+    },
+    {
+      "path": "docs/screenshots/living_village_square.png",
+      "bytes": 1401956,
+      "sha256": "1c16fd23c13e08008e5e0d4a4ec65181676d7d4ceb4617e369a0def8ace8443e"
+    },
+    {
+      "path": "docs/screenshots/living_gpu_rabbit.png",
+      "bytes": 26329,
+      "sha256": "73f593c1c2da47d4f2b019045eedcb19b6e30c7c9cc1f2954337cad3765860bb"
+    },
+    {
+      "path": "docs/screenshots/living_gpu_mouse.png",
+      "bytes": 32463,
+      "sha256": "47b917bec86614c651a7d600201d4b39f689a81a8bf74fbb28b1672dcd24408a"
+    },
+    {
+      "path": "docs/screenshots/living_gpu_cat.png",
+      "bytes": 21757,
+      "sha256": "78d7c648836aa3d40377837eb8d07e9dac5e3107d7fd02d0ca7142f96860934a"
+    },
+    {
+      "path": "docs/screenshots/living_gpu_gull.png",
+      "bytes": 15043,
+      "sha256": "54c9aac1ee4118bb65223ba4f3698615736e24c0e4a7d2305b2e4edcfa15f8a7"
+    },
+    {
+      "path": "docs/screenshots/living_gpu_duck.png",
+      "bytes": 11828,
+      "sha256": "e11e0298e9f4b5101ceaf0e14a752b9d855ebe0386659d39ac33edbc6ddd6156"
+    },
+    {
+      "path": "docs/screenshots/living_blink_open.png",
+      "bytes": 94495,
+      "sha256": "a71aa278ae65e60a063a7bfa783a6d7fc439ca76223dafb5d0ca347cde383b38"
+    },
+    {
+      "path": "docs/screenshots/living_blink_closed.png",
+      "bytes": 95892,
+      "sha256": "f89699d7ae64331be7855c8c0a9fbc5ccc462fce0ee90f1098dd1d4020eb3f98"
+    },
+    {
+      "path": "docs/screenshots/living_driver_zabol_front.png",
+      "bytes": 328604,
+      "sha256": "f2a0f5071426b3967023048113519abbf4694dccb60d29b4d235a1fab031e6f8"
+    },
+    {
+      "path": "docs/screenshots/living_driver_zabol_threequarter.png",
+      "bytes": 286815,
+      "sha256": "c75368b0ea339c99e9235469ca3c9909b0b35f747a98c711856e837d36366954"
+    },
+    {
+      "path": "docs/screenshots/living_driver_zabol_profile.png",
+      "bytes": 226340,
+      "sha256": "ef0921ef9e66979d286c2ea83ffdb193778cca69a7e5f015335e61afe495d208"
+    },
+    {
+      "path": "docs/screenshots/living_driver_swinka_front.png",
+      "bytes": 363829,
+      "sha256": "e242f90d2fa08f258ca2ff732e12e48e6a692e68bbc874250fc1126b19afae2f"
+    },
+    {
+      "path": "docs/screenshots/living_driver_swinka_threequarter.png",
+      "bytes": 312042,
+      "sha256": "d64676df533842cc6a11cdcce6eaf12c93c9417fd88c484017c2efeb4c9e8173"
+    },
+    {
+      "path": "docs/screenshots/living_driver_swinka_profile.png",
+      "bytes": 238700,
+      "sha256": "88ed2f6ea2464df475107b84bc5208b0aec13bcbf0620c9cd922e6f90f974c03"
+    },
+    {
+      "path": "assets/fairytale/town_post.res",
+      "bytes": 696353,
+      "sha256": "4cf5139bca36917ede5611f716a2f24858cff07c19a9c55ca3204a7ccb45787c"
+    },
+    {
+      "path": "assets/fairytale/town_workshop.res",
+      "bytes": 691143,
+      "sha256": "83c290c414287f3148e11a80cede8d4851a71c30c145a5d1ad21afc22946e6bf"
+    },
+    {
+      "path": "assets/fairytale/town_tea.res",
+      "bytes": 689645,
+      "sha256": "6ccda5efb621fa17b80ccb9c29b5718f90b4cf3ccd92794869b48590750d4099"
+    },
+    {
+      "path": "assets/fairytale/port_crane.res",
+      "bytes": 54584,
+      "sha256": "88bdf957a0fb032877592e95305519fb999e7dc1801984cdefd46e45053f3ddc"
+    },
+    {
+      "path": "assets/fairytale/crystal_grotto.res",
+      "bytes": 71634,
+      "sha256": "8f9a1f73d05afe9170dbe03d88df9f05cbc60562e21ca3cb8d15300e49ba6d2e"
+    },
+    {
+      "path": "assets/fairytale/giant_fern.res",
+      "bytes": 72746,
+      "sha256": "e5d85eacd2a825866ca57285338ee449856182482dccdbfad87cf09dabf509c4"
+    },
+    {
+      "path": "assets/fairytale/moss_boulder.res",
+      "bytes": 14537,
+      "sha256": "ffe71f8bfa47efa9bf1cea07d0ca183423c0f5e939d084dbe16c61d8c2a390eb"
+    },
+    {
+      "path": "assets/fairytale/lantern_mushroom.res",
+      "bytes": 28300,
+      "sha256": "fb17b6c7b2899c9faa272a0d7e16f4579c74936c5d4f56a2b418491879c0c531"
+    },
+    {
+      "path": "assets/fairytale/resident_rabbit.res",
+      "bytes": 125705,
+      "sha256": "820d800490c09276ce724487ef08c6fa8f948cc405d4c4b9585ac90e4b5ad79d"
+    },
+    {
+      "path": "assets/fairytale/resident_mouse.res",
+      "bytes": 125947,
+      "sha256": "746d428c4fceae25541089890006a860ce53a30a44f2776d1a707f510c95be62"
+    },
+    {
+      "path": "assets/fairytale/resident_cat.res",
+      "bytes": 58507,
+      "sha256": "a5f2187a8ac895e4efc9ffb225ba4eef99bb072639b079126828ca8fa00041a9"
+    },
+    {
+      "path": "assets/fairytale/resident_gull.res",
+      "bytes": 30361,
+      "sha256": "33bf9b5fd92fe42a80ae312bd7cb0821c5450e5f9f0760233ef8fe3af0f985df"
+    },
+    {
+      "path": "assets/fairytale/resident_duck.res",
+      "bytes": 30503,
+      "sha256": "96710559a63ce35592e3df01599dae019266b6606fd526c8001ba04c5aa31a84"
+    },
+    {
+      "path": "assets/characters/storybook_v2/swinka_driver.res",
+      "bytes": 1839532,
+      "sha256": "f0d69d6aab948d9f0d9e48f96c4e651bfaa59235fe7fc28702bb6526a09f1652"
+    },
+    {
+      "path": "assets/characters/storybook_v2/swinka_driver_balanced.res",
+      "bytes": 1036670,
+      "sha256": "4f2ff7558d2d1fb727f22b99048c863065b0ceb39b36a482169923409b8e5d94"
+    },
+    {
+      "path": "assets/characters/storybook_v2/swinka_driver_performance.res",
+      "bytes": 622199,
+      "sha256": "b17806f89e30870dd51fc05b9bf90c7dcac25ff9011a97b24232fec1ae172bd6"
+    },
+    {
+      "path": "assets/characters/storybook_v2/zabol_driver.res",
+      "bytes": 1718467,
+      "sha256": "f4a91ae9ff936299fe6d662c26d0bb00f3403776cc8e3e1e19aedaad6c89f0bd"
+    },
+    {
+      "path": "assets/characters/storybook_v2/zabol_driver_balanced.res",
+      "bytes": 911509,
+      "sha256": "56ef8f09f8ddc5964731b1342bd111b97958cb4e4ed23faf92b53357c80642aa"
+    },
+    {
+      "path": "assets/characters/storybook_v2/zabol_driver_performance.res",
+      "bytes": 493606,
+      "sha256": "f7a7f72f1b6fd8aebca97611a0438efa7e594439bc9c600e891ad3faa264d107"
+    },
+    {
+      "path": "assets/audio/brook.wav",
+      "bytes": 705644,
+      "sha256": "9396329262690a4747fb94ef8a4a24d2977723edac606c03944755e5522446a2"
+    },
+    {
+      "path": "assets/audio/forest.wav",
+      "bytes": 705644,
+      "sha256": "5f2f49182a792936a76baeea38003817a11e83ce5a28e7658fdacbf9b4ba3c82"
+    },
+    {
+      "path": "assets/audio/harbor.wav",
+      "bytes": 705644,
+      "sha256": "eee39040d90ec614b47d29c787c7750fc2f388f305b01c9b0ecfef7a1e0cc24e"
+    },
+    {
+      "path": "assets/audio/market.wav",
+      "bytes": 705644,
+      "sha256": "e80ec3938e0d4f6b572e8e2bd4ee159d3eb2ee2d56acc2eca7e2cec2aa2c6ce0"
+    },
+    {
+      "path": "assets/audio/workshop.wav",
+      "bytes": 705644,
+      "sha256": "a5539b46dbbca2d5cbce82f191383ec9856ced402ebb01bd5f32e43496bc9763"
+    },
+    {
+      "path": "tools/storybook_driver_builder.gd",
+      "bytes": 19938,
+      "sha256": "d4aeaea58fbe963060795a3ed5d8f7f6862cc911756b6b842f2a829208c2a39c"
+    },
+    {
+      "path": "tools/living_asset_builder.gd",
+      "bytes": 9704,
+      "sha256": "a5fb82decb1951baac8d91ed344b69700c946f30609406534d6de54d28509c0f"
+    },
+    {
+      "path": "tools/resident_builder.gd",
+      "bytes": 6153,
+      "sha256": "9a7aaacb831afa3a29ded56c291c5399f4083d3625b7f995128cfd72e1d03bf0"
+    },
+    {
+      "path": "tools/build_soundscape.py",
+      "bytes": 2847,
+      "sha256": "ce650d0cf9f3cbc237b131402bf365d919933a59f41fb268d1053041c6db25fa"
+    }
+  ]
+}

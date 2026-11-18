@@ -1,0 +1,404 @@
+{
+  "recorded_utc": "2026-11-17T13:07:26.417732+00:00",
+  "source": "Local authored 3D geometry based on retained Academia Oli portraits; original material PNGs from built-in image_gen text prompts.",
+  "capture_method": "Unmodified native Godot output; copied byte for byte.",
+  "texture_method": "Text prompts only; native generated PNGs copied byte for byte without scaling or editing.",
+  "likeness_status": "Visual comparison provided for user assessment; tests do not certify likeness.",
+  "files": [
+    {
+      "path": "docs/academy-v5/TEST_LOGS.json",
+      "bytes": 5137,
+      "sha256": "ddef49aceeb5bf2f700accd61f76c2184293f88e093d10f74e11fd214d3c8656"
+    },
+    {
+      "path": "docs/academy-v5/TEXTURE_PROMPTS.json",
+      "bytes": 4052,
+      "sha256": "0f6bc5e9fdc37f308d5b75b4b8988d29d14c453244bd435541b21e18dba4c7ec"
+    },
+    {
+      "path": "assets/textures/academy_iris_v5.png",
+      "bytes": 2063896,
+      "sha256": "6ae197990633c59a4f83260685fe7499c6fa6ae55e6c757fac4abdb245de342f"
+    },
+    {
+      "path": "assets/textures/academy_iris_v5.png.import",
+      "bytes": 964,
+      "sha256": "e41191abe41a937622d6fdb8d0cdd98a03dbafaffd4f7687c021ce1c65725fb6"
+    },
+    {
+      "path": "assets/textures/academy_frog_skin_v5.png",
+      "bytes": 2920140,
+      "sha256": "1d5f31955a27b7c62cd8380ed2c5fa02cb8dc728787959582274d77bf1058934"
+    },
+    {
+      "path": "assets/textures/academy_frog_skin_v5.png.import",
+      "bytes": 979,
+      "sha256": "5923db78ac69d70b9ca49a2c195c51342e3d64629cf14d4804ec5dc0cd3a5d9e"
+    },
+    {
+      "path": "assets/textures/academy_pig_skin_v5.png",
+      "bytes": 1914023,
+      "sha256": "48029473dd7c64754e53aa20b3ab786031088292bcf99982a0ee162d19e872bd"
+    },
+    {
+      "path": "assets/textures/academy_pig_skin_v5.png.import",
+      "bytes": 976,
+      "sha256": "cee94ce7ad3a64785a48fa445af8ad481c64e472dcddcf9b6ecb4434a197e343"
+    },
+    {
+      "path": "docs/academy-v5/GPU_POSES.json",
+      "bytes": 36695,
+      "sha256": "88d5c7769abbe1ad1bb33551e9d35d0d6cff266a97876d2c74c29399c8cfb073"
+    },
+    {
+      "path": "docs/academy-v5/screenshots/zabol_front.png",
+      "bytes": 368614,
+      "sha256": "53a46d37de98a9ba7ec728c4913a9877c339bb76ba0656f1da1fc47b65cd0de3"
+    },
+    {
+      "path": "docs/academy-v5/screenshots/zabol_threequarter.png",
+      "bytes": 355551,
+      "sha256": "393fdb2dea07cce366dc48f3ea87cead071a804b5ee97f96a5f850d0079e3b58"
+    },
+    {
+      "path": "docs/academy-v5/screenshots/zabol_profile.png",
+      "bytes": 250743,
+      "sha256": "705988a4dfaead93026e91a86a98c1625b5e359ff2a71d3926354f7356697f2e"
+    },
+    {
+      "path": "docs/academy-v5/screenshots/zabol_face.png",
+      "bytes": 844240,
+      "sha256": "8970f73fc685375972a8e60c3814786fea8daadd835591d9d315bdcb1800141f"
+    },
+    {
+      "path": "docs/academy-v5/screenshots/zabol_calm.png",
+      "bytes": 842669,
+      "sha256": "253d52ffaf96baf93f07c9fe1cfb1c8840858064465813e9ca166e06066c9c4a"
+    },
+    {
+      "path": "docs/academy-v5/screenshots/zabol_joy.png",
+      "bytes": 837596,
+      "sha256": "e49e9587b4c046c97abe036f6d6c8daadc080474e2bf068df3f289cc52978f71"
+    },
+    {
+      "path": "docs/academy-v5/screenshots/zabol_blink.png",
+      "bytes": 854137,
+      "sha256": "293cbe409d8fe50e2b9dfcde081e3f9d6ade1e94943e96dac2ba198f7e133257"
+    },
+    {
+      "path": "docs/academy-v5/screenshots/zabol_gaze.png",
+      "bytes": 841129,
+      "sha256": "79c23722826678c929bc9f3b8b8d06fe2092b4f10106f772ac68d43db1f953b1"
+    },
+    {
+      "path": "docs/academy-v5/screenshots/swinka_front.png",
+      "bytes": 371519,
+      "sha256": "cce70a67735eb700168ff2f16ce2d003266c5c0a42cd26c20699e390bc4d8f45"
+    },
+    {
+      "path": "docs/academy-v5/screenshots/swinka_threequarter.png",
+      "bytes": 346202,
+      "sha256": "87f5e6d6b293d2575639d65e2e631eb4dc64b6b7f02779d7996cf70a3e03d1db"
+    },
+    {
+      "path": "docs/academy-v5/screenshots/swinka_profile.png",
+      "bytes": 234181,
+      "sha256": "7174f7f9f4bff0356519de2f42ddb750667cdb4c0239d379519c13bcb6465519"
+    },
+    {
+      "path": "docs/academy-v5/screenshots/swinka_face.png",
+      "bytes": 774652,
+      "sha256": "7267526db8a3ec765ae2ccf816c8ee2e2ecb81b63ac87d65140fcd6dd4653052"
+    },
+    {
+      "path": "docs/academy-v5/screenshots/swinka_calm.png",
+      "bytes": 770979,
+      "sha256": "1c88b46fe325474401502b28dba9687ea78afef54d2de105a1b06751a1d1a8b2"
+    },
+    {
+      "path": "docs/academy-v5/screenshots/swinka_joy.png",
+      "bytes": 770129,
+      "sha256": "e8d1b1f50efa592db198ac6eb5651bce21b466ab64b68a57e818e8374e9647d4"
+    },
+    {
+      "path": "docs/academy-v5/screenshots/swinka_blink.png",
+      "bytes": 758519,
+      "sha256": "7e87ba0bb3e0935392680211171a1bbbf1e0a2210f6b1728ed242009b2ac9c01"
+    },
+    {
+      "path": "docs/academy-v5/screenshots/swinka_gaze.png",
+      "bytes": 771999,
+      "sha256": "b8b1a21ffd38a04d9ba7ea56f9878c265cc8109cc47ef4331f7fdd298cba58da"
+    },
+    {
+      "path": "docs/academy-v5/screenshots/duo_faces.png",
+      "bytes": 968573,
+      "sha256": "95ed0e8b7727a9abd7350023f16c7ac09e731d601a143d82315a89e8ec18c824"
+    },
+    {
+      "path": "docs/academy-v5/screenshots/test_0_0_open.png",
+      "bytes": 117562,
+      "sha256": "fe415db4ec27f8572dc71f6ccb53a80268e1694d2a3c55c164a1015cbc5fb228"
+    },
+    {
+      "path": "docs/academy-v5/screenshots/test_0_0_closed.png",
+      "bytes": 117427,
+      "sha256": "d03bf1a13e4dbd00efe339a7811db9a2cd65ee539f155e03af20a94868f2ffe6"
+    },
+    {
+      "path": "docs/academy-v5/screenshots/test_0_1_open.png",
+      "bytes": 117157,
+      "sha256": "5fb9c846da8b4f0167dce9492a48c0de8f6ffe8b9288d88e8bfbf3c9e65cc03e"
+    },
+    {
+      "path": "docs/academy-v5/screenshots/test_0_1_closed.png",
+      "bytes": 117199,
+      "sha256": "be5637cb3334839b214463f084e369377ceb4801dcb2b9a466dbaf77a9fbb4fb"
+    },
+    {
+      "path": "docs/academy-v5/screenshots/test_0_2_open.png",
+      "bytes": 117545,
+      "sha256": "14d993c28f69d2beb10be94a5a4c87178e18e8c56fad1213e13e9e006a9ff1a6"
+    },
+    {
+      "path": "docs/academy-v5/screenshots/test_0_2_closed.png",
+      "bytes": 117057,
+      "sha256": "c314f0dd3731d48e38733e8aa5b20849f23e279b19077de15f8729028f1ea912"
+    },
+    {
+      "path": "docs/academy-v5/screenshots/test_1_0_open.png",
+      "bytes": 109382,
+      "sha256": "2c8766f0294cbb6f6b541c309ad468485867335ef609353b1d310ee23c65c5c1"
+    },
+    {
+      "path": "docs/academy-v5/screenshots/test_1_0_closed.png",
+      "bytes": 106481,
+      "sha256": "73a5d231ebf50357826eae24b11f1a44fe298f274cd6ddc1da55e8f0d68fdc7e"
+    },
+    {
+      "path": "docs/academy-v5/screenshots/test_1_1_open.png",
+      "bytes": 108868,
+      "sha256": "20fec9643e4903009a73cf31cb26dc93ee55d2a3164f2d0b946de2f2e6fe8f17"
+    },
+    {
+      "path": "docs/academy-v5/screenshots/test_1_1_closed.png",
+      "bytes": 105922,
+      "sha256": "a9cc81181ba37e5944906a8bd3a7fac94959221478d2110c9ffa156f6ab4153c"
+    },
+    {
+      "path": "docs/academy-v5/screenshots/test_1_2_open.png",
+      "bytes": 108692,
+      "sha256": "54c0b726babbe0faccb7c0e10d4dbb7c3ed30015cec9456228532df0a7213e63"
+    },
+    {
+      "path": "docs/academy-v5/screenshots/test_1_2_closed.png",
+      "bytes": 105825,
+      "sha256": "c890dcc6efeaf3bf98647c308efcee9c4fc60371c38a2a0e25314b4545dfd4a7"
+    },
+    {
+      "path": "docs/academy-v5/screenshots/cornea_0_enabled.png",
+      "bytes": 138804,
+      "sha256": "d441a400409c8d00a32c400b3b54e19a503058de617e4e4d8466fc19f4a9a01d"
+    },
+    {
+      "path": "docs/academy-v5/screenshots/cornea_0_disabled.png",
+      "bytes": 137106,
+      "sha256": "ad1d91f61e8075e985ab74b1d14683affabe36a5d0ecffc96fb40fe9359257f3"
+    },
+    {
+      "path": "docs/academy-v5/screenshots/cornea_1_enabled.png",
+      "bytes": 126161,
+      "sha256": "b47a1f7666d1308a9991732796e2febc83bb6c22c5c86d7eed6a7dac3e1ca366"
+    },
+    {
+      "path": "docs/academy-v5/screenshots/cornea_1_disabled.png",
+      "bytes": 124998,
+      "sha256": "efe3e7c755790eff983d9e82b1d054a577412da800bfbe10e1c5938058f2e06b"
+    },
+    {
+      "path": "docs/academy-v5/screenshots/cockpit_pair.png",
+      "bytes": 1201510,
+      "sha256": "57d5ce18cbdc0524c42ad8c460ba84edde77e54b8b0400668a5e1cf03b40343a"
+    },
+    {
+      "path": "docs/academy-v5/screenshots/cockpit_zabol.png",
+      "bytes": 1135359,
+      "sha256": "2379602cf6d1aa930a5b9aec6307e197139440786dd72c9a2b475261b03d1522"
+    },
+    {
+      "path": "docs/academy-v5/screenshots/cockpit_swinka.png",
+      "bytes": 1138122,
+      "sha256": "5031b49bb7d2ae30a58e4075207104142e0bc35c7a2203c394263ea121e48d33"
+    },
+    {
+      "path": "docs/academy-v5/screenshots/drive_visibility.png",
+      "bytes": 1168749,
+      "sha256": "41a4b8725ff3358140e976fa596147f872b85137a91b777f05708132f4219607"
+    },
+    {
+      "path": "docs/academy-v5/screenshots/villagers_in_game.png",
+      "bytes": 972614,
+      "sha256": "4ab21ac839c8f8de9f09792ea0725e716a9df5721f78f098b0398cd51f1def1d"
+    },
+    {
+      "path": "docs/benchmarks/organic_single_forward_plus_high_circuit.json",
+      "bytes": 2106,
+      "sha256": "488e350c3160e9d020bec5fa74d8fbb0ba62e8a68b781f809629be288cfbc861"
+    },
+    {
+      "path": "docs/benchmarks/organic_single_forward_plus_balanced.json",
+      "bytes": 1535,
+      "sha256": "eba3cf731509b453c689eb1556e211c28be3c39d7683a466f332d9022c2cb0de"
+    },
+    {
+      "path": "docs/benchmarks/organic_four_forward_plus_performance.json",
+      "bytes": 1857,
+      "sha256": "30895f3196cc125afce011d7b74bb6e11c15c1b16a1e4a0053d6ce616c8f8efd"
+    },
+    {
+      "path": "assets/characters/academy_v5/mesh_manifest.json",
+      "bytes": 921,
+      "sha256": "c21ca86f68641ac5d6184d6f8417db623ac8159eb7230b8a815f5b7f1d3af3c9"
+    },
+    {
+      "path": "assets/characters/academy_v5/swinka_driver.res",
+      "bytes": 1876424,
+      "sha256": "a3ff44056e5b7a106efdf32154964da2f67619032a752731f1ccaebd1f0c2c8e"
+    },
+    {
+      "path": "assets/characters/academy_v5/swinka_driver_balanced.res",
+      "bytes": 1089855,
+      "sha256": "cc2e0c3d47ba58befe4395f06858d8ad59ba8013a5cd1e9f6c1f2a3d63255c88"
+    },
+    {
+      "path": "assets/characters/academy_v5/swinka_driver_performance.res",
+      "bytes": 625807,
+      "sha256": "93aa65f96126de24fa260c1fd808482261a53341c1914775c61f87eb0f25d38a"
+    },
+    {
+      "path": "assets/characters/academy_v5/zabol_driver.res",
+      "bytes": 1500719,
+      "sha256": "781bf4fa5f1a0f67d56490b3413b192dcfee0ab8df63095f2798c67f0f765205"
+    },
+    {
+      "path": "assets/characters/academy_v5/zabol_driver_balanced.res",
+      "bytes": 856368,
+      "sha256": "507d0f132ca5c2f0bf8d7829d5be9e4771827f08742d17000408bc7bc257c331"
+    },
+    {
+      "path": "assets/characters/academy_v5/zabol_driver_performance.res",
+      "bytes": 488025,
+      "sha256": "a2e730da308bb28b0feffbd87d3630c17ffcc3a3a831e530cea9343c3d02e60e"
+    },
+    {
+      "path": "shaders/gpu_motion.glsl",
+      "bytes": 4122,
+      "sha256": "1755202a9cd79686632b2300f132517320a2d6cc68cc03aa7d041c8d6e4d7777"
+    },
+    {
+      "path": "shaders/academy_face.gdshaderinc",
+      "bytes": 3730,
+      "sha256": "e199858cf68926c3872f490e34f1b971e2267c35815f9095f2ddf0263c42b780"
+    },
+    {
+      "path": "shaders/academy_cornea.gdshader",
+      "bytes": 579,
+      "sha256": "3e72cd45ad6cd1fa86a896a275f1f0b9fe558f8aba0a67d8fb5c170dd45d7afb"
+    },
+    {
+      "path": "shaders/driver_deformation.gdshaderinc",
+      "bytes": 1548,
+      "sha256": "995d8d86650c4f8157f7eac5585c5762d1a231ed03ff7fa9943601d9bdd2f6f7"
+    },
+    {
+      "path": "shaders/palette_surface.gdshaderinc",
+      "bytes": 16105,
+      "sha256": "287f8c6bcf8439902ac915dc1f531fa0747638edd6752377d73cd84c101dee51"
+    },
+    {
+      "path": "tools/organic_character_builder.gd",
+      "bytes": 4407,
+      "sha256": "2e9357e2ba06a3ae22dab1fffb2325483d0f7857b27c3ff15fe96105b7d07838"
+    },
+    {
+      "path": "tools/organic_face_geometry.gd",
+      "bytes": 7530,
+      "sha256": "e852824c9ea61a0bc8a13104bf8651a08dfdc0722aa3714aa5a9fb00f2edd66a"
+    },
+    {
+      "path": "tools/academy_character_builder.gd",
+      "bytes": 6816,
+      "sha256": "c809d0b471940b76d232a1433859b9adbad8877116f58d7a24b69a6b7127517c"
+    },
+    {
+      "path": "tools/academy_face_geometry.gd",
+      "bytes": 14207,
+      "sha256": "aaf3708cd81a5f6e736d896a55d2fee835491add1b4de2a76bdd514cd7119558"
+    },
+    {
+      "path": "tools/review_organic_faces.gd",
+      "bytes": 3157,
+      "sha256": "87d8e3d0e65bdb902f257568e33f2c47f4367e4d2d99d5b33fe97f2e6e3d6449"
+    },
+    {
+      "path": "tools/review_character_game.gd",
+      "bytes": 2700,
+      "sha256": "1f73a2973528a78392893dec3ea3390d50870e9cb2d0a9fad1ba12aef568d06b"
+    },
+    {
+      "path": "tools/archive_organic_review.py",
+      "bytes": 7005,
+      "sha256": "29d8dee301908dc32a734e331757ae2c1e1098113f4fd35bc30e736a9d1eea43"
+    },
+    {
+      "path": "scripts/driver_art.gd",
+      "bytes": 2148,
+      "sha256": "3f51e3d2914566629845830939227574f7081c7d5d317e720809b8518d57c2ca"
+    },
+    {
+      "path": "tests/test_academy_faces.gd",
+      "bytes": 6537,
+      "sha256": "adab4bacc18f15efc60b1e83aef8df056f2b8ef10fb1a58bb0e34a3d9f57c32f"
+    },
+    {
+      "path": "tests/test_organic_assets.gd",
+      "bytes": 1933,
+      "sha256": "5d55f967c1548cb05afa46f962e84a986449ce473f8a77c58c582655c04c2f8b"
+    },
+    {
+      "path": "tests/test_gpu_motion.gd",
+      "bytes": 4717,
+      "sha256": "59e1238de1e6c629c473c4d279d4daa0dcb556d1945186c06febe51af5230565"
+    },
+    {
+      "path": "tests/test_gpu_skin.gd",
+      "bytes": 5998,
+      "sha256": "4d2a2a979887cef1afb0fc5f6fec9b4f005b27c58c325a96634b308dfcdb78bd"
+    },
+    {
+      "path": "tests/test_gpu_life.gd",
+      "bytes": 6669,
+      "sha256": "cff236500c890f4d58f6a453d9802dd760d87e5f143750c1959a68da0e02dba7"
+    },
+    {
+      "path": "tests/test_portrait_assets.gd",
+      "bytes": 2748,
+      "sha256": "7cd8d0c43817aed51f38950dc19de9b0217a983a40bc64e659adcd162bceecf2"
+    },
+    {
+      "path": "tests/test_art.gd",
+      "bytes": 7031,
+      "sha256": "3e44bd8f76be0000bc65a75d777dcb22c3b6bbc29c4f0576a0d87d3acc435dff"
+    },
+    {
+      "path": "docs/character-lookdev-v2/canonical-swinka.webp",
+      "bytes": 106096,
+      "sha256": "eabaef4b553e495a7533dac104536e7a5f33cf04184f029a4f6e89350172f3f4"
+    },
+    {
+      "path": "docs/character-lookdev-v2/canonical-zabol.webp",
+      "bytes": 116558,
+      "sha256": "45118b59624d00efb1cb7d3d65c4a4fe6ebfd8bf19d5d72e32466e266bb97c5d"
+    }
+  ]
+}

@@ -1,0 +1,1217 @@
+{
+  "date": "2026-11-18",
+  "engine": "Godot 4.7.2 ed1daf0bf",
+  "capture_method": "Native fullscreen captures, copied byte for byte without image editing.",
+  "log_method": "Original log text stored in JSON with newline normalization.",
+  "race_finish_times": {
+    "2": 91.08,
+    "1": 103.62,
+    "4": 107.97,
+    "3": 111.98,
+    "0": 114.08,
+    "5": 114.75
+  },
+  "images": [
+    {
+      "path": "docs/driving-foundation/camera_wall.png",
+      "size": [
+        1728,
+        1080
+      ]
+    },
+    {
+      "path": "docs/driving-foundation/camera_reverse.png",
+      "size": [
+        1728,
+        1080
+      ]
+    },
+    {
+      "path": "docs/driving-foundation/driving_hud.png",
+      "size": [
+        1728,
+        1080
+      ]
+    },
+    {
+      "path": "docs/driving-foundation/impact_hud.png",
+      "size": [
+        1728,
+        1080
+      ]
+    },
+    {
+      "path": "docs/driving-foundation/settings_panel.png",
+      "size": [
+        1728,
+        1080
+      ]
+    },
+    {
+      "path": "docs/driving-foundation/four_views.png",
+      "size": [
+        1728,
+        1080
+      ]
+    },
+    {
+      "path": "docs/driving-foundation/main_menu.png",
+      "size": [
+        1728,
+        1080
+      ]
+    }
+  ],
+  "files": [
+    {
+      "path": "assets/audio/driving/boost.wav",
+      "bytes": 33120,
+      "sha256": "11892c677df33cbfdcae9b0ee7c4596294d5caf2ff332b42c8a4d197a57f1c89"
+    },
+    {
+      "path": "assets/audio/driving/boost.wav.import",
+      "bytes": 494,
+      "sha256": "23350c4a7a069acd66ded6f8285e5d8b9a0a0a610f43d5b1ecfc2a1c5e745a5a"
+    },
+    {
+      "path": "assets/audio/driving/flywheel_drive.wav",
+      "bytes": 44144,
+      "sha256": "bedd8b0f0699a34eb0e9ef5cc31897c1fbc225351d7b04207a18438b4e33afbc"
+    },
+    {
+      "path": "assets/audio/driving/flywheel_drive.wav.import",
+      "bytes": 521,
+      "sha256": "709e21ba60dafdfbf077e46b0ec36af209ec8d8bc1d06f34558ecffd925274af"
+    },
+    {
+      "path": "assets/audio/driving/impact.wav",
+      "bytes": 14156,
+      "sha256": "4540bb2c22a7b791569a8d77ad910359ddc2c3782a7ee366ba4afd829d028759"
+    },
+    {
+      "path": "assets/audio/driving/impact.wav.import",
+      "bytes": 497,
+      "sha256": "e2ebde0d3ecd7d293c16b04e643813500fb71979d7f69dddfde2fcf93d0334e6"
+    },
+    {
+      "path": "assets/audio/driving/landing.wav",
+      "bytes": 11952,
+      "sha256": "daf761e3e7c7773be6eb0aa91aa8f0956412f00f8390f3d8d352ac0fcbd1c699"
+    },
+    {
+      "path": "assets/audio/driving/landing.wav.import",
+      "bytes": 499,
+      "sha256": "2b4d2c354a00d56241a53e1cb8de3f6becdc191c2ee1831d1b9a6edb4067b679"
+    },
+    {
+      "path": "assets/audio/driving/MANIFEST.json",
+      "bytes": 2005,
+      "sha256": "a42fc15eb7cc08dc9835004d71d8a676c0de2db43b3adf5c29be2578fc13db83"
+    },
+    {
+      "path": "assets/audio/driving/pickup.wav",
+      "bytes": 9746,
+      "sha256": "3c83e79cdcdd562111d92f40bb8a3fa0f1aa48765c4616940c5368cc1e8ec09b"
+    },
+    {
+      "path": "assets/audio/driving/pickup.wav.import",
+      "bytes": 497,
+      "sha256": "4a439d85a0ce477810e89b1119dd1e4370fe9eb796581ba2336e105c9dd32d56"
+    },
+    {
+      "path": "assets/audio/driving/rolling.wav",
+      "bytes": 44144,
+      "sha256": "dc95dfb286f6ca4f32cfdc79c3a7ff23f7a1ab11a4490db96df07a0a0d1b831e"
+    },
+    {
+      "path": "assets/audio/driving/rolling.wav.import",
+      "bytes": 499,
+      "sha256": "127a7b7c317de06a21ddfaa02d1946a9b3dd50fc3d9c814003798d3d75ede3f6"
+    },
+    {
+      "path": "assets/audio/driving/sail_drive.wav",
+      "bytes": 44144,
+      "sha256": "a5ab8d7ac629a7601e2c07630b2f79258f46fb57af629691087cd3cbc2575431"
+    },
+    {
+      "path": "assets/audio/driving/sail_drive.wav.import",
+      "bytes": 509,
+      "sha256": "fb19c959aa2fd74abf98c487ed33810b34d554db7f5fe6c4c160cc2bc1d88a3a"
+    },
+    {
+      "path": "assets/audio/driving/tires.wav",
+      "bytes": 44144,
+      "sha256": "4b4f4a48c8d6e6d91ce1a9a7c20cacec6f749d67f15f91ec3eb37858d7738e1b"
+    },
+    {
+      "path": "assets/audio/driving/tires.wav.import",
+      "bytes": 493,
+      "sha256": "0d38b99f9b2fdfe58cb88bf3f8624348fb7eab539142691e6e63a5c0dfe55d74"
+    },
+    {
+      "path": "assets/fairytale/arch.res",
+      "bytes": 17699,
+      "sha256": "e52d5dd2e8ec77c610d342734ce646416129dcdf11f3f14b3e0d632a61a2e923"
+    },
+    {
+      "path": "assets/fairytale/bakery.res",
+      "bytes": 353079,
+      "sha256": "288f9ca4e336cdbcc5cc59207367d0021d4daa5914c5bb62ebf3f02327f245d1"
+    },
+    {
+      "path": "assets/fairytale/balloon_blue.res",
+      "bytes": 59537,
+      "sha256": "1d65c9b2679d5c4e0cc410d526918aec5403f58bbbebd46d7196c07826912dda"
+    },
+    {
+      "path": "assets/fairytale/balloon_coral.res",
+      "bytes": 59585,
+      "sha256": "f71e5f248e37ffede2236bac6ba20fb120b689cb54fbb5ac1213d91faae06d3c"
+    },
+    {
+      "path": "assets/fairytale/bench.res",
+      "bytes": 6795,
+      "sha256": "61f54e947de1dfbc8e3cb6305dfd88ce0910e5e7518f3e867acd3cbd31cde149"
+    },
+    {
+      "path": "assets/fairytale/boat.res",
+      "bytes": 42798,
+      "sha256": "88e0095ee6068b6f2ea1de7b31d330ef1e41e50606427e4465bb9f4d60d6c0ef"
+    },
+    {
+      "path": "assets/fairytale/boat_coral.res",
+      "bytes": 42798,
+      "sha256": "d10a8c3b904b22a4502f83468f053cca2f8239b70da2c1cf36d1176cb100eacd"
+    },
+    {
+      "path": "assets/fairytale/boat_sage.res",
+      "bytes": 42797,
+      "sha256": "5572dfbf9f7032113678b8e551cae3e4da5232326eda29fd554631e44473572c"
+    },
+    {
+      "path": "assets/fairytale/boathouse.res",
+      "bytes": 106225,
+      "sha256": "2fb87b03b59937e3d53222f8e27be3e011341beca8258cd86c286025b96023fb"
+    },
+    {
+      "path": "assets/fairytale/castle_crag.res",
+      "bytes": 36278,
+      "sha256": "6f51f0cef49906f16c8da3e1c2e597d21761f1782c10daa4d59b737062122d07"
+    },
+    {
+      "path": "assets/fairytale/castle_keep.res",
+      "bytes": 330345,
+      "sha256": "6132fee843391a51dfc021fa72837b13283dd4951c0651efd6936fa7cbdeb8ef"
+    },
+    {
+      "path": "assets/fairytale/cottage_blue.res",
+      "bytes": 432152,
+      "sha256": "55722e9c84bb1ae58338dfd3d58fe7c89464579e88a00f9f34bdcb06023339aa"
+    },
+    {
+      "path": "assets/fairytale/cottage_peach.res",
+      "bytes": 492067,
+      "sha256": "e13b01054cfe0f0353195e59bed2680878a3cb7feb6d1c96e5b85c9ee88e70aa"
+    },
+    {
+      "path": "assets/fairytale/cottage_rose.res",
+      "bytes": 407656,
+      "sha256": "5b17757810a721f903137b001b50fbb1aa1f184faed63fb6a29fb98fd03aef03"
+    },
+    {
+      "path": "assets/fairytale/crystal_grotto.res",
+      "bytes": 71634,
+      "sha256": "8f9a1f73d05afe9170dbe03d88df9f05cbc60562e21ca3cb8d15300e49ba6d2e"
+    },
+    {
+      "path": "assets/fairytale/dock_supplies.res",
+      "bytes": 44581,
+      "sha256": "d90702a9a0b283326d581dc9f049ed80cd825e99e8f35414c4bbd5679593c35b"
+    },
+    {
+      "path": "assets/fairytale/elder_gate.res",
+      "bytes": 572217,
+      "sha256": "649a020a4d1628b6e9fa4d62533188369d3aa9bfc6c3cc69b11be1ee043d7051"
+    },
+    {
+      "path": "assets/fairytale/fern.res",
+      "bytes": 43573,
+      "sha256": "a25902737045b9e1c9fab1a9249b147df86fe59613b58b34a5c721fee33ada66"
+    },
+    {
+      "path": "assets/fairytale/flowering_bush.res",
+      "bytes": 195746,
+      "sha256": "11f3361082a96cb062ca9678229dede8d5824a35413dfec2e89c4d7979b579fd"
+    },
+    {
+      "path": "assets/fairytale/flowers_daisy.res",
+      "bytes": 18297,
+      "sha256": "062c75fc0528d721b6ec21a813a5971cbf1027914b3bea5eb9043260b711b91c"
+    },
+    {
+      "path": "assets/fairytale/flowers_lavender.res",
+      "bytes": 14707,
+      "sha256": "9ad8d265f5c2a0065622448d38d1bb23f192143110d11fe271413211df234b59"
+    },
+    {
+      "path": "assets/fairytale/flowers_rose.res",
+      "bytes": 14612,
+      "sha256": "81e7183e2d2ab1aa7b513528bad5d55b70fe824f4bb451da134d759b252d83c7"
+    },
+    {
+      "path": "assets/fairytale/footbridge.res",
+      "bytes": 74347,
+      "sha256": "12aa15f11d704040e5b0ff1d8baef9894b12c715b8d39f75aaf3c2d6695c01b7"
+    },
+    {
+      "path": "assets/fairytale/fountain.res",
+      "bytes": 22619,
+      "sha256": "c081ccc52c239c7125c07f648e66ff66d4238371ba8746730449647c77eb9258"
+    },
+    {
+      "path": "assets/fairytale/garden_fence.res",
+      "bytes": 14938,
+      "sha256": "488f1cd869214c4ec9b728362044bf7cb0ecff46d714d3a2509dac9b13ead9ae"
+    },
+    {
+      "path": "assets/fairytale/garden_planter.res",
+      "bytes": 4594,
+      "sha256": "383632db78bba2be53adf16e3c1e53c52b17190eff1a77bae8b43745dadce428"
+    },
+    {
+      "path": "assets/fairytale/giant_fern.res",
+      "bytes": 72746,
+      "sha256": "e5d85eacd2a825866ca57285338ee449856182482dccdbfad87cf09dabf509c4"
+    },
+    {
+      "path": "assets/fairytale/hanging_ivy.res",
+      "bytes": 21296,
+      "sha256": "db6889cf5ff6e744245ac2dfa87bee7d32f0382ee2d5e97027016a774decac05"
+    },
+    {
+      "path": "assets/fairytale/hedge.res",
+      "bytes": 7183,
+      "sha256": "e0cbd00bd4fef7817ed6a34d57e74675b8614d6c84825b35017576ecdeecfbcb"
+    },
+    {
+      "path": "assets/fairytale/lantern.res",
+      "bytes": 7382,
+      "sha256": "94f5e21b1c6ea184673e7dfb03e9555a4dba6a3fcd3d8c68cfd2b8ebf55e4356"
+    },
+    {
+      "path": "assets/fairytale/lantern_mushroom.res",
+      "bytes": 28300,
+      "sha256": "fb17b6c7b2899c9faa272a0d7e16f4579c74936c5d4f56a2b418491879c0c531"
+    },
+    {
+      "path": "assets/fairytale/lighthouse.res",
+      "bytes": 99571,
+      "sha256": "218e5de8736eb78fce3d47506e79bbe8bbf9e697efdfdf3a536481cec549100b"
+    },
+    {
+      "path": "assets/fairytale/mailbox.res",
+      "bytes": 2546,
+      "sha256": "974b37b08d258c1a5fbe93af2523eda8f0b7cb7be560b0086d5719ece59ef0d7"
+    },
+    {
+      "path": "assets/fairytale/market_stall.res",
+      "bytes": 57278,
+      "sha256": "e5e59450055c04c1bfa531694451fdb62d0a8c7029783ac022e48335b68c5c9d"
+    },
+    {
+      "path": "assets/fairytale/moss_boulder.res",
+      "bytes": 14537,
+      "sha256": "ffe71f8bfa47efa9bf1cea07d0ca183423c0f5e939d084dbe16c61d8c2a390eb"
+    },
+    {
+      "path": "assets/fairytale/mushroom.res",
+      "bytes": 62296,
+      "sha256": "649f7cf84e0adb60a1cef43d3bcfee7f68fb86f43181221dd843e0981773c4aa"
+    },
+    {
+      "path": "assets/fairytale/pavilion.res",
+      "bytes": 119281,
+      "sha256": "516e5092c5a9718134c0b77b5cfd7fd1c33754ab2a997aa5e291ba2251199bd7"
+    },
+    {
+      "path": "assets/fairytale/port_crane.res",
+      "bytes": 54584,
+      "sha256": "88bdf957a0fb032877592e95305519fb999e7dc1801984cdefd46e45053f3ddc"
+    },
+    {
+      "path": "assets/fairytale/resident_cat.res",
+      "bytes": 58507,
+      "sha256": "a5f2187a8ac895e4efc9ffb225ba4eef99bb072639b079126828ca8fa00041a9"
+    },
+    {
+      "path": "assets/fairytale/resident_duck.res",
+      "bytes": 30503,
+      "sha256": "96710559a63ce35592e3df01599dae019266b6606fd526c8001ba04c5aa31a84"
+    },
+    {
+      "path": "assets/fairytale/resident_gull.res",
+      "bytes": 30361,
+      "sha256": "33bf9b5fd92fe42a80ae312bd7cb0821c5450e5f9f0760233ef8fe3af0f985df"
+    },
+    {
+      "path": "assets/fairytale/resident_mouse.res",
+      "bytes": 253797,
+      "sha256": "8e20ff5463e1916c51720496f21b8e3e752a9e1d84fc6e82875058c62901809b"
+    },
+    {
+      "path": "assets/fairytale/resident_rabbit.res",
+      "bytes": 257630,
+      "sha256": "0162f7c5c758856320f120163208751f163a7d73e666346859905672e5893982"
+    },
+    {
+      "path": "assets/fairytale/rose_arbor.res",
+      "bytes": 369713,
+      "sha256": "b121fd3cb69a83103da8eef04dd2946f251c7efac9b0b59106e4b9bd2e6e5bbb"
+    },
+    {
+      "path": "assets/fairytale/stone_rail.res",
+      "bytes": 15706,
+      "sha256": "e7cbcd3202bc47442629572ecccad688c21ad8cd230a227241f0fd918443e5f6"
+    },
+    {
+      "path": "assets/fairytale/town_post.res",
+      "bytes": 696353,
+      "sha256": "4cf5139bca36917ede5611f716a2f24858cff07c19a9c55ca3204a7ccb45787c"
+    },
+    {
+      "path": "assets/fairytale/town_tea.res",
+      "bytes": 689645,
+      "sha256": "6ccda5efb621fa17b80ccb9c29b5718f90b4cf3ccd92794869b48590750d4099"
+    },
+    {
+      "path": "assets/fairytale/town_workshop.res",
+      "bytes": 691143,
+      "sha256": "83c290c414287f3148e11a80cede8d4851a71c30c145a5d1ad21afc22946e6bf"
+    },
+    {
+      "path": "assets/fairytale/tree_birch.res",
+      "bytes": 278236,
+      "sha256": "0af163bf54c79a29dd849543b57bc1f5c4d789e81319c0abe8dec1381ed30093"
+    },
+    {
+      "path": "assets/fairytale/tree_blossom.res",
+      "bytes": 470335,
+      "sha256": "5abb959aecd9724ac6e14dbaf76c53371081c20cf3de7115cf0a1d135e5ea2db"
+    },
+    {
+      "path": "assets/fairytale/tree_cypress.res",
+      "bytes": 73192,
+      "sha256": "7ec9f61f9c4be55ed9b8fd53721ffa9fdc62f560e27068ab791f1f1e85a9aa51"
+    },
+    {
+      "path": "assets/fairytale/tree_oak.res",
+      "bytes": 341998,
+      "sha256": "d576de472e8f7e9f2f62d55a12b6a4fc8cb75e76b52deba7b6810638941af411"
+    },
+    {
+      "path": "assets/fairytale/tree_willow.res",
+      "bytes": 166602,
+      "sha256": "649ab054e0863264e40c3be6c8bc665931b2865c04088bbc87a2fdf2eef14b94"
+    },
+    {
+      "path": "assets/fairytale/turret.res",
+      "bytes": 42525,
+      "sha256": "8575927bf469f23c4bf4c73d47e232de0fab0b727b4ee8bfc05adf047aaae68c"
+    },
+    {
+      "path": "assets/fairytale/water_lily.res",
+      "bytes": 5357,
+      "sha256": "17ba4e8041c6ea53a0793138facf4db0d4433bdd88cf288dc9f1d5ffcf0167c9"
+    },
+    {
+      "path": "assets/fairytale/windmill.res",
+      "bytes": 9393,
+      "sha256": "d90b8286841de1a7aee974cf77ff1baf92ecda151a2b2b5591b3bfee66e76ded"
+    },
+    {
+      "path": "assets/fairytale/windmill_rotor.res",
+      "bytes": 60241,
+      "sha256": "9a78dee811d6d3555ed6b258c20e8097fec46df48d250ca70e8da0f256c354aa"
+    },
+    {
+      "path": "assets/tea_bend/ancient_oak.res",
+      "bytes": 3140237,
+      "sha256": "5654b9ad855b903a95e3c987a5857639be4c7ba86cb84fe3ef69074fdd18f4e8"
+    },
+    {
+      "path": "assets/tea_bend/tea_garden.res",
+      "bytes": 323137,
+      "sha256": "7eb58eff51a50ef3a7b1db9abfe59d31bae6ef7b6943ddee8af48e09e303283e"
+    },
+    {
+      "path": "assets/tea_bend/teahouse.res",
+      "bytes": 872845,
+      "sha256": "332078f823b63e3dc23b73c4f0d05514aab3cf7846093b7dee02fcdcf394948e"
+    },
+    {
+      "path": "assets/tea_bend/teapot_sign.res",
+      "bytes": 183737,
+      "sha256": "1d2328c5e6b258d900c32226764e5c4b834c420795601d2e27514c8b521f34ae"
+    },
+    {
+      "path": "docs/driving-foundation/balanced_release.json",
+      "bytes": 1634,
+      "sha256": "c1a4b1873caf2c9e55646fcf1b94de45b9fc985c2b46d5dcf56b6a4837d311fc"
+    },
+    {
+      "path": "docs/driving-foundation/baseline_balanced.json",
+      "bytes": 1544,
+      "sha256": "3ffe5c6d61625a5c29b10f683bce4e9933430f1e7112790b37f688ba67031eba"
+    },
+    {
+      "path": "docs/driving-foundation/camera_reverse.png",
+      "bytes": 2433732,
+      "sha256": "8c593f0e59945f021529d432314c6229e0a8783793640e599627c43c80cac04c"
+    },
+    {
+      "path": "docs/driving-foundation/camera_wall.png",
+      "bytes": 2593064,
+      "sha256": "4a42d627c5659b5791cdc2dd1888378a8885069bcaf86ce8f793262f0186a2c9"
+    },
+    {
+      "path": "docs/driving-foundation/driving_hud.png",
+      "bytes": 2739636,
+      "sha256": "32793c8fb22caae397de7f3bbeede71cb90a9e152f0dcd0f19c4cb83c66b91e0"
+    },
+    {
+      "path": "docs/driving-foundation/EXPERIMENTS.json",
+      "bytes": 4503,
+      "sha256": "34e14007b1852142cafceae1d8b527c8edb65af675bf31fedf5922f121df55d5"
+    },
+    {
+      "path": "docs/driving-foundation/four_performance.json",
+      "bytes": 2087,
+      "sha256": "2b2d486919268a68b7ccd4b74b8b2e9b9fe43466641b21b955e85926897242d4"
+    },
+    {
+      "path": "docs/driving-foundation/four_performance.png",
+      "bytes": 2618640,
+      "sha256": "5a0325c6e9c7e6da501a76a88025dfbbef44509e7b8dba427bbd6cd60db448f4"
+    },
+    {
+      "path": "docs/driving-foundation/four_views.png",
+      "bytes": 2775928,
+      "sha256": "61789fe599ccc3e51246e0e0553ce3669f6a0d0aa1da1c1701725f31fa06cad0"
+    },
+    {
+      "path": "docs/driving-foundation/headless_results.json",
+      "bytes": 370,
+      "sha256": "75c39103282482d949c5e01eb298c39a24d56c36f997332adf5d02ab8a83474a"
+    },
+    {
+      "path": "docs/driving-foundation/impact_hud.png",
+      "bytes": 2437527,
+      "sha256": "f786787ee9c4e56f677f1936d51098857bddbcff058dda71749e76f4af36ddb2"
+    },
+    {
+      "path": "docs/driving-foundation/main_menu.png",
+      "bytes": 1392278,
+      "sha256": "581e2d7d0bb2fbe1ee79a4c62880303fb878a9a7a6a4bb51bd939619e5f5b9b1"
+    },
+    {
+      "path": "docs/driving-foundation/native_results.json",
+      "bytes": 698,
+      "sha256": "f9babed560edd8061ea744a5175cdeac91464a2893402bca7fc3ff3399b89ae6"
+    },
+    {
+      "path": "docs/driving-foundation/offroad_results.json",
+      "bytes": 3516,
+      "sha256": "9427a2365791c93dc6f9eee2b9bb93c11b74008317372e989a04fcafee851887"
+    },
+    {
+      "path": "docs/driving-foundation/performance_circuit.json",
+      "bytes": 2238,
+      "sha256": "00c3a1bc4017c077e0d7d702c7340a79954f2edda3bd28c4120505f47119ef2f"
+    },
+    {
+      "path": "docs/driving-foundation/performance_circuit.png",
+      "bytes": 2397454,
+      "sha256": "4220c6e7769a5adcdb721226c3aacd442907f1eb4e8a18a8f9525e5e27ffd36e"
+    },
+    {
+      "path": "docs/driving-foundation/performance_lod.json",
+      "bytes": 1661,
+      "sha256": "16e4d853f9dbe9b4e679c1fa83f445a5873b6839705ef7996be8988ea74d1aec"
+    },
+    {
+      "path": "docs/driving-foundation/physics_results.json",
+      "bytes": 4279,
+      "sha256": "5d754ece4f1c43461b0f1fd8772f140da5f2df3cfef2c52db65420ec2b95e879"
+    },
+    {
+      "path": "docs/driving-foundation/README.md",
+      "bytes": 10785,
+      "sha256": "f421be41d7c06ff6c65c1e97810f3ff3fe087acf4b3e5ddfb8ef3e61d3cce352"
+    },
+    {
+      "path": "docs/driving-foundation/settings_panel.png",
+      "bytes": 1467724,
+      "sha256": "2051a494af4dc3668c3b13886e8260fe66b2d20ad384856420915becf74eabde"
+    },
+    {
+      "path": "docs/driving-foundation/TEST_LOGS.json",
+      "bytes": 14782,
+      "sha256": "7db631c6bd8cbaca301540d5e4319f1c719fdf1cc14c69b4fee60b156ef86d74"
+    },
+    {
+      "path": "docs/driving-foundation/world_collision_results.json",
+      "bytes": 1600,
+      "sha256": "d4fab57f81c05fecb885d3cc5a543fe079c546b9c0e43433f18f79dfd48e79d7"
+    },
+    {
+      "path": "docs/PROVENANCE.md",
+      "bytes": 11985,
+      "sha256": "34980d10c6f2f0e8ebb0eef9eca4856fe0b61626a7c2533863e898f7735f412d"
+    },
+    {
+      "path": "project.godot",
+      "bytes": 1066,
+      "sha256": "3b17f9814b032ef8534385627c708baba5cefeffdb9a9cc138a9ed127036a698"
+    },
+    {
+      "path": "README.md",
+      "bytes": 17560,
+      "sha256": "1b49c1bff0e1711c681a4128af08aba260ed51917c844936ad2e1b2ef13854fe"
+    },
+    {
+      "path": "Run-light.cmd",
+      "bytes": 50,
+      "sha256": "a684abfec54e9f3a042fe290b05115a37c456529e67ba072700096b107431fc4"
+    },
+    {
+      "path": "Run.cmd",
+      "bytes": 457,
+      "sha256": "34d70b7dcb4c1088eed99795543a126855d000034d1ba5db621d950706023917"
+    },
+    {
+      "path": "scripts/academy_rig.gd",
+      "bytes": 696,
+      "sha256": "9a6254b57d6708d3d64ee0ae554af7a84652744d13220e500842d292b1b0a399"
+    },
+    {
+      "path": "scripts/academy_rig.gd.uid",
+      "bytes": 19,
+      "sha256": "5b7f1e750b6c0303eda5e3575c9c832efb2d7e10d799ebd29a27351c05de823c"
+    },
+    {
+      "path": "scripts/adventures.gd",
+      "bytes": 3025,
+      "sha256": "622f1a144b41fa21889fc10fc5719265eb647cb82a6644de5749643b5ce443ec"
+    },
+    {
+      "path": "scripts/adventures.gd.uid",
+      "bytes": 20,
+      "sha256": "6e285640ed1178b694ceb4293e9c9d259e9a4d51ee4878c3c850715f4f82e2b5"
+    },
+    {
+      "path": "scripts/art.gd",
+      "bytes": 7992,
+      "sha256": "9b3105b169418a14ba7ac5e7343f66fe0c2e447be4121d66994db991cae96978"
+    },
+    {
+      "path": "scripts/art.gd.uid",
+      "bytes": 19,
+      "sha256": "5145063d7a134a3b8fcc910ec8a7da392ce8f26f8523cd779d174d0df5ec8869"
+    },
+    {
+      "path": "scripts/chase_camera.gd",
+      "bytes": 2293,
+      "sha256": "a3d3809de45a742cfab24a5bb9884edda0d0ad7683e957f724b2e9b96593e5cc"
+    },
+    {
+      "path": "scripts/chase_camera.gd.uid",
+      "bytes": 20,
+      "sha256": "7ded167eb2912566c5c413c357311a980ad6ada60e534dd662dcf14e5850dcbb"
+    },
+    {
+      "path": "scripts/driver_art.gd",
+      "bytes": 2148,
+      "sha256": "3f51e3d2914566629845830939227574f7081c7d5d317e720809b8518d57c2ca"
+    },
+    {
+      "path": "scripts/driver_art.gd.uid",
+      "bytes": 20,
+      "sha256": "74f180d7db447fe1f315215ee9f16de7fdb604156fc4919dc3da98c2aa20dc75"
+    },
+    {
+      "path": "scripts/driving_audio.gd",
+      "bytes": 2965,
+      "sha256": "d3e1d929591cdc1e8df38a62d5cccbf84d3cba9ff6fe399782928e4bfbd23f80"
+    },
+    {
+      "path": "scripts/driving_audio.gd.uid",
+      "bytes": 20,
+      "sha256": "5134966950b876a2b0b6c910b06d5c48c6b831b320e270102c44fa1a61afdc05"
+    },
+    {
+      "path": "scripts/fairytale_world.gd",
+      "bytes": 35237,
+      "sha256": "f3d8954ef25b70845ff4c25f692edf4dea8b7d331f24617f000cd72666e9cc6b"
+    },
+    {
+      "path": "scripts/fairytale_world.gd.uid",
+      "bytes": 20,
+      "sha256": "248a41503ad5e392f592fff40162067918d5c35ac93b1af3f5a6870d3653a95d"
+    },
+    {
+      "path": "scripts/fountain_flow.gd",
+      "bytes": 2259,
+      "sha256": "3b5bb2fb5768d70a78669e395d80a8ce9f82bc6f3b14231db93f0ee024204774"
+    },
+    {
+      "path": "scripts/fountain_flow.gd.uid",
+      "bytes": 20,
+      "sha256": "47e52171f89ad46b8afef3743335790a10ee48641fefbe881d8281ffb06d3317"
+    },
+    {
+      "path": "scripts/gpu_motion.gd",
+      "bytes": 2930,
+      "sha256": "937f3eff1b5198dd30ba0438f259fdfebf1307f89ca97940de5bc7b520c7316f"
+    },
+    {
+      "path": "scripts/gpu_motion.gd.uid",
+      "bytes": 20,
+      "sha256": "0f88b1b78b0b9a2c88cc2b307d3ecdbcae4e626f8ec3d7ea00c06730ce45cee7"
+    },
+    {
+      "path": "scripts/gpu_motion_device.gd",
+      "bytes": 2931,
+      "sha256": "6027b354c62e1fe06dab4d342eb2f4bb7d2c6795f26cdfe519411bbdfb49fb0b"
+    },
+    {
+      "path": "scripts/gpu_motion_device.gd.uid",
+      "bytes": 20,
+      "sha256": "8a890352e9a02005fd6805146014e83ff85bdf1537a200defcafb2489f4bd27e"
+    },
+    {
+      "path": "scripts/graphics_warmup.gd",
+      "bytes": 5808,
+      "sha256": "ee8ca2b1b73fc28d9f780cdea14d3fe682bf9132ecb135b68e70884c39b283aa"
+    },
+    {
+      "path": "scripts/graphics_warmup.gd.uid",
+      "bytes": 20,
+      "sha256": "e46a5db415f19eb6400a406438bf94811ef2ec884b0a758c4ebc1afe37d870d4"
+    },
+    {
+      "path": "scripts/hud.gd",
+      "bytes": 5834,
+      "sha256": "4a2ab2b224bc8be08aedc73dbf692e6640ba90fd8ef588766ca4414a38391bf4"
+    },
+    {
+      "path": "scripts/hud.gd.uid",
+      "bytes": 20,
+      "sha256": "6f20306d5a104cb18098da3f0f52697b5f84467201f8dc99131bb1f8798499ad"
+    },
+    {
+      "path": "scripts/island_tour.gd",
+      "bytes": 7574,
+      "sha256": "6a06d5cc2084b8b377710af1d452d542ab23e1da4a7fe8671258e133c31fb97a"
+    },
+    {
+      "path": "scripts/island_tour.gd.uid",
+      "bytes": 20,
+      "sha256": "6f7ba7cd68d13ca229cd18a64969db22804a5ffe9c60196977098e7a09109ae1"
+    },
+    {
+      "path": "scripts/living_districts.gd",
+      "bytes": 3752,
+      "sha256": "9daffd950966e0d7eda1188b066f2f5374ff948fcc43aff3781fe4e50eaf5f6f"
+    },
+    {
+      "path": "scripts/living_districts.gd.uid",
+      "bytes": 20,
+      "sha256": "3c4cb08997bfc2ad1700a438840a6067d1ab2862fb8bdbb19d8157daee0a12de"
+    },
+    {
+      "path": "scripts/main.gd",
+      "bytes": 31351,
+      "sha256": "da7bf3b7770b9122dd8f2ecab00848921ff7ebd38b5a9ecd80de474b19dce2d5"
+    },
+    {
+      "path": "scripts/main.gd.uid",
+      "bytes": 20,
+      "sha256": "3f0b1cafd26461bb9b661cc0c9c76a56ea13d217a2f5125b1720bf31869407e2"
+    },
+    {
+      "path": "scripts/menu_art.gd",
+      "bytes": 3390,
+      "sha256": "44f354172c2fb3af715cfc893794afdb6f5de4f49f53221fc7eee3bf879c1ee3"
+    },
+    {
+      "path": "scripts/menu_art.gd.uid",
+      "bytes": 20,
+      "sha256": "ae14ee3f72eaef07283799a2314f93d85937fcfc0ae54bb4281cd1c8e4fee029"
+    },
+    {
+      "path": "scripts/palette_mesh.gd",
+      "bytes": 7170,
+      "sha256": "6fb2d9890d4e192ed1436b3633423efd4d2221f74a4c1395d938081e5329d8ed"
+    },
+    {
+      "path": "scripts/palette_mesh.gd.uid",
+      "bytes": 19,
+      "sha256": "e5cdc6b442fbf5a1b0bfd707b0fd5c1b7ca3ea755da935b0df04bad0da15a5f4"
+    },
+    {
+      "path": "scripts/progress.gd",
+      "bytes": 1393,
+      "sha256": "a0df121877d0e591b5e31805d9576ffce0facf719272600338d7541f115803d5"
+    },
+    {
+      "path": "scripts/progress.gd.uid",
+      "bytes": 20,
+      "sha256": "b5070e1b1b6a20db765c7e1bb5973fff985b80a4613f16405e9fe16d30e6f23b"
+    },
+    {
+      "path": "scripts/quality_mesh.gd",
+      "bytes": 1232,
+      "sha256": "94926d45a514abcf87a7e21d67efc297808c041225a61d240e9a873feffa86ca"
+    },
+    {
+      "path": "scripts/quality_mesh.gd.uid",
+      "bytes": 20,
+      "sha256": "8b403ba67990f81b7a00f1b4622796eb0d7b1ebb875e56a8e698ca42e4922823"
+    },
+    {
+      "path": "scripts/race_preferences.gd",
+      "bytes": 3016,
+      "sha256": "6b4769a4a52c50a010eabae9dc871ec70a450f984c4e249abcbafcabdb566cd2"
+    },
+    {
+      "path": "scripts/race_preferences.gd.uid",
+      "bytes": 20,
+      "sha256": "7b5c6d84b81050fb6e04968cf289aae93a4f3429134e8f7f56bc85c6cd293044"
+    },
+    {
+      "path": "scripts/race_signs.gd",
+      "bytes": 1470,
+      "sha256": "5c406b61062ff286b2673a4a797354a664df62decda9704c263f843cdbf954cd"
+    },
+    {
+      "path": "scripts/race_signs.gd.uid",
+      "bytes": 20,
+      "sha256": "e101b897615d0963ef2931e3854b3219802eaeff94d7220a820e5d1dc8a32e90"
+    },
+    {
+      "path": "scripts/race_traffic.gd",
+      "bytes": 2914,
+      "sha256": "ac87dec312c59bb91b93537e204c023b300cbe8c620918d24def7f42ecfd6ead"
+    },
+    {
+      "path": "scripts/race_traffic.gd.uid",
+      "bytes": 19,
+      "sha256": "1cc6ab8ff94fe76de6f269185587df52e078fa76943f6aa7dcbd9e74b493e7da"
+    },
+    {
+      "path": "scripts/scenery_art.gd",
+      "bytes": 15421,
+      "sha256": "02a6dd7c76f8affead92029b41c08690aa077ec9740157cdbb16ecd81ae548b8"
+    },
+    {
+      "path": "scripts/scenery_art.gd.uid",
+      "bytes": 20,
+      "sha256": "6edc83c2d4de0639d6f24d6ccc5ac08be6211f9e2f7addccdcc5747fc084d2eb"
+    },
+    {
+      "path": "scripts/settings_panel.gd",
+      "bytes": 5176,
+      "sha256": "a366605d4f24058a715be793acf8e0e29152e39c5007e262384033e404af15f6"
+    },
+    {
+      "path": "scripts/settings_panel.gd.uid",
+      "bytes": 19,
+      "sha256": "4e8f7b7989327f192f804dbaf9ec1d49e6d23bd4f334dbf2a4d8caa57f497c03"
+    },
+    {
+      "path": "scripts/soundscape.gd",
+      "bytes": 1427,
+      "sha256": "a1328ade5e57afac005e1e87cb15ca50aa737e5421d31bec64617e21a9a568f5"
+    },
+    {
+      "path": "scripts/soundscape.gd.uid",
+      "bytes": 20,
+      "sha256": "adf2b63906e1bb0cc956d07823f14c8643e20d8bb99a449300d1d962075efce3"
+    },
+    {
+      "path": "scripts/storybook_atmosphere.gd",
+      "bytes": 3494,
+      "sha256": "5d97d49fee38b3f970c8f5ce476042dc2075facecca75313646f5bdf25154f80"
+    },
+    {
+      "path": "scripts/storybook_atmosphere.gd.uid",
+      "bytes": 19,
+      "sha256": "9fabd58f834ae17a86fa3366e4779d91277f5678caadf71b65e6884cf05d9723"
+    },
+    {
+      "path": "scripts/tea_bend.gd",
+      "bytes": 13490,
+      "sha256": "21efb6c830bbd8961728c97e7de40ca5caa0b9e07d63b2dc244b8627d765a129"
+    },
+    {
+      "path": "scripts/tea_bend.gd.uid",
+      "bytes": 19,
+      "sha256": "498872d06349e0650743acb314e229d627e2304e32a02c21231a2a717078d02e"
+    },
+    {
+      "path": "scripts/tea_bend_layout.gd",
+      "bytes": 1623,
+      "sha256": "1d6bb8d19e4c54b7013575ddb74ab4a17cf0ec275e66c5b466ca7e948b7cdfee"
+    },
+    {
+      "path": "scripts/tea_bend_layout.gd.uid",
+      "bytes": 20,
+      "sha256": "79d2f6ccfbb11f5c358611addaef79937aeff94a671998f0223cb4658de4f98f"
+    },
+    {
+      "path": "scripts/tea_geometry.gd",
+      "bytes": 1504,
+      "sha256": "8f6d65991238d311d346a8e28e509bb207b712cbfdc6b5ee8d40fb00937907de"
+    },
+    {
+      "path": "scripts/tea_geometry.gd.uid",
+      "bytes": 20,
+      "sha256": "96508225542f881bb7d4b26456392896c0cafe7f74efc9c5342a0a222b22249f"
+    },
+    {
+      "path": "scripts/track.gd",
+      "bytes": 12329,
+      "sha256": "a355396517fc3a186c5ca6146e3b1db57cf6974130cd97c7bf5db56b8afaf6b6"
+    },
+    {
+      "path": "scripts/track.gd.uid",
+      "bytes": 20,
+      "sha256": "8d6e44f7554e45128daa0ae35d355bf55c44e5f1d716b3702ac38f8f3d7fb42f"
+    },
+    {
+      "path": "scripts/vehicle.gd",
+      "bytes": 19691,
+      "sha256": "2fde107e26eed643c8892f6e24fa4c5e12d67182dd695406fe38122e13dd95af"
+    },
+    {
+      "path": "scripts/vehicle.gd.uid",
+      "bytes": 20,
+      "sha256": "f1ec4b5c5cc918b18306a7d780f1398922a49ea8f2187c14d52f210981f2cb32"
+    },
+    {
+      "path": "scripts/vehicle_art.gd",
+      "bytes": 6868,
+      "sha256": "9db09fe4fc22037c2b7b85b4c9891a6710824dd876c94da0a97e8862192493bf"
+    },
+    {
+      "path": "scripts/vehicle_art.gd.uid",
+      "bytes": 20,
+      "sha256": "cc8a46cfe2a7c36163410581e158c4793511fb0a0109ed302183cb6da37c2970"
+    },
+    {
+      "path": "scripts/vehicle_contacts.gd",
+      "bytes": 2231,
+      "sha256": "f2e323b9450674d1de380c687233a0f62b152b0fe7e6828aff76a19b4c45c219"
+    },
+    {
+      "path": "scripts/vehicle_contacts.gd.uid",
+      "bytes": 20,
+      "sha256": "949d312ab432f572aabfb10bc88459d8bd1d462e756314f626ac27cad0251af9"
+    },
+    {
+      "path": "scripts/village_life.gd",
+      "bytes": 5105,
+      "sha256": "67f0fe5646ff4af07d94c2351819eb3e5b276a22a65dc8f3e4404c892e904bb8"
+    },
+    {
+      "path": "scripts/village_life.gd.uid",
+      "bytes": 20,
+      "sha256": "1f05c0f636e87612fb3bde40cb04940ab6b07be933638f8801225baa72fdd977"
+    },
+    {
+      "path": "scripts/waterfall_garden.gd",
+      "bytes": 7427,
+      "sha256": "37e2ceb133d4a9bbbdf9a2b24daec1976fa6b68a6e48f430fee26934bdc632c0"
+    },
+    {
+      "path": "scripts/waterfall_garden.gd.uid",
+      "bytes": 19,
+      "sha256": "0e35bb853aec9220d25afbf7d5decbe9c00789caa8a7ee326c468070940d27f9"
+    },
+    {
+      "path": "scripts/waterfall_path.gd",
+      "bytes": 2989,
+      "sha256": "e89e62b5dfa622ae1619459022436b403556e9467c016212baa0b64f657ecbc3"
+    },
+    {
+      "path": "scripts/waterfall_path.gd.uid",
+      "bytes": 20,
+      "sha256": "2a5250c09ae904380c97be35443335621e8ef801d05370e9ec660486bf615bd7"
+    },
+    {
+      "path": "scripts/woodland_magic.gd",
+      "bytes": 2526,
+      "sha256": "3cf01070a73e1b1c334afa33600eac55553b7bb31bcc2a805a098c91f6359611"
+    },
+    {
+      "path": "scripts/woodland_magic.gd.uid",
+      "bytes": 18,
+      "sha256": "a98c67eed0504221da5d4ce7a198e126194e65fec54a8c5653019a262b8681fd"
+    },
+    {
+      "path": "scripts/world_collisions.gd",
+      "bytes": 3179,
+      "sha256": "46778b2cc4418f95cfe9dce0026b6da0a21132b62eebf9a4e976c109fe65f361"
+    },
+    {
+      "path": "scripts/world_collisions.gd.uid",
+      "bytes": 20,
+      "sha256": "4c2672a7df31b8e8ad691170456d21e82e379b1c7c09374d8944acdc3887675c"
+    },
+    {
+      "path": "shaders/gpu_motion.gdshaderinc",
+      "bytes": 1722,
+      "sha256": "eaf060f923ffce278a45df407fb34bd84c9e81f54f998e4948bbc960a322887a"
+    },
+    {
+      "path": "shaders/gpu_motion.gdshaderinc.uid",
+      "bytes": 20,
+      "sha256": "9f8f37b956cacc5e397bf69862312a44d587f0815e504dc4a9f10fec14ce6983"
+    },
+    {
+      "path": "shaders/gpu_motion.glsl",
+      "bytes": 4122,
+      "sha256": "1755202a9cd79686632b2300f132517320a2d6cc68cc03aa7d041c8d6e4d7777"
+    },
+    {
+      "path": "shaders/ground_shadow.gdshader",
+      "bytes": 317,
+      "sha256": "b3606f47bc1bcb60d8a28cbf280fc3d8cbfc6fe0cf58567be23b7dbc95198d74"
+    },
+    {
+      "path": "shaders/ground_shadow.gdshader.uid",
+      "bytes": 20,
+      "sha256": "9370fed6e4f0fb301347f8a30152dd1d3dbba4b43eb229bc2d4a190cdf325889"
+    },
+    {
+      "path": "tests/driver_pose_reference.gd",
+      "bytes": 1076,
+      "sha256": "f4ccdc133bc4d7c52da58162be4c36b9b65e327c8cca837457be2348910f4de1"
+    },
+    {
+      "path": "tests/driver_pose_reference.gd.uid",
+      "bytes": 20,
+      "sha256": "4f34ccef2bff7f72e7665cbf8d573da0db0e19505cb1ff3fd8699e354f50922d"
+    },
+    {
+      "path": "tests/test_academy_faces.gd",
+      "bytes": 6537,
+      "sha256": "adab4bacc18f15efc60b1e83aef8df056f2b8ef10fb1a58bb0e34a3d9f57c32f"
+    },
+    {
+      "path": "tests/test_academy_faces.gd.uid",
+      "bytes": 20,
+      "sha256": "757f69ade9aa2da8383702a62b4db825426a6625db8985d0edf60f13a4a2272a"
+    },
+    {
+      "path": "tests/test_art.gd",
+      "bytes": 7031,
+      "sha256": "3e44bd8f76be0000bc65a75d777dcb22c3b6bbc29c4f0576a0d87d3acc435dff"
+    },
+    {
+      "path": "tests/test_art.gd.uid",
+      "bytes": 20,
+      "sha256": "40f0b61aa1ad24686c2efef684798892e849f3bc9d1d82e16716cbe121473f22"
+    },
+    {
+      "path": "tests/test_driving_foundation.gd",
+      "bytes": 9332,
+      "sha256": "21a3a3de1cb556e5ba4f96789f6312fa0815c9de81fc4150c3407ddb1c942952"
+    },
+    {
+      "path": "tests/test_driving_foundation.gd.uid",
+      "bytes": 20,
+      "sha256": "c25b56a40a995e3a3f67ff4fcf24962105638789d6c803debbec07c5551e70de"
+    },
+    {
+      "path": "tests/test_environment.gd",
+      "bytes": 5872,
+      "sha256": "da06b7f7ad8f12047eed0015b90c6df13184a216778639db2e05d40be9107672"
+    },
+    {
+      "path": "tests/test_environment.gd.uid",
+      "bytes": 19,
+      "sha256": "4a6ac7324aaf6ad2e24a708be0d2019210883cab1c91983aae0d406b093bbd1c"
+    },
+    {
+      "path": "tests/test_gpu_life.gd",
+      "bytes": 6669,
+      "sha256": "cff236500c890f4d58f6a453d9802dd760d87e5f143750c1959a68da0e02dba7"
+    },
+    {
+      "path": "tests/test_gpu_life.gd.uid",
+      "bytes": 20,
+      "sha256": "c8a3ae51813476bb3556626168648bc6933bf88bc58052a9cd0905633b0ec477"
+    },
+    {
+      "path": "tests/test_gpu_motion.gd",
+      "bytes": 4717,
+      "sha256": "59e1238de1e6c629c473c4d279d4daa0dcb556d1945186c06febe51af5230565"
+    },
+    {
+      "path": "tests/test_gpu_motion.gd.uid",
+      "bytes": 20,
+      "sha256": "1ffd311f680d4d0d0afd808b167b645b0841160ca6067fb41cb14d21b7091909"
+    },
+    {
+      "path": "tests/test_gpu_skin.gd",
+      "bytes": 5998,
+      "sha256": "4d2a2a979887cef1afb0fc5f6fec9b4f005b27c58c325a96634b308dfcdb78bd"
+    },
+    {
+      "path": "tests/test_gpu_skin.gd.uid",
+      "bytes": 20,
+      "sha256": "8e33d33daef944f0bc079934d27a0efa7b24630f898052753de3763038e30ec2"
+    },
+    {
+      "path": "tests/test_handling.gd",
+      "bytes": 2382,
+      "sha256": "ff78f8e45c9e6e94b960e797bf86cc2b6fc31e43165658bc06effb4422154fd3"
+    },
+    {
+      "path": "tests/test_handling.gd.uid",
+      "bytes": 19,
+      "sha256": "e78dec87533a8695663322eee985f12fe429735f176d3dff21eacebe1c398985"
+    },
+    {
+      "path": "tests/test_living.gd",
+      "bytes": 7109,
+      "sha256": "8391c81174120e9321c9dd51e8193ef516a20d41d45355ba3b28ffd698b04a47"
+    },
+    {
+      "path": "tests/test_living.gd.uid",
+      "bytes": 20,
+      "sha256": "f646c9b55c0e2ac13e74ed2704abe18e8d888ffc0e37b1a506496849fff4301c"
+    },
+    {
+      "path": "tests/test_offroad_physics.gd",
+      "bytes": 7609,
+      "sha256": "3b6ad45828497132182744c99712ba7ac0ca510ecb9ebdaf8ab1145aa0ff0b6b"
+    },
+    {
+      "path": "tests/test_offroad_physics.gd.uid",
+      "bytes": 20,
+      "sha256": "6bf7dad6080cddade50060f2976ac7cbcbad4cbb6abe043d3bce7c29cc6bc781"
+    },
+    {
+      "path": "tests/test_organic_assets.gd",
+      "bytes": 1933,
+      "sha256": "5d55f967c1548cb05afa46f962e84a986449ce473f8a77c58c582655c04c2f8b"
+    },
+    {
+      "path": "tests/test_organic_assets.gd.uid",
+      "bytes": 20,
+      "sha256": "290a40921a7553741c1510aa5497e10764e749261b3dbd4503484c1b41b875f5"
+    },
+    {
+      "path": "tests/test_portrait_assets.gd",
+      "bytes": 2748,
+      "sha256": "7cd8d0c43817aed51f38950dc19de9b0217a983a40bc64e659adcd162bceecf2"
+    },
+    {
+      "path": "tests/test_portrait_assets.gd.uid",
+      "bytes": 20,
+      "sha256": "19deb42990542851347f2f4db1fd8f07f0a71c2be7ea7d99c20cf66e7122a52a"
+    },
+    {
+      "path": "tests/test_rules.gd",
+      "bytes": 5766,
+      "sha256": "513f0003a5626fddae96b88d946f94f007fa1711004e67619b8fa2f1b74aab38"
+    },
+    {
+      "path": "tests/test_rules.gd.uid",
+      "bytes": 20,
+      "sha256": "62f462aa4f0bd38bdc1f4dd97921fe821efb613dbbdda091ae58042cfe63a88f"
+    },
+    {
+      "path": "tests/test_session.gd",
+      "bytes": 5110,
+      "sha256": "3c748693554c4526714808f883f2d6c3c7a368580de8b1ee21ad3e9dd45b247b"
+    },
+    {
+      "path": "tests/test_session.gd.uid",
+      "bytes": 20,
+      "sha256": "a9a8b1ef05107f35d9f7194653380f4c155343a9bea7ac1464a5e2dfdec15344"
+    },
+    {
+      "path": "tests/test_tea_bend.gd",
+      "bytes": 4129,
+      "sha256": "4c179a20ba942b640a704a9868ed7c70efefe68a7b7a9e3a1bf3985fe0a9e63b"
+    },
+    {
+      "path": "tests/test_tea_bend.gd.uid",
+      "bytes": 20,
+      "sha256": "77e4a51e18678bf2f40ef093680390672f9a5338cdf524af257644cadc6a6756"
+    },
+    {
+      "path": "tests/test_tea_gpu.gd",
+      "bytes": 4683,
+      "sha256": "f6043b73eeefaf833991c16045a0cddabe2a20fe3f8ba0a20cb5ac28ae241c64"
+    },
+    {
+      "path": "tests/test_tea_gpu.gd.uid",
+      "bytes": 20,
+      "sha256": "e40558e3825bb186ded8cd9f7787236b638fbcffa8c9db3d8d729c16e0b1252f"
+    },
+    {
+      "path": "tests/test_vehicle_physics.gd",
+      "bytes": 10100,
+      "sha256": "4290a40056e974fc0e7c943781f1bf7268fbe16129065331b443ec93fa60c9d6"
+    },
+    {
+      "path": "tests/test_vehicle_physics.gd.uid",
+      "bytes": 20,
+      "sha256": "ac53851500c55a7a59114a54c631bad5ea5ffd04cc6e4c395ea5e85b96f6b756"
+    },
+    {
+      "path": "tests/test_world_collisions.gd",
+      "bytes": 10348,
+      "sha256": "ce01e75db80949ce4c356c44670b2a63bfeeb874a6703709054b0104935a9d00"
+    },
+    {
+      "path": "tests/test_world_collisions.gd.uid",
+      "bytes": 20,
+      "sha256": "89fc3f2ee0754cc0faf2e50dd306c0c980f56652a6ad0432f2f84392b4fad450"
+    },
+    {
+      "path": "tools/archive_driving_review.py",
+      "bytes": 6277,
+      "sha256": "a1dd4dec98edc161b2c97c651fdd719771350c822a182dbdd6a1ce46350fd90b"
+    },
+    {
+      "path": "tools/benchmark_art.gd",
+      "bytes": 10806,
+      "sha256": "382432c73b80c5e9d10bb40011e1e5a62f8ccbe85bde39c92031525fc3c6e7bf"
+    },
+    {
+      "path": "tools/benchmark_art.gd.uid",
+      "bytes": 20,
+      "sha256": "0e3d556a2eefed3813a8f3e6f50be05b2ab12a74a3ebab9aa8432864f72a821c"
+    },
+    {
+      "path": "tools/build_driving_audio.py",
+      "bytes": 3003,
+      "sha256": "09036ae47fada2fe076d5e074cb6cd68b36f7b6b760b8aefbddde4b5c0104fe6"
+    },
+    {
+      "path": "tools/review_driving_foundation.gd",
+      "bytes": 5267,
+      "sha256": "c00c92cdabe59428ab9a7e10ec88c9b4b75a83b77d4645e25bbad08a78a291a2"
+    },
+    {
+      "path": "tools/review_driving_foundation.gd.uid",
+      "bytes": 20,
+      "sha256": "508cf2f7cfec6da50139a5edab316f2396319a8608d00be5b92e62e97e9b9090"
+    }
+  ]
+}

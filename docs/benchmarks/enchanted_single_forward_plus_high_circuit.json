@@ -1,0 +1,101 @@
+{
+	"adapter": "Intel(R) Iris(R) Xe Graphics",
+	"completed_laps": 1,
+	"districts": {
+		"castle": {
+			"mean_fps": 31.7058207130956,
+			"p99_ms": 36.869,
+			"samples": 140
+		},
+		"gardens": {
+			"mean_fps": 29.8854591575434,
+			"p99_ms": 35.669,
+			"samples": 124
+		},
+		"grove": {
+			"mean_fps": 27.3783171504259,
+			"p99_ms": 41.712,
+			"samples": 169
+		},
+		"harbor": {
+			"mean_fps": 31.0995609887762,
+			"p99_ms": 37.237,
+			"samples": 190
+		},
+		"village": {
+			"mean_fps": 28.5892073718157,
+			"p99_ms": 41.045,
+			"samples": 226
+		},
+		"waterfall": {
+			"mean_fps": 32.2230566773098,
+			"p99_ms": 38.327,
+			"samples": 349
+		}
+	},
+	"draw_calls": 186,
+	"driver_detail": 0,
+	"driver_vertices": [
+		149810,
+		169213,
+		149810,
+		169213,
+		149810,
+		169213
+	],
+	"duration_seconds": 45.0,
+	"frame_ms_max": 44.912,
+	"frame_ms_mean": 33.0407195325543,
+	"frame_ms_p50": 32.675,
+	"frame_ms_p95": 38.072,
+	"frame_ms_p99": 39.752,
+	"frames_over_100ms": 0,
+	"frames_over_250ms": 0,
+	"gpu_dust": true,
+	"gpu_ms_by_viewport": [
+		0.261222036148053,
+		31.9121969697471
+	],
+	"gpu_pose_generation": true,
+	"graphics_prepared": true,
+	"instance_layout_valid": true,
+	"mean_fps": 30.2656847110948,
+	"pipeline_compilations": {
+		"PIPELINE_COMPILATIONS_CANVAS": 0.0,
+		"PIPELINE_COMPILATIONS_DRAW": 15.0,
+		"PIPELINE_COMPILATIONS_MESH": 0.0,
+		"PIPELINE_COMPILATIONS_SPECIALIZATION": 19.0,
+		"PIPELINE_COMPILATIONS_SURFACE": 0.0
+	},
+	"profile": "high",
+	"renderer": "forward_plus",
+	"root_camera_active": false,
+	"samples": 1198,
+	"screenshot": "single_forward_plus_high_circuit.png",
+	"skeleton_bones": 6,
+	"startup_preparation_ms": 15354,
+	"textures": {
+		"linen": {
+			"height": 1254,
+			"width": 1254
+		},
+		"road": {
+			"height": 1254,
+			"width": 1254
+		},
+		"wood": {
+			"height": 1254,
+			"width": 1254
+		}
+	},
+	"viewport_size": "(1280, 800)",
+	"views": 1,
+	"views_3d": [
+		{
+			"msaa": 2,
+			"render_scale": 0.888888895511627,
+			"size": "(1438, 898)"
+		}
+	],
+	"world_instance_layout_valid": true
+}

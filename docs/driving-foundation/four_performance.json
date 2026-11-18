@@ -1,0 +1,105 @@
+{
+	"adapter": "Intel(R) Iris(R) Xe Graphics",
+	"adventure_observed": {
+		"boost": true,
+		"collectibles": true,
+		"jump": false,
+		"leaf_wake": true,
+		"splash": false
+	},
+	"completed_laps": 0,
+	"draw_calls": 594,
+	"driver_detail": 2,
+	"driver_vertices": [
+		16586,
+		20850,
+		16586,
+		20850,
+		16586,
+		20850
+	],
+	"driving_audio": true,
+	"duration_seconds": 17.0,
+	"frame_ms_max": 112.639,
+	"frame_ms_mean": 98.5427837837838,
+	"frame_ms_p50": 99.945,
+	"frame_ms_p95": 108.96,
+	"frame_ms_p99": 109.6,
+	"frames_over_100ms": 55,
+	"frames_over_250ms": 0,
+	"gpu_dust": true,
+	"gpu_ms_by_viewport": [
+		1.42722522568058,
+		19.397630674345,
+		18.7107387577091,
+		18.8463153237695,
+		20.1829369691041
+	],
+	"gpu_pose_generation": true,
+	"graphics_prepared": true,
+	"instance_layout_valid": true,
+	"mean_fps": 10.1478765019886,
+	"obstacle_aware_camera": true,
+	"pipeline_compilations": {
+		"PIPELINE_COMPILATIONS_CANVAS": 0.0,
+		"PIPELINE_COMPILATIONS_DRAW": 10.0,
+		"PIPELINE_COMPILATIONS_MESH": 0.0,
+		"PIPELINE_COMPILATIONS_SPECIALIZATION": 14.0,
+		"PIPELINE_COMPILATIONS_SURFACE": 0.0
+	},
+	"primitives": 2990252,
+	"profile": "performance",
+	"renderer": "forward_plus",
+	"root_camera_active": false,
+	"samples": 111,
+	"screenshot": "four_forward_plus_performance.png",
+	"skeleton_bones": 6,
+	"startup_preparation_ms": 8226,
+	"textures": {
+		"linen": {
+			"height": 1254,
+			"width": 1254
+		},
+		"road": {
+			"height": 1254,
+			"width": 1254
+		},
+		"wood": {
+			"height": 1254,
+			"width": 1254
+		}
+	},
+	"viewport_size": "(1920, 1080)",
+	"views": 4,
+	"views_3d": [
+		{
+			"msaa": 0,
+			"render_scale": 0.600000023841858,
+			"screen_aa": 1,
+			"size": "(718, 448)",
+			"upscaler": 1
+		},
+		{
+			"msaa": 0,
+			"render_scale": 0.600000023841858,
+			"screen_aa": 1,
+			"size": "(718, 448)",
+			"upscaler": 1
+		},
+		{
+			"msaa": 0,
+			"render_scale": 0.600000023841858,
+			"screen_aa": 1,
+			"size": "(718, 448)",
+			"upscaler": 1
+		},
+		{
+			"msaa": 0,
+			"render_scale": 0.600000023841858,
+			"screen_aa": 1,
+			"size": "(718, 448)",
+			"upscaler": 1
+		}
+	],
+	"world_instance_layout_valid": true
+}

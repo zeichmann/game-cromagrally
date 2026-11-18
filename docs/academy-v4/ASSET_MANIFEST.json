@@ -1,0 +1,303 @@
+{
+  "recorded_utc": "2026-11-17T12:14:05.086169+00:00",
+  "source": "Original local authored 3D geometry based on the retained Academia Oli portraits.",
+  "capture_method": "Unmodified native Godot output; copied byte for byte.",
+  "likeness_status": "Visual comparison provided for user assessment; tests do not certify likeness.",
+  "files": [
+    {
+      "path": "docs/academy-v4/TEST_LOGS.json",
+      "bytes": 4616,
+      "sha256": "2b114878b00d7e4615dfeda60bc5416071081156f84c6b8798da037a58c95d24"
+    },
+    {
+      "path": "docs/academy-v4/GPU_POSES.json",
+      "bytes": 36696,
+      "sha256": "f364a6753e2d7287e5660b74b3ef018222412bf53cac7e853bb556af8eff5e01"
+    },
+    {
+      "path": "docs/academy-v4/screenshots/zabol_front.png",
+      "bytes": 315855,
+      "sha256": "3326f004027e0623698e718d215c8218f2259082dc3aff36aba07371d95b79c1"
+    },
+    {
+      "path": "docs/academy-v4/screenshots/zabol_threequarter.png",
+      "bytes": 294212,
+      "sha256": "f99a7efaaeebecfe1f018bda54b64db4a3a92153db04ae4fafc4522415433fa2"
+    },
+    {
+      "path": "docs/academy-v4/screenshots/zabol_profile.png",
+      "bytes": 205874,
+      "sha256": "6e366b9d8908b99ba0e2d3745d05735baeda30d7e614f2cb7fc5c25a8e55256a"
+    },
+    {
+      "path": "docs/academy-v4/screenshots/zabol_face.png",
+      "bytes": 585715,
+      "sha256": "8fa53663649b3d6423f418ca1d1ed6b59a49c3e3e0482c50eeedb7fa0585b36d"
+    },
+    {
+      "path": "docs/academy-v4/screenshots/zabol_calm.png",
+      "bytes": 586728,
+      "sha256": "cee5bb753a418e9c48268469ccfb89a1f407c7cd92cb120201b67499224d82f5"
+    },
+    {
+      "path": "docs/academy-v4/screenshots/zabol_joy.png",
+      "bytes": 585686,
+      "sha256": "b9f5667ba92697a04eea138e90ac95b9fbde177a54d55b93a3e1cad12935709d"
+    },
+    {
+      "path": "docs/academy-v4/screenshots/zabol_blink.png",
+      "bytes": 549672,
+      "sha256": "d4bea1c3e7532d3180ba5c340e7d1523c990a3ec18c8b3c23b34cf7296894b85"
+    },
+    {
+      "path": "docs/academy-v4/screenshots/zabol_gaze.png",
+      "bytes": 586065,
+      "sha256": "8be9a1dc584c9a09c87240cc678f933801a33d069bc35f83d834983253d32b3d"
+    },
+    {
+      "path": "docs/academy-v4/screenshots/swinka_front.png",
+      "bytes": 347917,
+      "sha256": "ed4c81b6387cb2b39d43599e1a0768956f998d79a50924eedf9318488a0fa07f"
+    },
+    {
+      "path": "docs/academy-v4/screenshots/swinka_threequarter.png",
+      "bytes": 320292,
+      "sha256": "caca673071bc6e00dbbb14602cd15d5345c783c55e63c4b48956e0781b15d589"
+    },
+    {
+      "path": "docs/academy-v4/screenshots/swinka_profile.png",
+      "bytes": 216485,
+      "sha256": "ca04cb631113482e0bfd497f8677cb0ecb563ffb87b8027fc3dc8c4ffac4b6b4"
+    },
+    {
+      "path": "docs/academy-v4/screenshots/swinka_face.png",
+      "bytes": 635969,
+      "sha256": "1374b56839bd67d19653f7753f28c298cdd21260a36d5993dd4ec97b372c4615"
+    },
+    {
+      "path": "docs/academy-v4/screenshots/swinka_calm.png",
+      "bytes": 630066,
+      "sha256": "21c1a5f75571cb307dae16c3c52ff813861f30e8303ea2a602fe7fb2eb3f6af6"
+    },
+    {
+      "path": "docs/academy-v4/screenshots/swinka_joy.png",
+      "bytes": 632940,
+      "sha256": "41a3b1c69ed811cc63c928204e598c46bb73d9144faeaf26a4803173df81af1e"
+    },
+    {
+      "path": "docs/academy-v4/screenshots/swinka_blink.png",
+      "bytes": 610916,
+      "sha256": "017701f0757a0f14f4d2aa9369ad663d2f1e8a20bae398f86aa65f5954d32e34"
+    },
+    {
+      "path": "docs/academy-v4/screenshots/swinka_gaze.png",
+      "bytes": 632625,
+      "sha256": "99e15f7f20d3d301394eef8509231ddd659a7c08b029787f4a7ada3ca3e33bca"
+    },
+    {
+      "path": "docs/academy-v4/screenshots/duo_faces.png",
+      "bytes": 856598,
+      "sha256": "40fa27f336118123195bf3b72dacce8b288c09c264d2990507456f83e609c2dc"
+    },
+    {
+      "path": "docs/academy-v4/screenshots/test_0_0_open.png",
+      "bytes": 88598,
+      "sha256": "6ffb9f9b00e3c827b06caa5178ae0f5b63de2b8a3e4096aa045f72a08a393487"
+    },
+    {
+      "path": "docs/academy-v4/screenshots/test_0_0_closed.png",
+      "bytes": 86122,
+      "sha256": "8cf487463784f38fc0847bf8fccd68e3e60a1e8bd26dfd9c59695d73e1af5e93"
+    },
+    {
+      "path": "docs/academy-v4/screenshots/test_0_1_open.png",
+      "bytes": 87372,
+      "sha256": "16570310014c88ca2a3850d10d04f06a0ce437845ead93c911a4204b5f565d1a"
+    },
+    {
+      "path": "docs/academy-v4/screenshots/test_0_1_closed.png",
+      "bytes": 84635,
+      "sha256": "2303d030569ddb294c27d45ad81a1e7b9348f6c86208a7c718831dfda445a340"
+    },
+    {
+      "path": "docs/academy-v4/screenshots/test_0_2_open.png",
+      "bytes": 87710,
+      "sha256": "07f6e82aa6e212071fead4134ccb5f18c97bbe78d23d6d9326a0ffc13df8db93"
+    },
+    {
+      "path": "docs/academy-v4/screenshots/test_0_2_closed.png",
+      "bytes": 85150,
+      "sha256": "303b15032451c6ad8d5b5d47220e113f0d3cdc04a27c375ffa8279a6b65be4fe"
+    },
+    {
+      "path": "docs/academy-v4/screenshots/test_1_0_open.png",
+      "bytes": 96263,
+      "sha256": "85b432e82af05f706c9a7cf060503e840697477ccf801779c15c4af9993ba5d7"
+    },
+    {
+      "path": "docs/academy-v4/screenshots/test_1_0_closed.png",
+      "bytes": 92545,
+      "sha256": "b6e2e8fe02fca7f0be8aee237675504777fd92b1029318837272f097cf9c8da5"
+    },
+    {
+      "path": "docs/academy-v4/screenshots/test_1_1_open.png",
+      "bytes": 95597,
+      "sha256": "7951de496511c1d1f5fb8aaf8aabe4732ad23045d6bd4701c02ee983bebb029b"
+    },
+    {
+      "path": "docs/academy-v4/screenshots/test_1_1_closed.png",
+      "bytes": 91715,
+      "sha256": "ac5c9ac13e16f89346f6ebc1b48bef0debfda02baf1c11c309b524d26a92c346"
+    },
+    {
+      "path": "docs/academy-v4/screenshots/test_1_2_open.png",
+      "bytes": 95643,
+      "sha256": "772b8c924cb0338f5bca8718da70f985ef10598cdcfcc328e7ecaf6a34ff9c37"
+    },
+    {
+      "path": "docs/academy-v4/screenshots/test_1_2_closed.png",
+      "bytes": 91548,
+      "sha256": "4dc8e9c18a0635d54e62b46f8298fa67f65ab0970dc88df0c842d33dd8753a9c"
+    },
+    {
+      "path": "docs/academy-v4/screenshots/cockpit_pair.png",
+      "bytes": 1198095,
+      "sha256": "76603eaa2de38c5c8e18114a88b7c8bbf7d10cba9670a278728d563c916ba8db"
+    },
+    {
+      "path": "docs/academy-v4/screenshots/cockpit_zabol.png",
+      "bytes": 1114326,
+      "sha256": "1f69a8005c4b0fc10bd638217d790389c7d80405cb7edb2dfb12f159286311a0"
+    },
+    {
+      "path": "docs/academy-v4/screenshots/cockpit_swinka.png",
+      "bytes": 1133513,
+      "sha256": "c9baec77b2376465fc236d5ce981d4944b40827790512fb41596b909dd72080e"
+    },
+    {
+      "path": "docs/academy-v4/screenshots/drive_visibility.png",
+      "bytes": 1168004,
+      "sha256": "fe602bdb472399df8ba050e9e89b899e0208e482a267969e2969b75a142c39b2"
+    },
+    {
+      "path": "docs/benchmarks/academy_single_forward_plus_high_circuit.json",
+      "bytes": 2106,
+      "sha256": "4cd15ba782cfb3b693d99237c72cd56df793e155a518206aa5d1823ba3dd442d"
+    },
+    {
+      "path": "docs/benchmarks/academy_single_forward_plus_balanced.json",
+      "bytes": 1535,
+      "sha256": "a4cfe8d2aedf8c3eacd6d36ecfabae9197fe424747f7508ce45cc60efa8f1b51"
+    },
+    {
+      "path": "docs/benchmarks/academy_four_forward_plus_performance.json",
+      "bytes": 1856,
+      "sha256": "ff1a1e71e2a19e3a7e8086673f2127fe771d83b0a82788050cbce9f1f10da202"
+    },
+    {
+      "path": "assets/characters/academy_v4/mesh_manifest.json",
+      "bytes": 924,
+      "sha256": "0fc2bd4e23fb6b920c3293df5ecd471c9cd5bdb10daa382b45765fbe1b1df179"
+    },
+    {
+      "path": "assets/characters/academy_v4/swinka_driver.res",
+      "bytes": 1810760,
+      "sha256": "964d6fb30ea0fecdc5b94c04eca2d1135c6db8a1b73dcbcf6f73eef81956d525"
+    },
+    {
+      "path": "assets/characters/academy_v4/swinka_driver_balanced.res",
+      "bytes": 1046558,
+      "sha256": "fb2dbb309bb225f4a4dc56a6b97f9eae017a18ffaef349ee39addf019e6fbcfe"
+    },
+    {
+      "path": "assets/characters/academy_v4/swinka_driver_performance.res",
+      "bytes": 578454,
+      "sha256": "91f1b791e0bff3132528c41e8a2ae6da23f10e876af7cd576ddc469f6fcee31a"
+    },
+    {
+      "path": "assets/characters/academy_v4/zabol_driver.res",
+      "bytes": 1443575,
+      "sha256": "56c67072333d898cc7a4dbb20f005820a31d6b44e9dab89fb74a089d313752de"
+    },
+    {
+      "path": "assets/characters/academy_v4/zabol_driver_balanced.res",
+      "bytes": 814148,
+      "sha256": "8e7b764e93b243794c94fec4da88f5d8f7a231655440881e673538d32c77b9dd"
+    },
+    {
+      "path": "assets/characters/academy_v4/zabol_driver_performance.res",
+      "bytes": 447927,
+      "sha256": "3ac2e628f1e7458d1248048fa8374b785bc06c7437c3372ea6b562fcfb0e8ea6"
+    },
+    {
+      "path": "tools/academy_character_builder.gd",
+      "bytes": 6816,
+      "sha256": "c809d0b471940b76d232a1433859b9adbad8877116f58d7a24b69a6b7127517c"
+    },
+    {
+      "path": "tools/academy_face_geometry.gd",
+      "bytes": 14207,
+      "sha256": "aaf3708cd81a5f6e736d896a55d2fee835491add1b4de2a76bdd514cd7119558"
+    },
+    {
+      "path": "tools/review_academy_faces.gd",
+      "bytes": 3157,
+      "sha256": "49fcfd7d781234f70605aa27420778310627d59098681d9c7c33b058303059b7"
+    },
+    {
+      "path": "tools/archive_academy_review.py",
+      "bytes": 5892,
+      "sha256": "54f4115c50164e623f7ef3851c200991bfb0388ae405b90def9ed7cac1979c19"
+    },
+    {
+      "path": "scripts/driver_art.gd",
+      "bytes": 2008,
+      "sha256": "b2e91f9bf76d0e3a87cb7a5fcfa0aed1acb2bf5c3d1113ad3d45df0db8980bc1"
+    },
+    {
+      "path": "shaders/academy_face.gdshaderinc",
+      "bytes": 3106,
+      "sha256": "380c3a51ec9d5d7ba616b092d961772c69639df9582c400bc4382e55ce69cef8"
+    },
+    {
+      "path": "shaders/palette_surface.gdshaderinc",
+      "bytes": 15203,
+      "sha256": "ffb4db195b98a163903e8fc87325e2af8e7df244b9acebf829a7035f865ce29b"
+    },
+    {
+      "path": "tests/test_academy_faces.gd",
+      "bytes": 5322,
+      "sha256": "75892caa40a49e06ef4e48a55542b0f5ea7162fd534d7e456674335c25a1322a"
+    },
+    {
+      "path": "shaders/gpu_motion.glsl",
+      "bytes": 4122,
+      "sha256": "1755202a9cd79686632b2300f132517320a2d6cc68cc03aa7d041c8d6e4d7777"
+    },
+    {
+      "path": "tests/test_gpu_motion.gd",
+      "bytes": 4717,
+      "sha256": "59e1238de1e6c629c473c4d279d4daa0dcb556d1945186c06febe51af5230565"
+    },
+    {
+      "path": "tests/test_portrait_assets.gd",
+      "bytes": 2733,
+      "sha256": "c4283bd57b38f827fab0fbfb6762791a58c1c93709cf30c5e454c4bf97ab8258"
+    },
+    {
+      "path": "tests/test_gpu_skin.gd",
+      "bytes": 5868,
+      "sha256": "eb251e1d2640ed6c40265f56739d21eb4e65f74018918af15e3802396848d44b"
+    },
+    {
+      "path": "docs/character-lookdev-v2/canonical-swinka.webp",
+      "bytes": 106096,
+      "sha256": "eabaef4b553e495a7533dac104536e7a5f33cf04184f029a4f6e89350172f3f4"
+    },
+    {
+      "path": "docs/character-lookdev-v2/canonical-zabol.webp",
+      "bytes": 116558,
+      "sha256": "45118b59624d00efb1cb7d3d65c4a4fe6ebfd8bf19d5d72e32466e266bb97c5d"
+    }
+  ]
+}

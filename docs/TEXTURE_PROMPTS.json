@@ -1,0 +1,14 @@
+[
+  {
+    "file": "ochre_track_albedo.png",
+    "prompt": "Use case: stylized-concept. Asset type: a production seamless tileable 2048 x 2048 square PBR BASE COLOR texture for an original stylized coastal racing game. Primary request: fine warm pale ochre compacted clay mixed with coral-sand grit, tiny cream limestone flecks and subtle softly worn organic patches. Entire square is this one continuous surface, viewed exactly orthographically from above, uniformly detailed from edge to edge. Artistically refined and gently hand-painted but materially convincing, clean readable medium-scale pattern with delicate microtexture, muted honey and tan palette, no large rocks. Neutral flat diffuse illumination; absolutely no cast shadows, directional highlights, baked ambient occlusion or vignette. Opposite edges must match seamlessly in both axes. No roadway markings, tire tracks, props, borders, panels, perspective, text, watermark or image of a material ball. Highest quality game texture, not a scene."
+  },
+  {
+    "file": "cedar_albedo.png",
+    "prompt": "Use case: stylized-concept. Asset type: production seamless tileable 2048 x 2048 square PBR BASE COLOR texture for the wood parts of original fantasy island racing vehicles. Primary request: warm oiled cedar heartwood, fine elegant lengthwise vertical flowing grain, small restrained knots, delicate worn fibers and rich honey-brown variations. One single continuous timber surface covering the entire image, not separate planks. Orthographic straight-on flat material scan. Painterly sculpted detail with convincing wood fibers and broad quiet areas. Flat neutral diffuse lighting, no cast shadows, no highlights, no baked ambient occlusion. Opposite edges must join seamlessly horizontally and vertically. No framing, seams between boards, nails, text, watermark, scene, object, material ball or border. Highest quality clean stylized game albedo."
+  },
+  {
+    "file": "sail_linen_albedo.png",
+    "prompt": "Use case: stylized-concept. Asset type: production seamless tileable 2048 x 2048 square PBR BASE COLOR texture for sails and shade canopies of an original island racing game. Primary request: beautiful tightly woven warm ivory flax sailcloth, fine clearly interlaced warp and weft, naturally subtle creamy slubs, restrained tan fiber variation, clean well-made fabric. One continuous flat weave fills the square edge to edge. Orthographic front view, physically flat cloth, neutral even illumination. Fine premium material detail with calm overall cream tone for easy color tinting in engine. Both pairs of opposite edges must match seamlessly. No folds, wrinkles, seams, embroidery, printed patterns, logos, text, watermark, shadow, directional lighting, scene, material ball or border. Highest quality original game texture."
+  }
+]

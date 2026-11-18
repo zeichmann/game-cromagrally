@@ -1,0 +1,44 @@
+{
+	"swinka_driver": {
+		"closed_lid_targets": true,
+		"eye_center": "(0.192, 0.948)",
+		"head_width": 0.85,
+		"surfaces": 2,
+		"vertices": 57680
+	},
+	"swinka_driver_balanced": {
+		"closed_lid_targets": true,
+		"eye_center": "(0.192, 0.948)",
+		"head_width": 0.85,
+		"surfaces": 2,
+		"vertices": 34152
+	},
+	"swinka_driver_performance": {
+		"closed_lid_targets": true,
+		"eye_center": "(0.192, 0.948)",
+		"head_width": 0.85,
+		"surfaces": 2,
+		"vertices": 19790
+	},
+	"zabol_driver": {
+		"closed_lid_targets": true,
+		"eye_center": "(0.226, 0.972)",
+		"head_width": 0.93,
+		"surfaces": 2,
+		"vertices": 45758
+	},
+	"zabol_driver_balanced": {
+		"closed_lid_targets": true,
+		"eye_center": "(0.226, 0.972)",
+		"head_width": 0.93,
+		"surfaces": 2,
+		"vertices": 26980
+	},
+	"zabol_driver_performance": {
+		"closed_lid_targets": true,
+		"eye_center": "(0.226, 0.972)",
+		"head_width": 0.93,
+		"surfaces": 2,
+		"vertices": 15684
+	}
+}

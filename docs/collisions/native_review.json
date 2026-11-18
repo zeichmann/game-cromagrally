@@ -1,0 +1,16 @@
+[
+	{
+		"grounded": true,
+		"position": "(122.0983, 5.078842, -4.217416)",
+		"screenshot": "offroad_sail.png",
+		"variant": 0,
+		"visible_ground_y": 5.07627155919545
+	},
+	{
+		"grounded": true,
+		"position": "(122.0979, 5.078896, -4.217111)",
+		"screenshot": "offroad_flywheel.png",
+		"variant": 1,
+		"visible_ground_y": 5.07626302050994
+	}
+]

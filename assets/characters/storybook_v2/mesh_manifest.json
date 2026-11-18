@@ -1,0 +1,32 @@
+{
+	"swinka_driver": {
+		"bounds": "[P: (-0.754717, -0.405, -0.55274), S: (1.509433, 1.84, 1.208562)]",
+		"surfaces": 2,
+		"vertices": 69314
+	},
+	"swinka_driver_balanced": {
+		"bounds": "[P: (-0.754717, -0.405, -0.552491), S: (1.509433, 1.84, 1.207695)]",
+		"surfaces": 2,
+		"vertices": 44045
+	},
+	"swinka_driver_performance": {
+		"bounds": "[P: (-0.754717, -0.405, -0.552053), S: (1.509433, 1.84, 1.204148)]",
+		"surfaces": 2,
+		"vertices": 29635
+	},
+	"zabol_driver": {
+		"bounds": "[P: (-0.653883, -0.405, -0.55274), S: (1.30803, 1.871, 1.208562)]",
+		"surfaces": 2,
+		"vertices": 59979
+	},
+	"zabol_driver_balanced": {
+		"bounds": "[P: (-0.652003, -0.405, -0.552491), S: (1.304643, 1.871, 1.207695)]",
+		"surfaces": 2,
+		"vertices": 35037
+	},
+	"zabol_driver_performance": {
+		"bounds": "[P: (-0.651748, -0.405, -0.552053), S: (1.302021, 1.871, 1.204148)]",
+		"surfaces": 2,
+		"vertices": 21169
+	}
+}

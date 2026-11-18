@@ -1,0 +1,17 @@
+{
+	"assertions": 26,
+	"evidence": {
+		"blocked_traffic_speed_limit": 7.6,
+		"camera": {
+			"blocked_length": 2.97693919122219,
+			"open_length": 8.49756992340088,
+			"released_length": 8.09893501281738
+		},
+		"passing_lane": -2.6,
+		"recovery": {
+			"blocker": "(-103.7461, 4.747465, 30.25867)",
+			"position": "(-100.2629, 4.747465, 31.16817)"
+		}
+	},
+	"failures": 0
+}

@@ -1,0 +1,287 @@
+{
+	"arch": {
+		"lod_levels_total": 2,
+		"surfaces": 1,
+		"triangles": 1120
+	},
+	"bakery": {
+		"lod_levels_total": 7,
+		"surfaces": 2,
+		"triangles": 22604
+	},
+	"balloon_blue": {
+		"lod_levels_total": 4,
+		"surfaces": 1,
+		"triangles": 3672
+	},
+	"balloon_coral": {
+		"lod_levels_total": 4,
+		"surfaces": 1,
+		"triangles": 3672
+	},
+	"bench": {
+		"lod_levels_total": 3,
+		"surfaces": 1,
+		"triangles": 456
+	},
+	"boat": {
+		"lod_levels_total": 4,
+		"surfaces": 2,
+		"triangles": 2626
+	},
+	"boat_coral": {
+		"lod_levels_total": 4,
+		"surfaces": 2,
+		"triangles": 2626
+	},
+	"boat_sage": {
+		"lod_levels_total": 4,
+		"surfaces": 2,
+		"triangles": 2626
+	},
+	"boathouse": {
+		"lod_levels_total": 4,
+		"surfaces": 1,
+		"triangles": 8199
+	},
+	"castle_crag": {
+		"lod_levels_total": 0,
+		"surfaces": 1,
+		"triangles": 1520
+	},
+	"castle_keep": {
+		"lod_levels_total": 5,
+		"surfaces": 1,
+		"triangles": 23626
+	},
+	"cottage_blue": {
+		"lod_levels_total": 5,
+		"surfaces": 2,
+		"triangles": 20982
+	},
+	"cottage_peach": {
+		"lod_levels_total": 5,
+		"surfaces": 2,
+		"triangles": 24456
+	},
+	"cottage_rose": {
+		"lod_levels_total": 5,
+		"surfaces": 2,
+		"triangles": 19876
+	},
+	"crystal_grotto": {
+		"lod_levels_total": 7,
+		"surfaces": 1,
+		"triangles": 5664
+	},
+	"dock_supplies": {
+		"lod_levels_total": 3,
+		"surfaces": 1,
+		"triangles": 2964
+	},
+	"elder_gate": {
+		"lod_levels_total": 12,
+		"surfaces": 2,
+		"triangles": 29580
+	},
+	"fern": {
+		"lod_levels_total": 4,
+		"surfaces": 1,
+		"triangles": 2488
+	},
+	"flowering_bush": {
+		"lod_levels_total": 9,
+		"surfaces": 2,
+		"triangles": 9792
+	},
+	"flowers_daisy": {
+		"lod_levels_total": 2,
+		"surfaces": 1,
+		"triangles": 1260
+	},
+	"flowers_lavender": {
+		"lod_levels_total": 5,
+		"surfaces": 1,
+		"triangles": 920
+	},
+	"flowers_rose": {
+		"lod_levels_total": 2,
+		"surfaces": 1,
+		"triangles": 804
+	},
+	"footbridge": {
+		"lod_levels_total": 4,
+		"surfaces": 1,
+		"triangles": 5676
+	},
+	"fountain": {
+		"lod_levels_total": 3,
+		"surfaces": 1,
+		"triangles": 1488
+	},
+	"garden_fence": {
+		"lod_levels_total": 4,
+		"surfaces": 1,
+		"triangles": 1008
+	},
+	"garden_planter": {
+		"lod_levels_total": 1,
+		"surfaces": 1,
+		"triangles": 324
+	},
+	"giant_fern": {
+		"lod_levels_total": 5,
+		"surfaces": 1,
+		"triangles": 4268
+	},
+	"hanging_ivy": {
+		"lod_levels_total": 3,
+		"surfaces": 1,
+		"triangles": 1296
+	},
+	"hedge": {
+		"lod_levels_total": 6,
+		"surfaces": 1,
+		"triangles": 396
+	},
+	"lantern": {
+		"lod_levels_total": 4,
+		"surfaces": 1,
+		"triangles": 552
+	},
+	"lantern_mushroom": {
+		"lod_levels_total": 4,
+		"surfaces": 1,
+		"triangles": 1680
+	},
+	"lighthouse": {
+		"lod_levels_total": 5,
+		"surfaces": 1,
+		"triangles": 7233
+	},
+	"mailbox": {
+		"lod_levels_total": 1,
+		"surfaces": 1,
+		"triangles": 103
+	},
+	"market_stall": {
+		"lod_levels_total": 7,
+		"surfaces": 2,
+		"triangles": 4092
+	},
+	"moss_boulder": {
+		"lod_levels_total": 7,
+		"surfaces": 1,
+		"triangles": 816
+	},
+	"mushroom": {
+		"lod_levels_total": 6,
+		"surfaces": 1,
+		"triangles": 3980
+	},
+	"pavilion": {
+		"lod_levels_total": 6,
+		"surfaces": 1,
+		"triangles": 8748
+	},
+	"port_crane": {
+		"lod_levels_total": 8,
+		"surfaces": 1,
+		"triangles": 4160
+	},
+	"resident_cat": {
+		"lod_levels_total": 9,
+		"surfaces": 1,
+		"triangles": 4384
+	},
+	"resident_duck": {
+		"lod_levels_total": 8,
+		"surfaces": 1,
+		"triangles": 2200
+	},
+	"resident_gull": {
+		"lod_levels_total": 8,
+		"surfaces": 1,
+		"triangles": 2200
+	},
+	"resident_mouse": {
+		"lod_levels_total": 7,
+		"surfaces": 1,
+		"triangles": 16100
+	},
+	"resident_rabbit": {
+		"lod_levels_total": 7,
+		"surfaces": 1,
+		"triangles": 16208
+	},
+	"rose_arbor": {
+		"lod_levels_total": 8,
+		"surfaces": 2,
+		"triangles": 18304
+	},
+	"stone_rail": {
+		"lod_levels_total": 4,
+		"surfaces": 1,
+		"triangles": 1080
+	},
+	"town_post": {
+		"lod_levels_total": 7,
+		"surfaces": 2,
+		"triangles": 51236
+	},
+	"town_tea": {
+		"lod_levels_total": 7,
+		"surfaces": 2,
+		"triangles": 49840
+	},
+	"town_workshop": {
+		"lod_levels_total": 7,
+		"surfaces": 2,
+		"triangles": 49836
+	},
+	"tree_birch": {
+		"lod_levels_total": 12,
+		"surfaces": 2,
+		"triangles": 14704
+	},
+	"tree_blossom": {
+		"lod_levels_total": 10,
+		"surfaces": 2,
+		"triangles": 23728
+	},
+	"tree_cypress": {
+		"lod_levels_total": 5,
+		"surfaces": 2,
+		"triangles": 3408
+	},
+	"tree_oak": {
+		"lod_levels_total": 11,
+		"surfaces": 2,
+		"triangles": 15408
+	},
+	"tree_willow": {
+		"lod_levels_total": 11,
+		"surfaces": 2,
+		"triangles": 9552
+	},
+	"turret": {
+		"lod_levels_total": 4,
+		"surfaces": 2,
+		"triangles": 2364
+	},
+	"water_lily": {
+		"lod_levels_total": 2,
+		"surfaces": 1,
+		"triangles": 248
+	},
+	"windmill": {
+		"lod_levels_total": 2,
+		"surfaces": 1,
+		"triangles": 477
+	},
+	"windmill_rotor": {
+		"lod_levels_total": 9,
+		"surfaces": 1,
+		"triangles": 5004
+	}
+}

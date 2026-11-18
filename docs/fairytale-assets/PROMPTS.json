@@ -1,0 +1,34 @@
+{
+  "date": "2026-11-16",
+  "mode": "built-in image_gen",
+  "assets": [
+    {
+      "name": "fairy_paving",
+      "transparent": false,
+      "prompt": "Create one original seamless tileable square albedo texture for a premium stylized fairytale 3D racing game's village road. Orthographic top-down view, flat diffuse neutral lighting, no perspective or directional baked shadow. Small irregular softly rounded worn limestone cobblestones, warm pale ivory, honey cream, blush sandstone and a few very subtle lavender-gray stones, laid in loosely staggered rows, narrow muted sandy joints with tiny occasional moss traces. Rich refined hand-painted surface detail, gentle stone grain and worn edges, charming storybook art, calm readable color variation, NOT dark brown dirt and NOT wood. Surface fills the canvas edge to edge and tiles convincingly in both directions with consistent scale. No large plants, props, scenery, border, text, labels, logos, or watermark. Maximum available native resolution, ideally 2048 square."
+    },
+    {
+      "name": "fairy_masonry",
+      "transparent": false,
+      "prompt": "Create one original seamless tileable square albedo texture for richly detailed stylized fairytale castle and bridge masonry in a 3D game. Front orthographic surface view, flat neutral diffuse lighting, no perspective and no directional baked shadows. Softly dressed warm ivory limestone blocks in varied but harmonious sizes, rounded worn edges, pale cream and light warm-gray faces, slender sandy mortar joints, restrained sage moss and tiny age marks along some joints. Elegant welcoming storybook castle, refined painterly material detail with calm large forms and subtle grain, not photoreal rubble, not wood and not a flat cartoon grid. Full-bleed texture with visually seamless matching edges in both directions. No architecture scene, windows, plants growing out of the wall, objects, text, labels, border or watermark. Maximum available native resolution, ideally 2048 square."
+    },
+    {
+      "name": "fairy_roof",
+      "transparent": false,
+      "prompt": "Create one original seamless tileable square albedo texture for the curved roofs of a premium stylized fairytale 3D village. Orthographic close surface view, flat neutral illumination with no perspective and no directional baked shadow. Neatly overlapping slightly irregular rounded scallop ceramic roof shingles, small elegant scale, soft beveled worn rims, hand-painted material grain and very restrained lichen specks. Use light desaturated warm gray/lavender values so the game can tint the tiles blue, lilac, rose and terracotta without muddy colors. Rich refined storybook painted detail, gentle value variation, not wood planks, not metal and not giant roof blocks. Fill the canvas completely and tile in both directions with matching scale. No whole house, sky, objects, text, logos, labels, border or watermark. Maximum available native resolution, ideally 2048 square."
+    },
+    {
+      "name": "wisteria_blossoms",
+      "transparent": true,
+      "prompt": "Create one original botanical foliage cutout asset for a beautifully detailed stylized fairytale 3D garden. One natural slender curved wisteria twig with five long gracefully hanging racemes of small lavender, violet and soft blush lilac blossoms, accompanied by a few rich green compound leaves near the top. All five distinct hanging flower clusters fully visible, a pleasing loose asymmetrical arrangement, entire sprig framed with a small clear margin. High-end hand-painted 3D game foliage appearance, exquisite tiny petals and refined botanical shapes, soft diffuse neutral lighting without dramatic baked shadows. TRUE transparent alpha background around and between all blossoms and stems. Mostly frontal view suitable for alpha-cutout foliage cards; no pot, background, ground, separate cast shadow, text, border, checkerboard or watermark. Maximum available native quality, ideally 2048 square."
+    },
+    {
+      "name": "storybook_oak_spray",
+      "prompt": "Use case: stylized-concept. Asset type: premium fairytale 3D racing game foliage alpha card. An elegant dense spray of 24-35 small spring oak leaves on very fine branching twigs, broad rounded lobed leaves, overlapping naturally, olive and fresh yellow-green tones with subtle warm sunlit tips, crisp hand-painted physically believable detail. Entire foliage spray isolated and fully visible, fills square frame loosely and asymmetrically, irregular leafy silhouette, no tree trunk, no landscape, no pot. Front facing orthographic view, soft neutral even diffuse light, no baked shadows. TRUE transparent background, no border, no text, no logo, no surrounding black or white background. This is a game texture for foliage cards adding detailed leaf edges to existing tree crowns, not a concept illustration."
+    },
+    {
+      "name": "storybook_blossom_spray",
+      "prompt": "Use case: stylized-concept. Asset type: premium fairytale 3D racing game flowering tree alpha card. A lush irregular airy spray of many delicate cherry blossoms on fine branching twigs, 35-50 tiny five-petal blossoms in blush pink, rose and creamy white, several small sage-green leaves, detailed stamens, natural overlapping flower clusters. Entire spray fully visible isolated, fills square frame with a loose asymmetric organic silhouette, narrow twigs visible only between blooms. No thick trunk, no landscape, no vase. Front facing orthographic view, soft neutral even diffuse light, restrained beautiful pastel color, polished hand-painted texture. TRUE transparent background, no text, no logo, no border, no white or black backdrop. This is a game alpha texture for small canopy detail planes, not a full tree or concept scene."
+    }
+  ]
+}

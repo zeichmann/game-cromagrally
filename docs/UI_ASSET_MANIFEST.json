@@ -1,0 +1,25 @@
+{
+  "created": "2026-11-15",
+  "fonts": [
+    {
+      "path": "assets/fonts/Barlow-Medium.ttf",
+      "source_url": "https://raw.githubusercontent.com/google/fonts/main/ofl/barlow/Barlow-Medium.ttf",
+      "sha256": "f8906f762cb73dca441da034bc363b2d8e2e68bc10d5c05e58717646c20cc4b4",
+      "license": "SIL OFL 1.1",
+      "license_file": "assets/fonts/OFL.txt",
+      "modified": false
+    },
+    {
+      "path": "assets/fonts/BarlowCondensed-BlackItalic.ttf",
+      "source_url": "https://raw.githubusercontent.com/google/fonts/main/ofl/barlowcondensed/BarlowCondensed-BlackItalic.ttf",
+      "sha256": "e1ed5d7e50c6a4498454d40509ce2362384a2c7870df3418fdbd010f81dffad3",
+      "license": "SIL OFL 1.1",
+      "license_file": "assets/fonts/OFL.txt",
+      "modified": false
+    }
+  ],
+  "vector_icons": {
+    "paths": ["assets/ui/checkbox_off.svg", "assets/ui/checkbox_on.svg", "assets/ui/selector_arrow.svg"],
+    "source": "Original editable SVG code created for this project; no image generator or external icon kit"
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "date": "2026-11-16",
+  "mode": "built-in image_gen",
+  "assets": [
+    {
+      "name": "meadow_albedo_v2",
+      "transparent": false,
+      "prompt": "Use case: stylized-concept. Asset type: original seamless square albedo texture for a beautifully crafted fairytale 3D racing game meadow. Orthographic straight-down close view of fine lush meadow turf: slender layered grass blades, tiny clover leaves, soft moss and subtle warm earth between plants. Calm sophisticated sage and forest greens, a little muted olive, never neon yellow or turquoise. Refined hand-painted storybook material, painterly but believable botanical detail, even neutral diffuse light, no hard directional lighting or baked cast shadows. Dense small-scale detail with gentle broad patches, without repeated obvious tufts. Full-bleed flat ground texture, edges designed to tile seamlessly in both axes. No flowers taller than grass, no objects, rocks, borders, scenery, text, logos or watermark. Highest native square resolution available."
+    },
+    {
+      "name": "cliff_albedo_v2",
+      "transparent": false,
+      "prompt": "Use case: stylized-concept. Asset type: original seamless square albedo texture for natural limestone cliffs in a premium fairytale 3D island racing game. Front orthographic material-only view, fills frame edge to edge. Pale warm-gray stratified limestone with soft horizontal mineral bedding, natural small irregular fissures and worn ledges, muted sage moss in some crevices. Broad calm rock forms plus beautifully refined fine grain and tiny lichen speckles. Welcoming luminous storybook realism, restrained hand-painted finish, neutral flat diffuse lighting without cast shadows. It must look like continuous natural geology, NOT masonry blocks, bricks, a grid, cobbles or wood. No giant boulders, landscape, plants sticking out, sky, labels, text, border, logo or watermark. Seamless tileable edges in both axes, highest native square resolution available."
+    },
+    {
+      "name": "leaf_canopy_albedo_v2",
+      "transparent": false,
+      "prompt": "Use case: stylized-concept. Asset type: original seamless opaque leaf-canopy albedo texture for high quality stylized 3D storybook trees. A dense continuous tapestry of many small overlapping broad rounded oak/elm leaves, hundreds of leaves at a consistent fine scale. Rich sage, natural mid green and forest green, soft cool green occlusion between layers, very restrained warm green tips. Elegant refined hand-painted botanical detail and fine veins, coherent calm color, NEVER acid yellow, neon or fluorescent. Texture for the surface of an existing 3D crown: orthographic flat material view, no large branch structure, no visible thick wood, no tree silhouette, no scenery. Even neutral diffuse lighting; subtle internal leaf overlap is welcome, no strong directional sunlight or cast shadows. Opaque full-bleed surface with seamless matching edges in both axes. No isolated spray, blank gaps, labels, text, logos, border or watermark. Highest native square resolution available."
+    },
+    {
+      "name": "blossom_canopy_albedo_v2",
+      "transparent": false,
+      "prompt": "Use case: stylized-concept. Asset type: original seamless opaque flowering cherry tree canopy albedo for a premium fairytale 3D game. Dense continuous small-scale clusters of delicate five-petalled cherry blossoms: warm creamy white and light blush pink with restrained rose centers, tiny yellow stamens, occasional quiet sage leaves visible deep between flowers. Hundreds of small blossoms across the square, beautifully painted botanical detail and soft internal occlusion, calm pastel values, neither bubblegum neon nor flat solid pink. This maps onto existing 3D tree crown volumes, so show a full-bleed orthographic material field rather than a whole tree or branch composition. Flat even neutral diffuse lighting, no strong baked sunlight or cast shadows. Opaque seamless tileable edges in both axes, no blank background, no trunk, sky, landscape, objects, text, labels, border, logo or watermark. Highest native square resolution available."
+    },
+    {
+      "name": "storybook_sky_panorama_v2",
+      "transparent": false,
+      "prompt": "Use case: stylized-concept. Asset type: seamless equirectangular SKY-ONLY panoramic environment map for a premium polished fairytale 3D island racing game. WIDE HORIZONTAL 2:1 equirectangular 360-degree composition with left and right edges matching seamlessly, highest native panoramic resolution available. A beautiful clear early morning sky, soft powder blue near the horizon graduating to a rich gentle cornflower blue overhead. Several magnificent sculptural cumulus cloud banks with delicate warm ivory illuminated rims and soft lavender-blue undersides, layered small distant cloud wisps, broad clean blue openings between cloud masses. Sophisticated hand-painted storybook atmosphere with refined painterly cloud detail, inviting, magical and wonderfully luminous; not a photograph, not neon, not a flat cartoon outline. Keep the equatorial horizon almost empty with a faint pale atmospheric glow; upper half contains the clouds and a lot of blue sky. Lower hemisphere a simple very pale blue atmospheric gradient. NO land, mountains, water, buildings, trees, people, birds, stars, moon, text, logo, border or watermark. No visible sun disc and no directional sun beams. This must be an actual usable sky texture, not a concept landscape scene or illustration framed on a background."
+    },
+    {
+      "name": "shore_albedo_v2",
+      "transparent": false,
+      "prompt": "Use case: texture. Original seamless square albedo material for the shore of a beautifully crafted stylized 3D fairytale island racing game. Straight-down orthographic close view of fine warm ivory and pale beige coastal sand, tiny softly rounded limestone grains, restrained very small shell flecks and a few tiny muted gray pebbles. Elegant calm hand-painted storybook material with believable delicate grain, gentle subtle variations in tone, refined premium game art. Mostly fine sand, with very small scattered details at a consistent scale; no large rocks, no ripples or grooves, no beach scenery or water. Neutral even diffuse lighting, no directional sunlight, no baked cast shadows, no strong highlights. Full bleed material texture, seamless matching edges in both axes. Never a checkerboard, quilt, grid, triangles, cobbles, bricks or repetitive geometric pattern. No text, labels, border, frame, logos or watermark. Highest native square resolution available, opaque background."
+    }
+  ]
+}

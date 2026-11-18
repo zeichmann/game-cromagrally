@@ -1,0 +1,15 @@
+{
+  "created": "2026-11-16",
+  "generator": "built-in image_gen",
+  "mode": "text-only",
+  "reference_images": [],
+  "assets": [
+    {
+      "name": "meadow_painted_v3",
+      "prompt": "Use case: stylized-concept. Asset type: square seamless tileable base-color albedo texture for the ground of an original storybook 3D racing game, viewed straight down, orthographic flat scan, no scene or landscape. Primary request: beautifully hand-painted soft meadow turf in muted sage, moss and warm yellow-green, small broad overlapping gouache brush dabs and gentle irregular low-frequency color patches, subtle warm earth glimpses. This will repeat over rolling grass banks under soft afternoon light in the game, so the image itself must have even neutral lighting and no baked shadows, highlights, perspective or horizon. Cozy sophisticated children's-book material, calm surface at a distance, restrained granular brush texture only up close. Palette: mid-value muted olive-sage dominant, warm fern-green and a few soft ochre undertones, never turquoise or neon. No recognizable objects, no flowers, no blades, no individual leaves, no spirals, no curls, no thin threads, no grid, no tile outlines, no text, no frame, no watermark. Seamless on all four edges, dense full-bleed opaque RGB albedo; highest native detail, no artificial enlargement.",
+      "transparent_background": false,
+      "native_output": true,
+      "upscaled": false
+    }
+  ]
+}

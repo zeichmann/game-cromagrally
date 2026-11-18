@@ -1,0 +1,22 @@
+{
+	"ancient_oak": {
+		"surfaces": 2,
+		"triangles": 145744,
+		"vertices": 118377
+	},
+	"tea_garden": {
+		"surfaces": 2,
+		"triangles": 20096,
+		"vertices": 14020
+	},
+	"teahouse": {
+		"surfaces": 2,
+		"triangles": 51395,
+		"vertices": 56889
+	},
+	"teapot_sign": {
+		"surfaces": 1,
+		"triangles": 12776,
+		"vertices": 7142
+	}
+}

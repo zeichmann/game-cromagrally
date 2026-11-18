@@ -1,0 +1,20 @@
+{
+  "created": "2026-11-16",
+  "assets": [
+    {
+      "path": "assets/textures/meadow_painted_v3.png",
+      "width": 1254,
+      "height": 1254,
+      "mode": "RGB",
+      "alpha_extrema": null,
+      "sha256": "14cabcc98b371a23ceecb236048e08f80837e8e0439ffae9089b89cf08123f04",
+      "source": "built-in image_gen",
+      "mode_of_generation": "text-only",
+      "reference_images": [],
+      "copied_from_generated_image": "exec-0f27a908-5ab5-4362-96d7-4fff20485d74.png",
+      "upscaled": false,
+      "mipmaps": true,
+      "prompt_file": "docs/enchanted-island/PROMPTS.json"
+    }
+  ]
+}

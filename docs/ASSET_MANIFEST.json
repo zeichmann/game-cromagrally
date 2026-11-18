@@ -1,0 +1,42 @@
+{
+  "created": "2026-11-15",
+  "assets": [
+    {
+      "path": "assets/textures/cedar_albedo.png",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "7d63185b3986a54fe548a7f7da14bc30c9dd906973298dd16858e8f3eed701cc",
+      "source": "built-in image_gen",
+      "reference_images": [],
+      "prompt_file": "docs/TEXTURE_PROMPTS.json"
+    },
+    {
+      "path": "assets/textures/ochre_track_albedo.png",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "f9e0ed1c82397fe72ff58690e1ab513a19e3b7523d0c622be06e58e9235b40e9",
+      "source": "built-in image_gen",
+      "reference_images": [],
+      "prompt_file": "docs/TEXTURE_PROMPTS.json"
+    },
+    {
+      "path": "assets/textures/sail_linen_albedo.png",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "109c861117d4036b3ba23fd3f15dc4278f1b0cf4137e7a4e089ce4bae1323500",
+      "source": "built-in image_gen",
+      "reference_images": [],
+      "prompt_file": "docs/TEXTURE_PROMPTS.json"
+    },
+    {
+      "path": "assets/textures/seagrape_sprig.png",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "90d3e880e9420faca2405e7ff3f7e6d299262779c3f188164f0c2277d94e4a3d",
+      "source": "built-in image_gen",
+      "reference_images": [],
+      "transparent_background": true,
+      "prompt_file": "docs/FOLIAGE_PROMPT.json"
+    }
+  ]
+}

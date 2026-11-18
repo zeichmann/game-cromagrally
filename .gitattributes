@@ -1,0 +1,18 @@
+* text=auto
+*.gd text eol=lf
+*.gdshader text eol=lf
+*.gdshaderinc text eol=lf
+*.glsl text eol=lf
+*.godot text eol=lf
+*.tscn text eol=lf
+*.uid text eol=lf
+*.md text eol=lf
+*.json text eol=lf
+*.cmd text eol=crlf
+
+# Preserve exact bytes of the upstream character provenance recorded in the manifest.
+docs/character-sources/** -text
+docs/tea-bend/BARK_PROMPT.txt text eol=lf
+tools/archive_portrait_review.py text eol=lf
+tools/archive_academy_review.py text eol=lf
+tools/archive_organic_review.py text eol=lf

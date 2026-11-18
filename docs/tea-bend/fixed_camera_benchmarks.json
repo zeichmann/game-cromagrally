@@ -1,0 +1,88 @@
+{
+	"adapter": "Intel(R) Iris(R) Xe Graphics",
+	"gpu_motion_initialized": true,
+	"measured_seconds_per_case": 4,
+	"mode": "Fixed camera, one stationary visible vehicle in drive view; no AI or vehicle physics. Not a racing FPS measurement.",
+	"renderer": "forward_plus",
+	"results": [
+		{
+			"camera": "drive",
+			"frame_ms_max": 50.803,
+			"frame_ms_p99": 50.803,
+			"gpu_ms": 45.5910114465758,
+			"mean_fps": 21.4556779333093,
+			"msaa": 2,
+			"profile": "high",
+			"render_scale": 1.0,
+			"samples": 86,
+			"screenshot": "fixed_drive_high.png",
+			"viewport_size": "(1280, 800)"
+		},
+		{
+			"camera": "drive",
+			"frame_ms_max": 24.392,
+			"frame_ms_p99": 24.256,
+			"gpu_ms": 18.8738629684836,
+			"mean_fps": 49.1910322500902,
+			"msaa": 1,
+			"profile": "balanced",
+			"render_scale": 1.0,
+			"samples": 197,
+			"screenshot": "fixed_drive_balanced.png",
+			"viewport_size": "(1280, 800)"
+		},
+		{
+			"camera": "drive",
+			"frame_ms_max": 16.379,
+			"frame_ms_p99": 15.873,
+			"gpu_ms": 11.1494503050857,
+			"mean_fps": 80.494445883234,
+			"msaa": 0,
+			"profile": "performance",
+			"render_scale": 1.0,
+			"samples": 322,
+			"screenshot": "fixed_drive_performance.png",
+			"viewport_size": "(1280, 800)"
+		},
+		{
+			"camera": "stream",
+			"frame_ms_max": 49.331,
+			"frame_ms_p99": 49.331,
+			"gpu_ms": 41.9060861320906,
+			"mean_fps": 23.2319429723248,
+			"msaa": 2,
+			"profile": "high",
+			"render_scale": 1.0,
+			"samples": 93,
+			"screenshot": "fixed_stream_high.png",
+			"viewport_size": "(1280, 800)"
+		},
+		{
+			"camera": "stream",
+			"frame_ms_max": 20.598,
+			"frame_ms_p99": 20.221,
+			"gpu_ms": 15.0210409828874,
+			"mean_fps": 60.9525484410386,
+			"msaa": 1,
+			"profile": "balanced",
+			"render_scale": 1.0,
+			"samples": 244,
+			"screenshot": "fixed_stream_balanced.png",
+			"viewport_size": "(1280, 800)"
+		},
+		{
+			"camera": "stream",
+			"frame_ms_max": 15.7,
+			"frame_ms_p99": 14.858,
+			"gpu_ms": 9.84136711538654,
+			"mean_fps": 90.9948958095978,
+			"msaa": 0,
+			"profile": "performance",
+			"render_scale": 1.0,
+			"samples": 365,
+			"screenshot": "fixed_stream_performance.png",
+			"viewport_size": "(1280, 800)"
+		}
+	],
+	"warmup_seconds": 2
+}

@@ -1,0 +1,154 @@
+{
+	"assertions": 1461,
+	"edge_crossings": [
+		{
+			"contacts": [
+				"Solid_0240_moss_boulder"
+			],
+			"ground_y": 5.52735220550676,
+			"landed_offroad": true,
+			"position": "(23.34056, 7.915177, 82.60333)",
+			"side": -1.0,
+			"velocity": "(1.734918, 0.0, 2.076559)"
+		},
+		{
+			"contacts": [
+				"Solid_0241_moss_boulder",
+				"Solid_0080_tree_oak"
+			],
+			"ground_y": 4.70815774524817,
+			"landed_offroad": true,
+			"position": "(25.39604, 7.743402, 62.59295)",
+			"side": 1.0,
+			"velocity": "(-0.0, 0.0, -0.0)"
+		}
+	],
+	"failures": 0,
+	"missing_ground": 0,
+	"roadside_rays": 576,
+	"settled_chassis": [
+		{
+			"contacts": [
+				"IslandGroundCollision"
+			],
+			"ground_y": 3.27987055216909,
+			"grounded": true,
+			"position": "(120.956, 5.09534, -6.487393)",
+			"touchdown": true,
+			"velocity": "(-0.630241, -0.002265, -1.626951)"
+		},
+		{
+			"contacts": [],
+			"ground_y": 1.74420676779846,
+			"grounded": false,
+			"position": "(97.71158, 2.496331, -1.461667)",
+			"touchdown": true,
+			"velocity": "(-5.141617, -3.033334, -1.51224)"
+		},
+		{
+			"contacts": [
+				"Solid_0003_tea_bridge_banks_garden",
+				"IslandGroundCollision"
+			],
+			"ground_y": 9.48965903947828,
+			"grounded": true,
+			"position": "(97.18812, 9.619104, 45.10826)",
+			"touchdown": true,
+			"velocity": "(0.0, 0.0, 0.0)"
+		},
+		{
+			"contacts": [
+				"IslandGroundCollision"
+			],
+			"ground_y": 9.06805515289307,
+			"grounded": true,
+			"position": "(86.78989, 9.067277, 32.04047)",
+			"touchdown": true,
+			"velocity": "(0.0, 0.0, 0.0)"
+		},
+		{
+			"contacts": [
+				"Solid_0244_moss_boulder",
+				"IslandGroundCollision"
+			],
+			"ground_y": 5.91347161246085,
+			"grounded": true,
+			"position": "(1.144226, 6.299942, 77.17163)",
+			"touchdown": true,
+			"velocity": "(0.046608, -0.003955, 0.035138)"
+		},
+		{
+			"contacts": [
+				"Solid_0245_moss_boulder"
+			],
+			"ground_y": 5.83816230123193,
+			"grounded": true,
+			"position": "(3.130708, 8.311819, 60.22809)",
+			"touchdown": true,
+			"velocity": "(-0.007196, 0.000062, 0.009855)"
+		},
+		{
+			"contacts": [
+				"IslandGroundCollision"
+			],
+			"ground_y": -2.63705296483067,
+			"grounded": true,
+			"position": "(-113.6097, -2.043768, 37.09552)",
+			"touchdown": true,
+			"velocity": "(-0.080615, -1.248406, -1.538114)"
+		},
+		{
+			"contacts": [
+				"IslandGroundCollision"
+			],
+			"ground_y": -2.67235445976257,
+			"grounded": true,
+			"position": "(-94.4519, -2.148781, 39.32478)",
+			"touchdown": true,
+			"velocity": "(-1.34478, -0.420905, -0.624564)"
+		},
+		{
+			"contacts": [
+				"IslandGroundCollision",
+				"Solid_0177_tree_blossom"
+			],
+			"ground_y": 5.11628443589325,
+			"grounded": true,
+			"position": "(-80.33364, 6.08352, -65.37827)",
+			"touchdown": true,
+			"velocity": "(0.0, 0.0, -0.0)"
+		},
+		{
+			"contacts": [
+				"IslandGroundCollision",
+				"Solid_0124_tree_blossom"
+			],
+			"ground_y": 7.0482189106333,
+			"grounded": true,
+			"position": "(-62.1231, 7.910267, -47.37355)",
+			"touchdown": true,
+			"velocity": "(0.0, -0.0, -0.0)"
+		},
+		{
+			"contacts": [
+				"IslandGroundCollision"
+			],
+			"ground_y": -9.60000038146973,
+			"grounded": true,
+			"position": "(81.20992, -9.600002, -55.79272)",
+			"touchdown": true,
+			"velocity": "(16.80972, 0.0, -12.53454)"
+		},
+		{
+			"contacts": [
+				"IslandGroundCollision"
+			],
+			"ground_y": 1.1234489061444,
+			"grounded": true,
+			"position": "(48.68949, 1.19793, -34.37861)",
+			"touchdown": true,
+			"velocity": "(-1.162122, -0.151396, 2.476923)"
+		}
+	],
+	"wrong_heights": 0
+}

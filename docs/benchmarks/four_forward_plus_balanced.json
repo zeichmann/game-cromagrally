@@ -1,0 +1,68 @@
+{
+	"adapter": "Intel(R) Iris(R) Xe Graphics",
+	"draw_calls": 1210,
+	"driver_detail": 1,
+	"driver_vertices": [
+		33484,
+		30998,
+		33484,
+		30998,
+		33484,
+		30998
+	],
+	"frame_ms_mean": 35.3163556231003,
+	"frame_ms_p99": 46.267,
+	"gpu_dust": true,
+	"gpu_ms_by_viewport": [
+		0.45683586624618,
+		7.32356534975278,
+		8.62027354225924,
+		8.5411884429607,
+		8.76446201156338
+	],
+	"instance_layout_valid": true,
+	"mean_fps": 28.3154924214747,
+	"profile": "balanced",
+	"renderer": "forward_plus",
+	"samples": 329,
+	"screenshot": "four_forward_plus_balanced.png",
+	"skeleton_bones": 6,
+	"textures": {
+		"linen": {
+			"height": 1254,
+			"width": 1254
+		},
+		"road": {
+			"height": 1254,
+			"width": 1254
+		},
+		"wood": {
+			"height": 1254,
+			"width": 1254
+		}
+	},
+	"viewport_size": "(1280, 800)",
+	"views": 4,
+	"views_3d": [
+		{
+			"msaa": 1,
+			"render_scale": 0.75,
+			"size": "(718, 448)"
+		},
+		{
+			"msaa": 1,
+			"render_scale": 0.75,
+			"size": "(718, 448)"
+		},
+		{
+			"msaa": 1,
+			"render_scale": 0.75,
+			"size": "(718, 448)"
+		},
+		{
+			"msaa": 1,
+			"render_scale": 0.75,
+			"size": "(718, 448)"
+		}
+	]
+}

@@ -1,0 +1,72 @@
+{
+  "created": "2026-11-16",
+  "status": "modeling_references_only",
+  "runtime_meshes_updated": false,
+  "external_3d_upload": "not_executed_auto_review_rejected",
+  "assets": [
+    {
+      "path": "docs/character-lookdev-v2/canonical-swinka.webp",
+      "width": 512,
+      "height": 512,
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "eabaef4b553e495a7533dac104536e7a5f33cf04184f029a4f6e89350172f3f4"
+    },
+    {
+      "path": "docs/character-lookdev-v2/canonical-zabol.webp",
+      "width": 512,
+      "height": 512,
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "45118b59624d00efb1cb7d3d65c4a4fe6ebfd8bf19d5d72e32466e266bb97c5d"
+    },
+    {
+      "path": "docs/character-lookdev-v2/swinka-model-input.png",
+      "width": 1086,
+      "height": 1448,
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "sha256": "41325e9fec5b94906f6bf0b2408b53cf5b99a6dbaae3183b5319996f70c221d6"
+    },
+    {
+      "path": "docs/character-lookdev-v2/zabol-model-input.png",
+      "width": 1024,
+      "height": 1536,
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        254
+      ],
+      "sha256": "405ce5dba571b7b2c65f64c78ec7a5a242effbd23a1c2b2c807ebf39eb092869"
+    },
+    {
+      "path": "docs/character-lookdev-v2/zabol-study-v1.png",
+      "width": 1752,
+      "height": 897,
+      "mode": "RGB",
+      "alpha_extrema": null,
+      "sha256": "ca5c1e8192bb372de67149f6cbf9e33d41059ac6ebc0b12ebc7245b4d709cc36"
+    },
+    {
+      "path": "docs/character-lookdev-v2/source/zabol-model-input-v1.png",
+      "role": "source_of_alpha_edit",
+      "width": 1024,
+      "height": 1536,
+      "mode": "RGBA",
+      "alpha_extrema": [
+        0,
+        254
+      ],
+      "sha256": "9ecb43b447f74d7bcb53f2f2779f5bcac95c9160a261224694150518c3933ad3"
+    }
+  ]
+}

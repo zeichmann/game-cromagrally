@@ -1,0 +1,38 @@
+{
+	"swinka_driver": {
+		"separate_cornea": true,
+		"skin_average_linear": "(0.96081, 0.288802, 0.235608)",
+		"surfaces": 3,
+		"vertices": 58884
+	},
+	"swinka_driver_balanced": {
+		"separate_cornea": true,
+		"skin_average_linear": "(0.96081, 0.288802, 0.235608)",
+		"surfaces": 3,
+		"vertices": 35104
+	},
+	"swinka_driver_performance": {
+		"separate_cornea": true,
+		"skin_average_linear": "(0.96081, 0.288802, 0.235608)",
+		"surfaces": 3,
+		"vertices": 20850
+	},
+	"zabol_driver": {
+		"separate_cornea": true,
+		"skin_average_linear": "(0.229482, 0.391185, 0.005231)",
+		"surfaces": 3,
+		"vertices": 46716
+	},
+	"zabol_driver_balanced": {
+		"separate_cornea": true,
+		"skin_average_linear": "(0.229482, 0.391185, 0.005231)",
+		"surfaces": 3,
+		"vertices": 27730
+	},
+	"zabol_driver_performance": {
+		"separate_cornea": true,
+		"skin_average_linear": "(0.229482, 0.391185, 0.005231)",
+		"surfaces": 3,
+		"vertices": 16586
+	}
+}

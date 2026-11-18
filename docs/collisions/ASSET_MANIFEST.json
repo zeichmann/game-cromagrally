@@ -1,0 +1,132 @@
+{
+  "engine": "Godot 4.7.2 ed1daf0bf",
+  "physics_backend": "Jolt Physics",
+  "capture_method": "Native fullscreen Godot output copied byte for byte without editing.",
+  "files": [
+    {
+      "path": "project.godot",
+      "bytes": 1066,
+      "sha256": "3b17f9814b032ef8534385627c708baba5cefeffdb9a9cc138a9ed127036a698"
+    },
+    {
+      "path": "scripts/main.gd",
+      "bytes": 28796,
+      "sha256": "ee621286fc98d4b077093d7150fd77cf5e5fdf7db3bfa652aa52105d6c0bdcd3"
+    },
+    {
+      "path": "scripts/vehicle.gd",
+      "bytes": 14036,
+      "sha256": "b347cc03096810088aa29bdcf4e9d565dfe40609d717740d2b968764f2aef709"
+    },
+    {
+      "path": "scripts/vehicle_contacts.gd",
+      "bytes": 2233,
+      "sha256": "c4af4373357e634cdce8e69e1cb6391115b8225b08ca9a47ee35e391cf6f2a94"
+    },
+    {
+      "path": "scripts/scenery_art.gd",
+      "bytes": 15421,
+      "sha256": "02a6dd7c76f8affead92029b41c08690aa077ec9740157cdbb16ecd81ae548b8"
+    },
+    {
+      "path": "scripts/track.gd",
+      "bytes": 11062,
+      "sha256": "6069a96bfc72bf08bb12be5a888488faa1944593263fd10771a8a35bbef56347"
+    },
+    {
+      "path": "tests/test_vehicle_physics.gd",
+      "bytes": 10100,
+      "sha256": "4290a40056e974fc0e7c943781f1bf7268fbe16129065331b443ec93fa60c9d6"
+    },
+    {
+      "path": "tests/test_vehicle_physics.gd.uid",
+      "bytes": 20,
+      "sha256": "ac53851500c55a7a59114a54c631bad5ea5ffd04cc6e4c395ea5e85b96f6b756"
+    },
+    {
+      "path": "tests/test_offroad_physics.gd",
+      "bytes": 5489,
+      "sha256": "2de9b557d0ccbf2e706db5a637a7ee9a50f476838d5ff193f5b1d22b14226445"
+    },
+    {
+      "path": "tests/test_offroad_physics.gd.uid",
+      "bytes": 20,
+      "sha256": "6bf7dad6080cddade50060f2976ac7cbcbad4cbb6abe043d3bce7c29cc6bc781"
+    },
+    {
+      "path": "tests/test_session.gd",
+      "bytes": 5110,
+      "sha256": "3c748693554c4526714808f883f2d6c3c7a368580de8b1ee21ad3e9dd45b247b"
+    },
+    {
+      "path": "tests/test_rules.gd",
+      "bytes": 5766,
+      "sha256": "513f0003a5626fddae96b88d946f94f007fa1711004e67619b8fa2f1b74aab38"
+    },
+    {
+      "path": "tools/review_offroad.gd",
+      "bytes": 2202,
+      "sha256": "9a9642c97e5dfbc8a126c72aa2ff94df911e63f21ce8ce04b43b2da7df348ed5"
+    },
+    {
+      "path": "tools/review_offroad.gd.uid",
+      "bytes": 20,
+      "sha256": "27849b82ef3f93e573d2d5ccc4514f54de33dbb1d5a7dc48384643e654e37c30"
+    },
+    {
+      "path": "THIRD_PARTY_NOTICES.md",
+      "bytes": 3457,
+      "sha256": "324e47cc5280a0c3aefa00102e84c6065212140aa7b3239312a037c59172db27"
+    },
+    {
+      "path": "docs/PROVENANCE.md",
+      "bytes": 10665,
+      "sha256": "35d06cf495cb9ea74c3aa3895527418f02ab378dbfe9e4e4ab8600fe203265df"
+    },
+    {
+      "path": "README.md",
+      "bytes": 14860,
+      "sha256": "7110f1ca9d8a4319da8ddd6ccd3fefbfe7d8aba351b095e86abe6fac9fc5bf7e"
+    },
+    {
+      "path": "docs/collisions/exploratory_results.json",
+      "bytes": 3686,
+      "sha256": "030aa647ee7a25b187b2a3476e5a5bea313487736b828f98011d1ff060122021"
+    },
+    {
+      "path": "docs/collisions/native_review.json",
+      "bytes": 341,
+      "sha256": "2bd6d9deb8615e8b5ada0c7b406d95ca8aa353fae27496a07e85284480a56778"
+    },
+    {
+      "path": "docs/collisions/offroad_flywheel.png",
+      "bytes": 2531774,
+      "sha256": "4b3ae60b2ef3377e69e078a4457cf08cfef8acb442f953dcbf21bfbea45ee5f6"
+    },
+    {
+      "path": "docs/collisions/offroad_results.json",
+      "bytes": 1476,
+      "sha256": "207ffaf6723fe6665999f10baf632c3fce503d198bc83c2c51f5a16aad55451f"
+    },
+    {
+      "path": "docs/collisions/offroad_sail.png",
+      "bytes": 2525007,
+      "sha256": "fdad9b47b595903a58afffe3e7e7f750e5139bf671d18b01e38118caebd6478d"
+    },
+    {
+      "path": "docs/collisions/physics_results.json",
+      "bytes": 4279,
+      "sha256": "b82595103f64fc64a748975c3f1f8382e758936caad241a6913150d6778a9736"
+    },
+    {
+      "path": "docs/collisions/README.md",
+      "bytes": 7183,
+      "sha256": "876dea967938386390912cd52f638af9772c09a79d67243d3f2d20aad6e84da7"
+    },
+    {
+      "path": "docs/collisions/TEST_LOGS.json",
+      "bytes": 7716,
+      "sha256": "ec286da9738dcdf5befc77e0672a1da85321af6bb9a93a390becaf7a9af4cbc8"
+    }
+  ]
+}

@@ -1,0 +1,264 @@
+{
+  "recorded_utc": "2026-11-17T11:22:51.594230+00:00",
+  "geometry": "Original local authored meshes; six driver variants and two villagers.",
+  "references": "Academia Oli canonical portraits retained in docs/character-lookdev-v2/.",
+  "bitmap_assets_added": false,
+  "captures": "Unmodified native Godot output, copied byte for byte.",
+  "files": [
+    {
+      "path": "docs/portraits-v3/TEST_LOGS.json",
+      "bytes": 6325,
+      "sha256": "4139d9cd22777e9fc4d29e41f4462302dad9938b7f717594ffbcdc9cc733b2ae"
+    },
+    {
+      "path": "docs/portraits-v3/screenshots/zabol_front.png",
+      "bytes": 326954,
+      "sha256": "e0a8f84f28333490406853ba872cd7962ab387e7301d0e418b4eb31a20638d5f"
+    },
+    {
+      "path": "docs/portraits-v3/screenshots/zabol_threequarter.png",
+      "bytes": 284779,
+      "sha256": "157097184922fd67f68a2dd9d10737bf543c907bae46d7eed70ecb54308eeeb6"
+    },
+    {
+      "path": "docs/portraits-v3/screenshots/zabol_profile.png",
+      "bytes": 221159,
+      "sha256": "a1fac17e623c11088491984fa9a5398924fa56a8a5ac48816550f00e49c0830b"
+    },
+    {
+      "path": "docs/portraits-v3/screenshots/zabol_face.png",
+      "bytes": 534821,
+      "sha256": "11218e7e57467125e6d246bae62c84a41af432aa1c0f1f2111e8985b04da3606"
+    },
+    {
+      "path": "docs/portraits-v3/screenshots/swinka_front.png",
+      "bytes": 359174,
+      "sha256": "fceea011cd85c99ce3b85cec52cf27b574320e4f1329ef3e5f5da95337123dd4"
+    },
+    {
+      "path": "docs/portraits-v3/screenshots/swinka_threequarter.png",
+      "bytes": 310318,
+      "sha256": "51022ac71ce0bcdb58ff1760cbc13a7616bfe2ddeb787e12e521b2185c229f60"
+    },
+    {
+      "path": "docs/portraits-v3/screenshots/swinka_profile.png",
+      "bytes": 232976,
+      "sha256": "69a30b0f162b300983f7ddb6684bc377df2d4e11f07240a838ee5905a21f7098"
+    },
+    {
+      "path": "docs/portraits-v3/screenshots/swinka_face.png",
+      "bytes": 603154,
+      "sha256": "60eece5ad8c0c6798d9ae3702388227b83efde8ce02935f90ca5e95fec021a2b"
+    },
+    {
+      "path": "docs/portraits-v3/screenshots/rabbit_threequarter.png",
+      "bytes": 195665,
+      "sha256": "a980bc9a22e610dd5bd4c287eb04e53be2e7cde387155adf3349aeeaf72f65e6"
+    },
+    {
+      "path": "docs/portraits-v3/screenshots/rabbit_face.png",
+      "bytes": 418249,
+      "sha256": "ef6947e9f9274ecfaa9f1d70aea2fcd4340e786c8a0cede9f891eec44013278a"
+    },
+    {
+      "path": "docs/portraits-v3/screenshots/mouse_threequarter.png",
+      "bytes": 187485,
+      "sha256": "f507adb2b77415462b41f0148204761ef099703896c56707772188ec41f6b24b"
+    },
+    {
+      "path": "docs/portraits-v3/screenshots/mouse_face.png",
+      "bytes": 418060,
+      "sha256": "a1548a6200d324f92a7412558f5282ee684f6fddb1b039d96831c973c71bc81c"
+    },
+    {
+      "path": "docs/portraits-v3/screenshots/cockpit_pair.png",
+      "bytes": 1197511,
+      "sha256": "d920e0b5ad3af639d5a180740f79294536a4050a3bfacdf04556e3dc353e1286"
+    },
+    {
+      "path": "docs/portraits-v3/screenshots/cockpit_zabol.png",
+      "bytes": 1108520,
+      "sha256": "e513dac59f4705af95986426994ea39d57a219163d2057aeb004c0856d78c7dc"
+    },
+    {
+      "path": "docs/portraits-v3/screenshots/cockpit_swinka.png",
+      "bytes": 1134411,
+      "sha256": "e85ff895517c483cb1e32915d8c2b8b051a2c74efda0a2c055685fca436053c1"
+    },
+    {
+      "path": "docs/portraits-v3/screenshots/drive_visibility.png",
+      "bytes": 1167451,
+      "sha256": "39512a979a50b2755b46499af654e428fab540cc43454618b87337002cdf109b"
+    },
+    {
+      "path": "docs/portraits-v3/screenshots/villagers_in_game.png",
+      "bytes": 972806,
+      "sha256": "be4da5e1ea887854eccd30668dcfc92b5748c185632ab94c582b6fb2a1b95d19"
+    },
+    {
+      "path": "docs/portraits-v3/screenshots/living_blink_open.png",
+      "bytes": 89178,
+      "sha256": "1da8963c14f8735d8796a8a56f7098c113c7faff6ff7baeff844059399aa9f6e"
+    },
+    {
+      "path": "docs/portraits-v3/screenshots/living_blink_closed.png",
+      "bytes": 84048,
+      "sha256": "bdd475f31cb4317b861846b57c7adc1f4d1a9a51c5574d738e8158fa892135b6"
+    },
+    {
+      "path": "docs/portraits-v3/screenshots/living_gpu_rabbit.png",
+      "bytes": 31683,
+      "sha256": "de5f3a174acbb6dfc38982a3872d7be29c3b2d8685aed9f4b440b79d86596b7b"
+    },
+    {
+      "path": "docs/portraits-v3/screenshots/living_gpu_mouse.png",
+      "bytes": 37305,
+      "sha256": "3be015bea48cb796d6c221ca4681ab125056cb13ffe421f54ac0ef93dce1cc5f"
+    },
+    {
+      "path": "docs/portraits-v3/screenshots/living_gpu_cat.png",
+      "bytes": 21672,
+      "sha256": "393a5e18c94f12b3be463899dc3bf9551d8b4939dab806c1a1f39c6d01028c01"
+    },
+    {
+      "path": "docs/portraits-v3/screenshots/living_gpu_gull.png",
+      "bytes": 14958,
+      "sha256": "14169e2941ec8d5a1352d983d49fcbf4c3453141a4dc0b1dd9ffe20c88f73883"
+    },
+    {
+      "path": "docs/portraits-v3/screenshots/living_gpu_duck.png",
+      "bytes": 11774,
+      "sha256": "44bae71be69fbf0b0dbefdaab3b737c7a1101443cf571b5b2d73508fd7bf581a"
+    },
+    {
+      "path": "docs/benchmarks/portraits_single_forward_plus_high_circuit.json",
+      "bytes": 2102,
+      "sha256": "49a739f91b6ab5a8f8c8cfc44cf3cf418d0a4fb0baae41abba5df3b39be36251"
+    },
+    {
+      "path": "docs/benchmarks/portraits_single_forward_plus_balanced.json",
+      "bytes": 1539,
+      "sha256": "15e325aa6779437f55fba6be2b44564f4bdba32a186d13fb47949fbe63a241b7"
+    },
+    {
+      "path": "docs/benchmarks/portraits_four_forward_plus_performance.json",
+      "bytes": 1857,
+      "sha256": "e241589c95940fc00d6b524560790e4ef63e93408c59574376a0ab46c9c4e9b2"
+    },
+    {
+      "path": "assets/characters/portrait_v3/swinka_driver.res",
+      "bytes": 2059262,
+      "sha256": "ee8bfc790c93c780b22567b71bbe1d720534d64cd30b8fce8d415103dac441c6"
+    },
+    {
+      "path": "assets/characters/portrait_v3/swinka_driver_balanced.res",
+      "bytes": 1197576,
+      "sha256": "a84822a5b6405f6123e55b2662073d06161186572c5476cc4e449ffb18289a62"
+    },
+    {
+      "path": "assets/characters/portrait_v3/swinka_driver_performance.res",
+      "bytes": 665185,
+      "sha256": "c5d8d7d051aa5162199ce8ef02a725959452a0c99345aece22c7f8675714033e"
+    },
+    {
+      "path": "assets/characters/portrait_v3/zabol_driver.res",
+      "bytes": 1682350,
+      "sha256": "6110aac5bcd9aef3c02577cd0a5785eb4ac267b85306f807326a4584ada7508b"
+    },
+    {
+      "path": "assets/characters/portrait_v3/zabol_driver_balanced.res",
+      "bytes": 953646,
+      "sha256": "4122e391d7655ea53d9b563c2292835076d4b47bc611f582790ab4d5edcc25f1"
+    },
+    {
+      "path": "assets/characters/portrait_v3/zabol_driver_performance.res",
+      "bytes": 510804,
+      "sha256": "a1a0f82ba8d65b2f6b5ccab61594fefd73541ae2440d05a7cea664ef4859c918"
+    },
+    {
+      "path": "assets/characters/portrait_v3/mesh_manifest.json",
+      "bytes": 612,
+      "sha256": "e519bebb909037ae87d9dd3466da9f357ef4f4128a0dddf733364f2087da024c"
+    },
+    {
+      "path": "assets/fairytale/resident_rabbit.res",
+      "bytes": 257630,
+      "sha256": "0162f7c5c758856320f120163208751f163a7d73e666346859905672e5893982"
+    },
+    {
+      "path": "assets/fairytale/resident_mouse.res",
+      "bytes": 253797,
+      "sha256": "8e20ff5463e1916c51720496f21b8e3e752a9e1d84fc6e82875058c62901809b"
+    },
+    {
+      "path": "assets/fairytale/mesh_manifest.json",
+      "bytes": 4769,
+      "sha256": "c5b5296ac350394dc95fa5a2e998c9e3d332f7021b26e95e5eac2d7fd048ea6d"
+    },
+    {
+      "path": "tools/portrait_geometry.gd",
+      "bytes": 14665,
+      "sha256": "e4fc9e710cc2ffad27f7b0a1265088f334cd8895c89294639f355467e12fa2d3"
+    },
+    {
+      "path": "tools/portrait_character_builder.gd",
+      "bytes": 15624,
+      "sha256": "8e7dad204659821d74ec1e6458e32cae9e6ea1c584d0c4ef089bc502412441c4"
+    },
+    {
+      "path": "tools/portrait_resident_builder.gd",
+      "bytes": 5394,
+      "sha256": "607ffe2cec026a9fe179700a2521ddc102b39d6b66fe744cefe810aa4af7f807"
+    },
+    {
+      "path": "tools/build_portrait_residents.gd",
+      "bytes": 969,
+      "sha256": "4d12d0d029374e6261b4066d50a7b0cc651d157200975514eb9939f9ec1d5d27"
+    },
+    {
+      "path": "tools/fairy_asset_builder.gd",
+      "bytes": 23912,
+      "sha256": "d2ec07da3adacda78e9ecfd98128c82fdd87e1fd682ebaaed3e49f3cf210e8cc"
+    },
+    {
+      "path": "tools/review_portraits.gd",
+      "bytes": 2956,
+      "sha256": "3ded3afdde0ea189be0a36a99d28a78cfa0cfe369dc5e6c368cc426118ae355d"
+    },
+    {
+      "path": "tools/review_character_game.gd",
+      "bytes": 2700,
+      "sha256": "1f73a2973528a78392893dec3ea3390d50870e9cb2d0a9fad1ba12aef568d06b"
+    },
+    {
+      "path": "tools/archive_portrait_review.py",
+      "bytes": 11331,
+      "sha256": "49105d0881d426ee4756c2236cd8d4d05ca8d2b058bea512e130bf1e6e2061c9"
+    },
+    {
+      "path": "tests/test_portrait_assets.gd",
+      "bytes": 2695,
+      "sha256": "c0bdf54c565a00597f2b0448561ef45c27ea48507c8bcdc531b11bca8ae708e3"
+    },
+    {
+      "path": "tests/test_gpu_skin.gd",
+      "bytes": 5362,
+      "sha256": "6c924352f78098316d80f6ed74f124acc8e90d344534525a7b7ff54d575a404c"
+    },
+    {
+      "path": "scripts/driver_art.gd",
+      "bytes": 1944,
+      "sha256": "284ba9c66572401aabdd32c41edbffeff04a7a0a2614766295842ad2e76b0ebe"
+    },
+    {
+      "path": "scripts/vehicle_art.gd",
+      "bytes": 6868,
+      "sha256": "9db09fe4fc22037c2b7b85b4c9891a6710824dd876c94da0a97e8862192493bf"
+    },
+    {
+      "path": "shaders/palette_surface.gdshaderinc",
+      "bytes": 13501,
+      "sha256": "1a5575bc5d73a1770e90379644ab82717071f316bcfd64d3fc98af5bef2abaf0"
+    }
+  ]
+}

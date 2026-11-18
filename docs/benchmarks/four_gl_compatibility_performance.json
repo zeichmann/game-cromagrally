@@ -1,0 +1,68 @@
+{
+	"adapter": "Intel(R) Iris(R) Xe Graphics",
+	"draw_calls": 987,
+	"driver_detail": 2,
+	"driver_vertices": [
+		12531,
+		12854,
+		12531,
+		12854,
+		12531,
+		12854
+	],
+	"frame_ms_mean": 42.8818671586716,
+	"frame_ms_p99": 76.537,
+	"gpu_dust": true,
+	"gpu_ms_by_viewport": [
+		0.772970479022973,
+		7.01319926955163,
+		7.92790408503965,
+		8.22733212045198,
+		9.5392177201725
+	],
+	"instance_layout_valid": true,
+	"mean_fps": 23.3198800859067,
+	"profile": "performance",
+	"renderer": "gl_compatibility",
+	"samples": 271,
+	"screenshot": "four_gl_compatibility_performance.png",
+	"skeleton_bones": 6,
+	"textures": {
+		"linen": {
+			"height": 1254,
+			"width": 1254
+		},
+		"road": {
+			"height": 1254,
+			"width": 1254
+		},
+		"wood": {
+			"height": 1254,
+			"width": 1254
+		}
+	},
+	"viewport_size": "(1280, 800)",
+	"views": 4,
+	"views_3d": [
+		{
+			"msaa": 0,
+			"render_scale": 0.649999976158142,
+			"size": "(718, 448)"
+		},
+		{
+			"msaa": 0,
+			"render_scale": 0.649999976158142,
+			"size": "(718, 448)"
+		},
+		{
+			"msaa": 0,
+			"render_scale": 0.649999976158142,
+			"size": "(718, 448)"
+		},
+		{
+			"msaa": 0,
+			"render_scale": 0.649999976158142,
+			"size": "(718, 448)"
+		}
+	]
+}

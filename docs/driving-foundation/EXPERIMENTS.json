@@ -1,0 +1,89 @@
+{
+  "mobile": {
+    "adapter": "Intel(R) Iris(R) Xe Graphics",
+    "adventure_observed": {
+      "boost": true,
+      "collectibles": true,
+      "jump": false,
+      "leaf_wake": true,
+      "splash": false
+    },
+    "completed_laps": 0,
+    "draw_calls": 238,
+    "driver_detail": 2,
+    "driver_vertices": [
+      16586,
+      20850,
+      16586,
+      20850,
+      16586,
+      20850
+    ],
+    "driving_audio": true,
+    "duration_seconds": 17.0,
+    "frame_ms_max": 93.087,
+    "frame_ms_mean": 59.0603111111111,
+    "frame_ms_p50": 58.518,
+    "frame_ms_p95": 77.821,
+    "frame_ms_p99": 88.047,
+    "frames_over_100ms": 0,
+    "frames_over_250ms": 0,
+    "gpu_dust": true,
+    "gpu_ms_by_viewport": [
+      1.22890000012186,
+      52.6103277842204
+    ],
+    "gpu_pose_generation": true,
+    "graphics_prepared": true,
+    "instance_layout_valid": true,
+    "mean_fps": 16.9318444347285,
+    "obstacle_aware_camera": true,
+    "pipeline_compilations": {
+      "PIPELINE_COMPILATIONS_CANVAS": 0.0,
+      "PIPELINE_COMPILATIONS_DRAW": 0.0,
+      "PIPELINE_COMPILATIONS_MESH": 0.0,
+      "PIPELINE_COMPILATIONS_SPECIALIZATION": 20.0,
+      "PIPELINE_COMPILATIONS_SURFACE": 0.0
+    },
+    "profile": "performance",
+    "renderer": "mobile",
+    "root_camera_active": false,
+    "samples": 180,
+    "screenshot": "single_mobile_performance.png",
+    "skeleton_bones": 6,
+    "startup_preparation_ms": 97264,
+    "textures": {
+      "linen": {
+        "height": 1254,
+        "width": 1254
+      },
+      "road": {
+        "height": 1254,
+        "width": 1254
+      },
+      "wood": {
+        "height": 1254,
+        "width": 1254
+      }
+    },
+    "viewport_size": "(1920, 1080)",
+    "views": 1,
+    "views_3d": [
+      {
+        "msaa": 0,
+        "render_scale": 0.720000028610229,
+        "screen_aa": 1,
+        "size": "(1438, 898)",
+        "upscaler": 1
+      }
+    ],
+    "world_instance_layout_valid": true
+  },
+  "mobile_log": "Godot Engine v4.7.2.stable.official.ed1daf0bf - https://godotengine.org\nVulkan 1.4.323 - Forward Mobile - Using Device #0: Intel - Intel(R) Iris(R) Xe Graphics\n\nWARNING: FSR1 3D scaling is only available when using the Forward+ renderer.\n   at: viewport_set_scaling_3d_mode (servers/rendering/renderer_viewport.cpp:1028)\n   GDScript backtrace (most recent call first):\n       [0] _apply_quality (res://scripts/main.gd:463)\n       [1] _start_race (res://scripts/main.gd:530)\n       [2] run (res://scripts/graphics_warmup.gd:45)\nGRAPHICS_PREPARED 97162 ms; 3 profiles, 20 views\nART_REVIEW {\"adapter\":\"Intel(R) Iris(R) Xe Graphics\",\"adventure_observed\":{\"boost\":true,\"collectibles\":true,\"jump\":false,\"leaf_wake\":true,\"splash\":false},\"completed_laps\":0,\"draw_calls\":238,\"driver_detail\":2,\"driver_vertices\":[16586,20850,16586,20850,16586,20850],\"driving_audio\":true,\"duration_seconds\":17.0,\"frame_ms_max\":93.087,\"frame_ms_mean\":59.0603111111111,\"frame_ms_p50\":58.518,\"frame_ms_p95\":77.821,\"frame_ms_p99\":88.047,\"frames_over_100ms\":0,\"frames_over_250ms\":0,\"gpu_dust\":true,\"gpu_ms_by_viewport\":[1.22890000012186,52.6103277842204],\"gpu_pose_generation\":true,\"graphics_prepared\":true,\"instance_layout_valid\":true,\"mean_fps\":16.9318444347285,\"obstacle_aware_camera\":true,\"pipeline_compilations\":{\"PIPELINE_COMPILATIONS_CANVAS\":0.0,\"PIPELINE_COMPILATIONS_DRAW\":0.0,\"PIPELINE_COMPILATIONS_MESH\":0.0,\"PIPELINE_COMPILATIONS_SPECIALIZATION\":20.0,\"PIPELINE_COMPILATIONS_SURFACE\":0.0},\"profile\":\"performance\",\"renderer\":\"mobile\",\"root_camera_active\":false,\"samples\":180,\"screenshot\":\"single_mobile_performance.png\",\"skeleton_bones\":6,\"startup_preparation_ms\":97264,\"textures\":{\"linen\":{\"height\":1254,\"width\":1254},\"road\":{\"height\":1254,\"width\":1254},\"wood\":{\"height\":1254,\"width\":1254}},\"viewport_size\":\"(1920, 1080)\",\"views\":1,\"views_3d\":[{\"msaa\":0,\"render_scale\":0.720000028610229,\"screen_aa\":1,\"size\":\"(1438, 898)\",\"upscaler\":1}],\"world_instance_layout_valid\":true}\n",
+  "notes": [
+    "Mobile was not adopted: slower than Forward+ and stalled at shutdown; its verified owned process was stopped.",
+    "The mobile run requested FSR but the engine warned that it was unavailable. That raw field is not proof of active FSR.",
+    "The subsequent overlapping shadow benchmark was discarded. Published final timing runs were sequential.",
+    "The final benchmark harness frees the scene and GPU pose resources before exiting."
+  ]
+}

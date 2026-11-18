@@ -1,0 +1,69 @@
+{
+	"assertions": 1461,
+	"failures": 0,
+	"missing_ground": 0,
+	"roadside_rays": 576,
+	"settled_chassis": [
+		{
+			"ground_y": 3.49630023169084,
+			"grounded": true,
+			"position": "(119.9286, 3.888683, -6.84869)"
+		},
+		{
+			"ground_y": 1.96625733506698,
+			"grounded": true,
+			"position": "(97.86725, 2.460857, -3.703735)"
+		},
+		{
+			"ground_y": 9.48965903947828,
+			"grounded": true,
+			"position": "(97.18812, 9.619005, 45.10826)"
+		},
+		{
+			"ground_y": 9.06805515289307,
+			"grounded": true,
+			"position": "(86.78989, 9.067277, 32.04047)"
+		},
+		{
+			"ground_y": 1.62338719135187,
+			"grounded": true,
+			"position": "(-3.89919, 2.125769, 85.99045)"
+		},
+		{
+			"ground_y": 2.75955395647179,
+			"grounded": true,
+			"position": "(3.986109, 3.431299, 52.83635)"
+		},
+		{
+			"ground_y": -2.63263721199746,
+			"grounded": true,
+			"position": "(-113.6311, -1.940808, 37.20666)"
+		},
+		{
+			"ground_y": -2.67235445976257,
+			"grounded": true,
+			"position": "(-94.43655, -2.113562, 39.40869)"
+		},
+		{
+			"ground_y": -1.49498184528466,
+			"grounded": true,
+			"position": "(-87.05925, -1.123854, -71.52148)"
+		},
+		{
+			"ground_y": 3.93750014783018,
+			"grounded": true,
+			"position": "(-58.52845, 4.326248, -39.90964)"
+		},
+		{
+			"ground_y": -9.60000038146973,
+			"grounded": true,
+			"position": "(81.2131, -9.600002, -55.79)"
+		},
+		{
+			"ground_y": 1.12136489967634,
+			"grounded": true,
+			"position": "(49.00969, 1.199412, -34.40471)"
+		}
+	],
+	"wrong_heights": 0
+}
