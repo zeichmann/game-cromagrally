@@ -159,6 +159,7 @@ typedef struct
 typedef struct
 {
 	MOMaterialObject	*material;
+	bool				coverViewport;
 }MOPictureData;
 
 typedef struct

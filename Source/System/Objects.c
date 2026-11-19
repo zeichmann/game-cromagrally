@@ -835,7 +835,7 @@ short			skelType, playerNum;
 			case	TEXTMESH_GENRE:
 					if (theNode->BaseGroup)
 					{
-						MO_DrawObject(theNode->BaseGroup);
+						TextMesh_Draw(theNode);
 
 						if (gDebugMode >= 2)
 						{

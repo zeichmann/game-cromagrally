@@ -335,6 +335,7 @@ void OGL_SetupGameView(OGLSetupInputType *setupDefPtr)
 void OGL_DisposeGameView(void)
 {
 	GAME_ASSERT(gGameView);									// see if this setup exists
+	TextMesh_DisposeSharpSampling();
 
 		/* FREE MEMORY & NIL POINTER */
 

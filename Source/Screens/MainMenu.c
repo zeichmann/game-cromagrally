@@ -19,7 +19,7 @@
 /*    PROTOTYPES            */
 /****************************/
 
-static void SetupMainMenuScreen(void);
+static void SetupMainMenuScreen(bool useHighResArt);
 
 static void OnPickQuitApplication(const MenuItem* mi);
 static void OnPickCredits(const MenuItem* mi);
@@ -201,8 +201,12 @@ static void UpdateMainMenuScreen(void)
 
 void DoMainMenuScreen(void)
 {
+	GLint maxTextureSize = 0;
+	glGetIntegerv(GL_MAX_TEXTURE_SIZE, &maxTextureSize);
+	const bool useHighResArt = maxTextureSize >= 2048 && !SDL_getenv("CMR_ORIGINAL_TEXTURES");
+
 do_again:
-	SetupMainMenuScreen();
+	SetupMainMenuScreen(useHighResArt);
 
 
 
@@ -212,6 +216,12 @@ do_again:
 
 	MenuStyle style = kDefaultMenuStyle;
 	style.yOffset = 16;
+	if (useHighResArt)
+	{
+		style.highlightColor = (OGLColorRGBA) {1, .86f, .52f, 1};
+		style.arrowColor = (OGLColorRGBA) {.98f, .87f, .70f, 1};
+		style.labelColor = (OGLColorRGBA) {.9f, .86f, .80f, 1};
+	}
 
 	int outcome = StartMenu(gMainMenuTree, &style, UpdateMainMenuScreen, DrawObjects);
 
@@ -305,7 +315,12 @@ do_again:
 
 /********************* SETUP MAINMENU SCREEN **********************/
 
-static void SetupMainMenuScreen(void)
+static void UpdateMainMenuTitle(ObjNode* title)
+{
+	SetObjectVisible(title, GetCurrentMenu() == 'titl');
+}
+
+static void SetupMainMenuScreen(bool useHighResArt)
 {
 OGLSetupInputType	viewDef;
 OGLColorRGBA		ambientColor = { .1, .1, .1, 1 };
@@ -326,7 +341,7 @@ OGLVector3D			fillDirection2 = { -1, -.2, -.5 };
 	viewDef.camera.yon 				= 3000;
 	viewDef.view.clearColor 		= (OGLColorRGBA) {.76f, .61f, .45f, 1.0f};
 	viewDef.styles.useFog			= false;
-	viewDef.view.pillarboxRatio		= PILLARBOX_RATIO_4_3;
+	viewDef.view.pillarboxRatio		= useHighResArt ? PILLARBOX_RATIO_FULLSCREEN : PILLARBOX_RATIO_4_3;
 
 	OGLVector3D_Normalize(&fillDirection1, &fillDirection1);
 	OGLVector3D_Normalize(&fillDirection2, &fillDirection2);
@@ -348,7 +363,24 @@ OGLVector3D			fillDirection2 = { -1, -.2, -.5 };
 
 			/* MAKE BACKGROUND PICTURE OBJECT */
 
-	MakeBackgroundPictureObject(":Images:MainMenuBackground.jpg");
+	if (useHighResArt)
+	{
+		MakeCoverBackgroundPictureObject(":Images:MainMenuBackgroundHD.png");
+		TextMesh_EnableSharpSampling();
+
+		NewObjectDefinitionType titleDef =
+		{
+			.coord = {0, -146, 0},
+			.scale = .95f,
+			.slot = MENU_SLOT,
+			.moveCall = UpdateMainMenuTitle,
+		};
+		TextMesh_New("CRO-MAG RALLY", kTextMeshAlignCenter | kTextMeshAlignMiddle, &titleDef);
+	}
+	else
+	{
+		MakeBackgroundPictureObject(":Images:MainMenuBackground.jpg");
+	}
 
 
 	NewObjectDefinitionType versionDef =
@@ -357,7 +389,14 @@ OGLVector3D			fillDirection2 = { -1, -.2, -.5 };
 		.scale = .25f,
 		.slot = MENU_SLOT
 	};
-	ObjNode* versionText = TextMesh_New(GAME_VERSION, kTextMeshAlignLeft, &versionDef);
+	int versionAlignment = kTextMeshAlignLeft;
+	if (useHighResArt)
+	{
+		versionDef.coord = (OGLPoint3D) {12, 12, 0};
+		versionDef.projection = kProjectionType2DOrthoFullRect;
+		versionAlignment |= kTextMeshAlignTop;
+	}
+	ObjNode* versionText = TextMesh_New(GAME_VERSION, versionAlignment, &versionDef);
 	versionText->ColorFilter = (OGLColorRGBA) {.75f, .75f, .75f, .75f};
 
 

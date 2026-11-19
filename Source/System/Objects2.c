@@ -675,9 +675,15 @@ void StopObjectStreamEffect(ObjNode *theNode)
 
 #pragma mark ----- BACKGROUND PICTURE OBJECT NODE ------
 
-ObjNode* MakeBackgroundPictureObject(const char* imagePath)
+static ObjNode* MakePictureObject(const char* imagePath, bool coverViewport)
 {
 	MOPictureObject* backgroundPicture = MO_CreateNewObjectOfType(MO_TYPE_PICTURE, (uintptr_t)gGameView, (void*) imagePath);
+	backgroundPicture->objectData.coverViewport = coverViewport;
+	if (coverViewport)
+	{
+		// The picture constructor leaves its texture bound.
+		OGL_ConfigureHighQualityTexture();
+	}
 
 	NewObjectDefinitionType def =
 	{
@@ -695,4 +701,14 @@ ObjNode* MakeBackgroundPictureObject(const char* imagePath)
 
 	MO_DisposeObjectReference(backgroundPicture);
 	return obj;
+}
+
+ObjNode* MakeBackgroundPictureObject(const char* imagePath)
+{
+	return MakePictureObject(imagePath, false);
+}
+
+ObjNode* MakeCoverBackgroundPictureObject(const char* imagePath)
+{
+	return MakePictureObject(imagePath, true);
 }

@@ -404,6 +404,7 @@ MOMaterialData	matData;
 	matData.textureName[0]	= textureName;
 
 	picData->material = MO_CreateNewObjectOfType(MO_TYPE_MATERIAL, 0, &matData);
+	picData->coverViewport = false;
 }
 
 
@@ -856,17 +857,28 @@ const MOPictureData	*picData = &picObj->objectData;
 	// Projection should be kProjectionType2DNDC
 	// 2D state should be set by STATUS_BITS_FOR_2D
 
-	float z = 0;
+	float u = 0;
+	float v = 0;
+	if (picData->coverViewport)
+	{
+		const MOMaterialData* material = &picData->material->objectData;
+		float imageAspect = (float)material->width / material->height;
+		float viewportAspect = gGameView->panes[gCurrentSplitScreenPane].aspectRatio;
+
+		// Crop equal margins from the longer dimension to fill the viewport.
+		u = 0.5f * (1 - fminf(1, viewportAspect / imageAspect));
+		v = 0.5f * (1 - fminf(1, imageAspect / viewportAspect));
+	}
 
 			/* ACTIVATE THE MATERIAL */
 
 	MO_DrawMaterial(picData->material);							// submit material
 
 	glBegin(GL_QUADS);
-	glTexCoord2f(0, 1);	glVertex3f(-1, -1, z);
-	glTexCoord2f(1, 1);	glVertex3f( 1, -1, z);
-	glTexCoord2f(1, 0);	glVertex3f( 1,  1, z);
-	glTexCoord2f(0, 0);	glVertex3f(-1,  1, z);
+	glTexCoord2f(    u, 1 - v);	glVertex3f(-1, -1, 0);
+	glTexCoord2f(1 - u, 1 - v);	glVertex3f( 1, -1, 0);
+	glTexCoord2f(1 - u,     v);	glVertex3f( 1,  1, 0);
+	glTexCoord2f(    u,     v);	glVertex3f(-1,  1, 0);
 	glEnd();
 
 	gPolysThisFrame += 2;										// 2 more triangles

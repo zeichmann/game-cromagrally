@@ -69,6 +69,9 @@ const AtlasGlyph* Atlas_GetGlyph(const Atlas* atlas, uint32_t codepoint);
 
 ObjNode* TextMesh_NewEmpty(int capacity, NewObjectDefinitionType *newObjDef);
 ObjNode* TextMesh_New(const char *text, int flags, NewObjectDefinitionType *newObjDef);
+void TextMesh_EnableSharpSampling(void);
+void TextMesh_DisposeSharpSampling(void);
+void TextMesh_Draw(ObjNode* textNode);
 void TextMesh_Update(const char* text, int flags, ObjNode* textNode);
 OGLRect TextMesh_GetExtents(ObjNode* textNode);
 void TextMesh_DrawExtents(ObjNode* textNode);

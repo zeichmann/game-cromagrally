@@ -7,7 +7,9 @@
 /****************************/
 
 #include "game.h"
+#include "shaderprogram.h"
 #include <ctype.h>
+#include <SDL3/SDL_opengl_glext.h>
 
 /****************************/
 /*    CONSTANTS             */
@@ -709,6 +711,80 @@ void TextMesh_Update(const char* text, int flags, ObjNode* textNode)
 /***************************************************************/
 /*                    API IMPLEMENTATION                       */
 /***************************************************************/
+
+static GLuint gSharpTextProgram;
+static PFNGLUSEPROGRAMPROC gUseTextProgram;
+static PFNGLDELETEPROGRAMPROC gDeleteTextProgram;
+
+static const char kTextVertexShader[] =
+	"#version 110\n"
+	"varying vec2 uv;\n"
+	"varying vec4 tint;\n"
+	"void main() {\n"
+	"    gl_Position = ftransform();\n"
+	"    uv = gl_MultiTexCoord0.xy;\n"
+	"    tint = gl_Color;\n"
+	"}\n";
+
+// Narrow the bilinear blend when glyphs are magnified. Keep part of the
+// blend at all scales so the edges stay smooth through menu animations.
+static const char kTextFragmentShader[] =
+	"#version 110\n"
+	"uniform sampler2D fontAtlas;\n"
+	"uniform vec2 atlasSize;\n"
+	"varying vec2 uv;\n"
+	"varying vec4 tint;\n"
+	"void main() {\n"
+	"    vec2 texel = uv * atlasSize - 0.5;\n"
+	"    vec2 blendWidth = clamp(fwidth(texel), 0.55, 1.0);\n"
+	"    vec2 blend = clamp(0.5 + (fract(texel) - 0.5) / blendWidth, 0.0, 1.0);\n"
+	"    vec2 sampleUV = (floor(texel) + blend + 0.5) / atlasSize;\n"
+	"    gl_FragColor = texture2D(fontAtlas, sampleUV) * tint;\n"
+	"}\n";
+
+void TextMesh_EnableSharpSampling(void)
+{
+	gUseTextProgram = (PFNGLUSEPROGRAMPROC) SDL_GL_GetProcAddress("glUseProgram");
+	gDeleteTextProgram = (PFNGLDELETEPROGRAMPROC) SDL_GL_GetProcAddress("glDeleteProgram");
+	PFNGLGETUNIFORMLOCATIONPROC getUniformLocation = (PFNGLGETUNIFORMLOCATIONPROC) SDL_GL_GetProcAddress("glGetUniformLocation");
+	PFNGLUNIFORM2FPROC uniform2f = (PFNGLUNIFORM2FPROC) SDL_GL_GetProcAddress("glUniform2f");
+	if (!gUseTextProgram || !gDeleteTextProgram || !getUniformLocation || !uniform2f)
+		return;
+
+	gSharpTextProgram = OGL_BuildShaderProgram("Sharp text sampling", kTextVertexShader, kTextFragmentShader);
+	if (!gSharpTextProgram)
+		return;
+
+	const Atlas* font = gAtlases[SPRITE_GROUP_FONT];
+	// The font sampler defaults to texture unit zero.
+	gUseTextProgram(gSharpTextProgram);
+	uniform2f(getUniformLocation(gSharpTextProgram, "atlasSize"), font->textureWidth, font->textureHeight);
+	gUseTextProgram(0);
+}
+
+void TextMesh_DisposeSharpSampling(void)
+{
+	if (gSharpTextProgram)
+	{
+		gDeleteTextProgram(gSharpTextProgram);
+		gSharpTextProgram = 0;
+	}
+}
+
+void TextMesh_Draw(ObjNode* textNode)
+{
+	if (!gSharpTextProgram)
+	{
+		MO_DrawObject(textNode->BaseGroup);
+		return;
+	}
+
+	GLint previousProgram;
+	glGetIntegerv(GL_CURRENT_PROGRAM, &previousProgram);
+	gUseTextProgram(gSharpTextProgram);
+	MO_DrawObject(textNode->BaseGroup);
+	gUseTextProgram(previousProgram);
+}
 
 ObjNode *TextMesh_NewEmpty(int capacity, NewObjectDefinitionType* newObjDef)
 {
