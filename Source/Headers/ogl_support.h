@@ -364,6 +364,7 @@ void OGL_SetProjection(int projectionType);
 #define GetOverlayPaneNumber() (gNumSplitScreenPanes)
 
 void OGL_ConfigureHighQualityTexture(void);
+GLuint OGL_TextureMap_LoadDriverSkin(uint8_t* pixels, int* width, int* height, GLenum srcFormat, GLenum dstFormat);
 Boolean OGL_BeginTerrainDetail(void);
 bool OGL_DesertMaterialsActive(void);
 void OGL_EndTerrainDetail(void);

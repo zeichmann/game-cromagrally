@@ -714,7 +714,7 @@ void LoadCavemanSkins(void)
 			if (!gCavemanSkins[sex][j])
 			{
 				SDL_snprintf(skinPath, sizeof(skinPath), ":Sprites:Skins:%s%d.png", characterName, j);
-				gCavemanSkins[sex][j] = MO_GetTextureFromFile(skinPath, GL_RGBA);
+				gCavemanSkins[sex][j] = MO_GetDriverSkinFromFile(skinPath);
 			}
 		}
 	}

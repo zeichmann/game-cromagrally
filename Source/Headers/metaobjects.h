@@ -194,5 +194,6 @@ void MO_DuplicateVertexArrayData(MOVertexArrayData *inData, MOVertexArrayData *o
 void MO_DisposeObject_Geometry_VertexArray(MOVertexArrayData *data);
 void MO_CalcBoundingBox(MetaObjectPtr object, OGLBoundingBox *bBox);
 MOMaterialObject *MO_GetTextureFromFile(const char* path, int destPixelFormat);
+MOMaterialObject *MO_GetDriverSkinFromFile(const char* path);
 void MO_VertexArray_OffsetUVs(MetaObjectPtr object, float du, float dv);
 void MO_Object_OffsetUVs(MetaObjectPtr object, float du, float dv);

@@ -37,7 +37,7 @@ static void ReadNormalArray(short refNum);
 static void ReadUVArray(short refNum);
 static void ReadVertexColorArray(short refNum);
 static void ReadTriangleArray(short refNum);
-static void PreLoadTextureMaterials(void);
+static void PreLoadTextureMaterials(bool driverSkin);
 
 
 /****************************/
@@ -124,7 +124,8 @@ MOGroupData			*data;
 		/* PRELOAD ALL TEXTURE MATERIALS INTO OPENGL */
 		/*********************************************/
 
-	PreLoadTextureMaterials();
+	PreLoadTextureMaterials(groupNum == MODEL_GROUP_SKELETONBASE + SKELETON_TYPE_MALESTANDING
+		|| groupNum == MODEL_GROUP_SKELETONBASE + SKELETON_TYPE_FEMALESTANDING);
 
 
 			/********************/
@@ -744,7 +745,7 @@ MOGroupObject	*rootGroup;
 // that were loaded and uploads all of the textures to OpenGL.
 //
 
-static void PreLoadTextureMaterials(void)
+static void PreLoadTextureMaterials(bool driverSkin)
 {
 int					i, num,w,h;
 MOMaterialObject	*mat;
@@ -771,13 +772,11 @@ void				*pixels;
 
 				/* LOAD INTO OPENGL */
 
-			matData->textureName[0] = OGL_TextureMap_Load(
-				pixels,
-				w,
-				h,
-				matData->pixelSrcFormat,
-				matData->pixelDstFormat,
-				GL_UNSIGNED_BYTE);
+			matData->textureName[0] = driverSkin
+				? OGL_TextureMap_LoadDriverSkin(pixels, &w, &h, matData->pixelSrcFormat, matData->pixelDstFormat)
+				: OGL_TextureMap_Load(pixels, w, h, matData->pixelSrcFormat, matData->pixelDstFormat, GL_UNSIGNED_BYTE);
+			matData->width = w;
+			matData->height = h;
 
 
 			/* DISPOSE ORIGINAL PIXELS */

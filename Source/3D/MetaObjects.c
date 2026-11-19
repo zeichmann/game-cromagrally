@@ -1346,7 +1346,7 @@ int					numChildren,i;
 
 /******************* MO: GET TEXTURE FROM FILE ************************/
 
-MOMaterialObject *MO_GetTextureFromFile(const char* path, int destPixelFormat)
+static MOMaterialObject *LoadTextureMaterial(const char* path, int destPixelFormat, bool driverSkin)
 {
 MetaObjectPtr	obj;
 MOMaterialData	matData;
@@ -1427,20 +1427,30 @@ uint32_t		pictRowBytes;
 	matData.diffuseColor.a	= 1;
 
 	matData.numMipmaps		= 1;
-	matData.width			= width;
-	matData.height			= height;
 	matData.pixelSrcFormat	= GL_RGBA;
 	matData.pixelDstFormat	= destPixelFormat;
 	matData.texturePixels[0]= nil;						// we're going to preload
-	matData.textureName[0] 	= OGL_TextureMap_Load(buffer, width, height,
-												 matData.pixelSrcFormat,
-												 destPixelFormat, GL_UNSIGNED_BYTE);
+	matData.textureName[0]	= driverSkin
+		? OGL_TextureMap_LoadDriverSkin((uint8_t*)buffer, &width, &height, GL_RGBA, destPixelFormat)
+		: OGL_TextureMap_Load(buffer, width, height, GL_RGBA, destPixelFormat, GL_UNSIGNED_BYTE);
+	matData.width			= width;
+	matData.height			= height;
 
 	obj = MO_CreateNewObjectOfType(MO_TYPE_MATERIAL, 0, &matData);
 
 	SafeDisposePtr(buffer);									// dispose of our copy of the buffer
 
 	return(obj);
+}
+
+MOMaterialObject *MO_GetTextureFromFile(const char* path, int destPixelFormat)
+{
+	return LoadTextureMaterial(path, destPixelFormat, false);
+}
+
+MOMaterialObject *MO_GetDriverSkinFromFile(const char* path)
+{
+	return LoadTextureMaterial(path, GL_RGBA, true);
 }
 
 
